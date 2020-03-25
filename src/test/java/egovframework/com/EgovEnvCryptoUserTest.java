@@ -8,6 +8,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import egovframework.rte.fdl.cryptography.EgovEnvCryptoService;
 import egovframework.rte.fdl.cryptography.impl.EgovEnvCryptoServiceImpl;
 
+/**
+ * 환경설정 properties에 사용할 암호화값 생성.
+ * @author LYJ
+ *
+ */
 public class EgovEnvCryptoUserTest {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(EgovEnvCryptoUserTest.class);
