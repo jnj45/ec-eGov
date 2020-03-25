@@ -11,7 +11,6 @@ import egovframework.rte.fdl.cryptography.impl.EgovEnvCryptoServiceImpl;
 /**
  * 환경설정 properties에 사용할 암호화값 생성.
  * @author LYJ
- *
  */
 public class EgovEnvCryptoUserTest {
 	
