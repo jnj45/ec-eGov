@@ -74,12 +74,13 @@ public class EgovWebApplicationInitializer implements WebApplicationInitializer 
 		// Spring ServletContextListener 설정
 		//-------------------------------------------------------------
 		XmlWebApplicationContext rootContext = new XmlWebApplicationContext();
-		rootContext.setConfigLocations(new String[] { "classpath*:egovframework/spring/com/**/context-*.xml" });
-//		//스케쥴링 설정 임시 제외.
-//		rootContext.setConfigLocations(new String[] { 
-//				"classpath*:egovframework/spring/com/context-*.xml",
-//				"classpath*:egovframework/spring/com/scheduling/context-scheduling-sym-bat.xml",
-//				"classpath*:egovframework/spring/com/idgn/context-*.xml" });
+//		rootContext.setConfigLocations(new String[] { "classpath*:egovframework/spring/com/**/context-*.xml" });
+		//스케쥴링 설정 임시 제외.
+		rootContext.setConfigLocations(new String[] { 
+				"classpath*:egovframework/spring/com/context-*.xml",
+				"classpath*:egovframework/spring/com/scheduling/context-scheduling-sym-bat.xml",
+				"classpath*:egovframework/spring/com/scheduling/context-scheduling-sym-sym-bak.xml",
+				"classpath*:egovframework/spring/com/idgn/context-*.xml" });
 		rootContext.refresh();
 		rootContext.start();
 		

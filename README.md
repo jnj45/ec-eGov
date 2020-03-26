@@ -6,9 +6,12 @@ egovframework 3.9 버전 전체 공통 콤포넌트에서 사용하지 않는 �
 # 환경설정
   * 로컬DB는 script 디렉토리에 있는 sql 사용.
   * 로컬DB 패스워드는 EgovEnvCryptoUserTest.java 로 암호화된 db패스워드값을 globals.properties에 사용.
-  
+
 # TODO-LIST
-  * spring security 계층형 권한적용세에 복수권한 방식으로 변경.
+  * spring security 계층형 권한적용에서 복수권한 방식으로 변경. 부서별 권한과 동시 적용 고려
   * spring jpa 구성 및 샘플 프로그램.
-  * 디자인 적용
+  * 업무별 로깅처리 및 로그레벨 관리콘솔로 실시간 변경기능.
+  * 디자인 적용, 템플릿 프레임워크 적용(tiles3)
   * grid 적용.
+  * 불필요한 공통 컴포넌트 소스 제거.
+  * 배치 프로그램 예제(easy_batch) 및 배치관리 방법 확인
