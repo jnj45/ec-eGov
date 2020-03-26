@@ -9,13 +9,15 @@ egovframework 3.9 버전 전체 공통 콤포넌트에서 사용하지 않는 �
 # 프레임워크 설정 관련
   * 권한 계층형 구조는 사용하지 않고, 복수권한 방식으로 사용하기 위한 작업
     1. context-security.xml에 sqlHierarchicalRoles 부분을 아래와 같이 수정
+    
        `
        sqlHierarchicalRoles ="SELECT 'ROLE_ANONYMOUS' as parent
-								     , AUTHOR_CODE AS child
-								  FROM COMTNAUTHORINFO
-								 WHERE AUTHOR_CODE LIKE 'ROLE_%'
-								   AND AUTHOR_CODE != 'ROLE_ANONYMOUS' "
+			     , AUTHOR_CODE AS child
+			  FROM COMTNAUTHORINFO
+			 WHERE AUTHOR_CODE LIKE 'ROLE_%'
+			   AND AUTHOR_CODE != 'ROLE_ANONYMOUS' "
        `
+       
 # TODO-LIST
   * spring security 계층형 권한적용에서 복수권한 방식으로 변경. 부서별 권한과 동시 적용 고려
   * spring jpa 구성 및 샘플 프로그램.
