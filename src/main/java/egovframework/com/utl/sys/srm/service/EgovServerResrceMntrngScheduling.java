@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import egovframework.com.cmm.util.EgovResourceCloseHelper;
-import egovframework.com.cop.sms.service.EgovSmsInfoService;
-import egovframework.com.cop.sms.service.Sms;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 
@@ -49,9 +47,6 @@ public class EgovServerResrceMntrngScheduling extends EgovAbstractServiceImpl {
 
 	@Resource(name = "egovServerResrceMntrngService")
 	private EgovServerResrceMntrngService egovServerResrceMntrngService;
-
-	@Resource(name = "EgovSmsInfoService")
-	private EgovSmsInfoService egovSmsInfoService;
 
 	@Resource(name = "mntrngMessage")
 	private SimpleMailMessage mntrngMessage;
@@ -237,16 +232,6 @@ public class EgovServerResrceMntrngScheduling extends EgovAbstractServiceImpl {
 		msg.setText(text);
 
 		this.mntrngMailSender.send(msg);
-	}
-
-	public void sendSMS(ServerResrceMntrng serverResrceMntrng) throws Exception {
-		String[] receiveTelno = { "010-6802-0886" };
-		Sms sms = new Sms();
-		sms.setTrnsmitTelno("000-000-0000"); // 발신자
-		sms.setRecptnTelno(receiveTelno); // 수신자
-		sms.setTrnsmitCn("테스트 입니다");
-
-		egovSmsInfoService.insertSmsInf(sms);
 	}
 
 }
