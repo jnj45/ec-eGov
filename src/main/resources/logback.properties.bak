@@ -1,0 +1,3 @@
+log.config.path=D:/logs/ec-eGov
+log.config.filename=egov-log
+log.config.errorfilename=egov-error-log
