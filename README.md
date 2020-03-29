@@ -38,4 +38,5 @@ egovframework 3.9 버전 전체 공통 콤포넌트에서 사용하지 않는 �
     - 예제(easy_batch) 프로그램
     - 전자정부 배치관리 및 운영방법 확인
   * 샘플 프로그램 예제(spring MVC, MyBatis dao, 계층간 Map 데이타 기반)
+  * 스프링 시큐리티 권한관리 cache방식. admin콘솔에서 JMX로 실시간 적용방식.
   
