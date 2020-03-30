@@ -1,6 +1,8 @@
 # 스프링 시큐리티 관련 설정
   ## context-security.xml 수정
-     ```xml
+    * 권한 계층형 구조는 사용하지 않고, 복수권한 방식으로 사용하기 위한 작업
+      context-security.xml에 sqlHierarchicalRoles 부분을 아래와 같이 수정
+       ```xml
        sqlHierarchicalRoles ="SELECT 'ROLE_ANONYMOUS' as parent
 			     , AUTHOR_CODE AS child
 			  FROM COMTNAUTHORINFO
