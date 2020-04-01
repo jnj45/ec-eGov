@@ -503,7 +503,21 @@
 		    <version>1.7.30</version>
 		</dependency>
 		 -->
+		
+		<!-- https://mvnrepository.com/artifact/mx4j/mx4j -->
+		<!-- <dependency>
+		    <groupId>mx4j</groupId>
+		    <artifactId>mx4j</artifactId>
+		    <version>3.0.2</version>
+		</dependency> -->
 				
+		<!-- https://mvnrepository.com/artifact/mx4j/mx4j-remote -->
+		<!-- <dependency>
+		    <groupId>mx4j</groupId>
+		    <artifactId>mx4j-remote</artifactId>
+		    <version>3.0.2</version>
+		</dependency> -->
+						
     </dependencies>
     
     <build>

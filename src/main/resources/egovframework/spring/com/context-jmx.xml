@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd"> 
+    
+    <!-- this bean must not be lazily initialized if the exporting is to happen -->
+    <!-- <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter" lazy-init="false">
+        <property name="beans">
+            <map>
+                <entry key="bean:name=testBean1" value-ref="testBean"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="testBean" class="net.ecbank.sample.jmx.JmxTestBean">
+        <property name="name" value="TEST"/>
+        <property name="age" value="100"/>
+    </bean> -->
+    
+    <context:mbean-export/>
+    
+<!--     <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+    </bean>
+	<context:mbean-export server="mbeanServer" />
+ -->	
+	<!-- <bean id="serverConnector" class="org.springframework.jmx.support.ConnectorServerFactoryBean"/> -->
+	<!-- service:jmx:jmxmp://localhost:9875 -->
+	<!-- <bean id="serverConnector" class="org.springframework.jmx.support.ConnectorServerFactoryBean">
+	    <property name="objectName" value="connector:name=rmi"/>
+	    <property name="serviceUrl" value="service:jmx:rmi:///jndi/rmi://localhost:9875/jmxrmi"/>service:jmx:rmi://localhost/jndi/rmi://localhost:1099/myconnector
+	</bean> -->
+	
+	<!-- <bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">
+	    <property name="port" value="1099"/>
+	</bean> -->
+</beans> 
