@@ -12,23 +12,31 @@ egovframework 3.9 버전 전체 공통 콤포넌트에서 사용하지 않는 �
     
 # TODO-LIST
   * spring security 계층형 권한적용에서 복수권한 방식으로 변경. 부서별 권한과 동시 적용 고려
+  * 스프링 시큐리티 권한관리 cache방식. admin콘솔에서 JMX로 실시간 적용방식.
+  
   * spring jpa 구성 및 샘플 프로그램.
     - egov의 spring 4.3버전과 spring data jpa 2.x대 버전과 호환성 문제
     - 실무 프로젝트 시 jpa 방식의 개발로 인한 리스크 (외주 개발자의 미익숙, jpa 숙련자 부재)
     - 따라서, 실무 프로젝트 시 jpa 방식 적용은 보류
     - MyBatis와 계층간 Map Data기반 개발이 효율적일 수 있음.
     
+  * 샘플 프로그램 예제(spring MVC, MyBatis dao, 계층간 Map 데이타 기반)
+  
   * 업무별 로깅처리 및 로그레벨 관리콘솔로 실시간 변경기능.
-    - log구현체 logback으로 변경적용
+    - log구현체 logback으로 변경적용(버전문제로 보류)
+    
   * 디자인 적용
-    - 샘플 디자인 
     - 템플릿 프레임워크 적용(tiles3)
+    - 샘플 디자인 
+    
   * grid 적용.
+  
   * 불필요한 공통 컴포넌트 소스 제거.
+  
   * 배치 프로그램
     - 예제(easy_batch) 프로그램
     - 전자정부 배치관리 및 운영방법 확인
-  * 샘플 프로그램 예제(spring MVC, MyBatis dao, 계층간 Map 데이타 기반)
-  * 스프링 시큐리티 권한관리 cache방식. admin콘솔에서 JMX로 실시간 적용방식.
+  
+  
   
 # 일정
