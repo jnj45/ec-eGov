@@ -19,20 +19,29 @@
         <property name="age" value="100"/>
     </bean> -->
     
-    <context:mbean-export/>
+    <!-- <context:mbean-export/> -->
     
-<!--     <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
-    </bean>
-	<context:mbean-export server="mbeanServer" />
- -->	
-	<!-- <bean id="serverConnector" class="org.springframework.jmx.support.ConnectorServerFactoryBean"/> -->
-	<!-- service:jmx:jmxmp://localhost:9875 -->
-	<!-- <bean id="serverConnector" class="org.springframework.jmx.support.ConnectorServerFactoryBean">
-	    <property name="objectName" value="connector:name=rmi"/>
-	    <property name="serviceUrl" value="service:jmx:rmi:///jndi/rmi://localhost:9875/jmxrmi"/>service:jmx:rmi://localhost/jndi/rmi://localhost:1099/myconnector
-	</bean> -->
-	
-	<!-- <bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">
-	    <property name="port" value="1099"/>
-	</bean> -->
+	<!-- ========================= [START] JMX DEFINITIONS ======================== -->
+	<!--
+        Exporter that exposes the CallMonitoringAspect via JMX,
+        based on the @ManagedResource, @ManagedAttribute, and @ManagedOperation annotations.
+    -->
+    <context:mbean-export server="mbeanServer"  />
+    
+	<bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+		<property name="locateExistingServerIfPossible" value="true" />
+	</bean>
+	<bean id="rmiRegistry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">
+		<property name="port" value="${jmx.port:10099}" />
+	</bean>
+	<bean id="serverConnector"   class="org.springframework.jmx.support.ConnectorServerFactoryBean" depends-on="rmiRegistry">
+	  <property name="objectName" value="connector:name=rmi"/>
+	  <property name="serviceUrl"   value="service:jmx:rmi://localhost/jndi/rmi://localhost:${jmx.port:10099}/${jmx.serviceurl:ecegov}"/>
+	  <property name="threaded"   value="true"/>
+	</bean>
+    <!-- ========================= [END] JMX DEFINITIONS ======================== -->
+    
+    <!-- 
+    -Dcom.sun.management.jmxremote.port=9875 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false
+     -->
 </beans> 
