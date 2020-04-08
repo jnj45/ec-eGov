@@ -80,11 +80,16 @@
 	 -->
 	<egov-security:secured-object-config id="securedObjectConfig"
 		
-		sqlHierarchicalRoles ="SELECT 'ROLE_ANONYMOUS' as parent
-								     , AUTHOR_CODE AS child
+		sqlHierarchicalRoles ="SELECT 'ROLE_ANONYMOUS' as parent, AUTHOR_CODE AS child
 								  FROM COMTNAUTHORINFO
 								 WHERE AUTHOR_CODE LIKE 'ROLE_%'
-								   AND AUTHOR_CODE != 'ROLE_ANONYMOUS' "
+								   AND AUTHOR_CODE != 'ROLE_ANONYMOUS'
+							    UNION
+								SELECT AUTHOR_CODE as parent, 'ROLE_ADMIN' AS child
+								  FROM COMTNAUTHORINFO
+								 WHERE AUTHOR_CODE LIKE 'ROLE_%'
+								   AND AUTHOR_CODE != 'ROLE_ANONYMOUS'
+								   AND AUTHOR_CODE != 'ROLE_ADMIN' "
    	                         
 		sqlRolesAndUrl   ="SELECT a.ROLE_PTTRN  as url
 		                        , b.AUTHOR_CODE as authority
