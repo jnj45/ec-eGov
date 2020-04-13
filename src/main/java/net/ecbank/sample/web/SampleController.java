@@ -64,17 +64,19 @@ public class SampleController {
 	public JsonData selectAuthorList(@RequestBody Map<String,Object> paramMap, HttpServletRequest request, ModelMap model) {
 		JsonData jsonData = new JsonData();
 		
-		List<Map> list = new ArrayList<Map>();
+		List<Map<String,Object>> dataList = new ArrayList<Map<String,Object>>();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("AUTHOR_ID", "123");
-		map.put("NAME", "홍길동");
-		list.add(map);
+		map.put("NAME",      "홍길동");
+		dataList.add(map);
+		
+		jsonData.setPageRows(paramMap, dataList, dataList!=null?dataList.size():0);
 		
 //		Map<String, Object> resultMap = new HashMap<String, Object>();
 //		resultMap.put("list", list);
 		
-		ModelAndView jsonView = new ModelAndView("jsonView");
-		jsonView.addObject("result", list);
+//		ModelAndView jsonView = new ModelAndView("jsonView");
+//		jsonView.addObject("result", list);
 		
 		return jsonData;
 	}

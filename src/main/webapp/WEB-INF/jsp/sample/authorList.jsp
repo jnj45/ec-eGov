@@ -28,7 +28,7 @@
 var gridView;
 
 $(function(){
-	alert('document ready!');
+	//alert('document ready!');
 	init();
 	setEvent();
 	setInitGrid();
@@ -76,7 +76,7 @@ function searchList(){
 	gridView.showProgress();
     var params = fnGetParams();
     ajaxJsonCall('<c:url value="/sample/selectAuthorList.do"/>', params, 
-    	function(){
+    	function(data){
 	    	if (typeof data.status != 'undefined' && 'SUCC' !== data.status) {
 	            alert(data.errMsg);
 	            return;
@@ -88,7 +88,7 @@ function searchList(){
 </script>
 </head>
 <body>
-<h1>작가목록</h1>
+<h1>작가목록1</h1>
 <input type="button" id="btnSearch" value="조회"/>
 <!-- realgrid 들어가는 영역 : S -->
 <div class="realgrid-area">
