@@ -38,8 +38,6 @@ import egovframework.com.cop.bbs.service.EgovBBSMasterService;
 import egovframework.com.cop.bbs.service.EgovBBSSatisfactionService;
 import egovframework.com.cop.cmt.service.CommentVO;
 import egovframework.com.cop.cmt.service.EgovArticleCommentService;
-import egovframework.com.cop.tpl.service.EgovTemplateManageService;
-import egovframework.com.cop.tpl.service.TemplateInfVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -95,9 +93,6 @@ public class EgovArticleController {
     @Resource(name = "EgovBBSSatisfactionService")
     private EgovBBSSatisfactionService bbsSatisfactionService;
 
-	@Resource(name = "EgovTemplateManageService")
-	private EgovTemplateManageService egovTemplateManageService;
-    
     @Autowired
     private DefaultBeanValidator beanValidator;
 
@@ -1373,15 +1368,15 @@ public class EgovArticleController {
 		tmplatCours = EgovWebUtil.filePathBlackList(tmplatCours);
 
 		// 화이트 리스트 체크
-		List<TemplateInfVO> templateWhiteList = egovTemplateManageService.selectTemplateWhiteList();
-		LOGGER.debug("Template > WhiteList Count = {}",templateWhiteList.size());
-		if ( tmplatCours == null ) tmplatCours = "";
-		for(TemplateInfVO templateInfVO : templateWhiteList){
-			LOGGER.debug("Template > whiteList TmplatCours = "+templateInfVO.getTmplatCours());
-            if ( tmplatCours.equals(templateInfVO.getTmplatCours()) ) {
-            	return tmplatCours;
-            }
-        }
+//		List<TemplateInfVO> templateWhiteList = egovTemplateManageService.selectTemplateWhiteList();
+//		LOGGER.debug("Template > WhiteList Count = {}",templateWhiteList.size());
+//		if ( tmplatCours == null ) tmplatCours = "";
+//		for(TemplateInfVO templateInfVO : templateWhiteList){
+//			LOGGER.debug("Template > whiteList TmplatCours = "+templateInfVO.getTmplatCours());
+//            if ( tmplatCours.equals(templateInfVO.getTmplatCours()) ) {
+//            	return tmplatCours;
+//            }
+//        }
 		
 		LOGGER.debug("Template > WhiteList mismatch! Please check Admin page!");
 		return "egovframework/com/cmm/egovError";
