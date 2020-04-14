@@ -8,8 +8,6 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.com.cop.ems.service.EgovSndngMailRegistService;
-import egovframework.com.cop.ems.service.SndngMailVO;
 import egovframework.com.sym.prm.service.EgovProgrmManageService;
 import egovframework.com.sym.prm.service.ProgrmManageDtlVO;
 import egovframework.com.sym.prm.service.ProgrmManageVO;
@@ -64,10 +62,6 @@ public class EgovProgrmManageController {
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-
-    /** EgovSndngMailRegistService */
-	@Resource(name = "sndngMailRegistService")
-    private EgovSndngMailRegistService sndngMailRegistService;
 
     /**
      * 프로그램목록을 상세화면 호출 및 상세조회한다.
@@ -610,13 +604,13 @@ public class EgovProgrmManageController {
 		        	sTemp = egovMessageSource.getMessage("comSymPrm.progrmManageController.processSttusC"); //처리완료
 		        }
 		    	// 프로그램 변경요청 사항을 이메일로  발송한다.(메일연동솔루션 활용)
-		    	SndngMailVO sndngMailVO = new SndngMailVO();
-		    	sndngMailVO.setDsptchPerson(user == null ? "" : EgovStringUtil.isNullToString(user.getId()));
-		    	sndngMailVO.setRecptnPerson(vo.getTmpEmail());
-		    	sndngMailVO.setSj(egovMessageSource.getMessage("comSymPrm.progrmManageController.email.Sj")); //프로그램변경요청  처리.
-		    	sndngMailVO.setEmailCn(egovMessageSource.getMessage("comSymPrm.progrmManageController.email.emailCn")+" : "+sTemp); //프로그램 변경요청 사항이 처리 되었습니다
-		    	sndngMailVO.setAtchFileId(null);
-		    	result = sndngMailRegistService.insertSndngMail(sndngMailVO);
+//		    	SndngMailVO sndngMailVO = new SndngMailVO();
+//		    	sndngMailVO.setDsptchPerson(user == null ? "" : EgovStringUtil.isNullToString(user.getId()));
+//		    	sndngMailVO.setRecptnPerson(vo.getTmpEmail());
+//		    	sndngMailVO.setSj(egovMessageSource.getMessage("comSymPrm.progrmManageController.email.Sj")); //프로그램변경요청  처리.
+//		    	sndngMailVO.setEmailCn(egovMessageSource.getMessage("comSymPrm.progrmManageController.email.emailCn")+" : "+sTemp); //프로그램 변경요청 사항이 처리 되었습니다
+//		    	sndngMailVO.setAtchFileId(null);
+//		    	result = sndngMailRegistService.insertSndngMail(sndngMailVO);
 		        sLocationUrl = "forward:/sym/prm/EgovProgramChangeRequstProcessListSelect.do";
 	    	}else{
 	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("comSymPrm.progrmManageController.updateProgrmChangRequstProcess.fail")); //수정이 실패하였습니다. 변경요청처리 수정은 변경처리해당 담당자만 처리가능합니다.
