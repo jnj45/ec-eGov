@@ -13,7 +13,7 @@
 				<!-- 공통기술 -->
 				<value>classpath:/egovframework/validator/com-rules.xml</value>
 		        <value>classpath:/egovframework/validator/validator-rules.xml</value>
-		        <value>classpath:/egovframework/validator/**/*.xml</value>
+		        <!-- <value>classpath:/egovframework/validator/**/*.xml</value> -->
 			</list>
 		</property>
 	</bean>
