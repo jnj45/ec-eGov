@@ -19,14 +19,14 @@ import net.ecbank.sample.dao.SampleDao;
  * @version 1.0
  * @see
  *
- *      <pre>
+ * <pre>
  * << 상세설명 >>
  * 추가설명이 필요하면 기술.
  *  
  * << 개정이력(Modification Information) >>
  *   2020. 4. 14. 홍길동 - 최초 생성
  *   2020. 4. 14. 홍길동 - 수정내용 기술.
- *      </pre>
+ * </pre>
  */
 @Service
 public class SampleService extends EgovAbstractServiceImpl {
