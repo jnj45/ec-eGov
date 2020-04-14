@@ -37,7 +37,7 @@ public class SampleService extends EgovAbstractServiceImpl {
 	SampleDao sampleDao;
 
 	public List<Map<String, Object>> selectAuthorList(Map<String, Object> paramMap) {
-		log.debug("paramMap:{}", paramMap);
+		log.debug("paramMap======={}", paramMap);
 		return sampleDao.selectAuthorList(paramMap);
 	}
 }

@@ -6,7 +6,7 @@
 	--fwk.sample.Sample.selectAuthorList
 	SELECT AUTHOR_ID
 	     , NAME
-	     , 'a' AS TEST_COL2
+	     , 'a' AS TEST_COL9
 	  FROM Z_AUTHOR
 	</select>
 </mapper>
