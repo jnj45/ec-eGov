@@ -7,6 +7,13 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.security.intercept.EgovReloadableFilterInvocationSecurityMetadataSource;
 
+/**
+ * Web Application 환경설정 처리 서비스
+ * JMX MBean으로 노출되어 관리콘솔에서 원격으로 호출될 수 있도록 한다.
+ * 
+ * @author LYJ
+ *
+ */
 @Service
 @ManagedResource(
 		objectName="ec-eGov:name=ServerConfigManageService", 

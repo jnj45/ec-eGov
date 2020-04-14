@@ -1,4 +1,4 @@
-package net.ecbank.fwk.model;
+package net.ecbank.fwk.common;
 
 import java.io.Serializable;
 

@@ -22,6 +22,9 @@
 	    <Logger name="org.springframework" level="DEBUG" additivity="false">
 	        <AppenderRef ref="console" />
 	    </Logger>
+	    <Logger name="net.ecbank" level="DEBUG" additivity="false">
+	        <AppenderRef ref="console" />
+	    </Logger>
 	    
 	    <!-- Query Loggers --> 
 	    <!-- <logger name="jdbc.sqlonly" additivity="false">

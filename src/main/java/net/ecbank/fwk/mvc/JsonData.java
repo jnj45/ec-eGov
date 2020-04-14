@@ -1,4 +1,4 @@
-package net.ecbank.fwk.model;
+package net.ecbank.fwk.mvc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import net.ecbank.fwk.common.BaseObject;
 
 public class JsonData extends BaseObject {
 

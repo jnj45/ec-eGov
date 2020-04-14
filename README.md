@@ -37,6 +37,8 @@ egovframework 3.9 버전 전체 공통 콤포넌트에서 사용하지 않는 �
     - 예제(easy_batch) 프로그램
     - 전자정부 배치관리 및 운영방법 확인
   
-  
+  * 개발환경
+    - tomcat hot deploy 설정
+    - mybatis mapper auto reloading 설정
   
 # 일정

@@ -1,4 +1,4 @@
-package net.ecbank.fwk.model;
+package net.ecbank.fwk.mvc;
 
 import java.util.Arrays;
 import java.util.Enumeration;

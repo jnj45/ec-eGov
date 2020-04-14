@@ -16,7 +16,7 @@
 	<!-- Message Converter 등록 -->
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
-			<bean class="net.ecbank.fwk.model.ParamMapArgumentResolver"/>
+			<bean class="net.ecbank.fwk.mvc.ParamMapArgumentResolver"/>
         </mvc:argument-resolvers>
 		<mvc:message-converters>
 			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -101,27 +101,4 @@
 	
 	<mvc:default-servlet-handler />
 	
-	<!-- Facebook 설정 
-	<bean class="org.springframework.social.connect.web.ProviderSignInController">
-		<constructor-arg ref="connectionFactoryLocator" />
-		<constructor-arg ref="usersConnectionRepository" />
-		<constructor-arg>
-			<bean class="egovframework.com.uss.ion.fbk.web.FacebookSimpleSignInAdapter"/>
-		</constructor-arg>
-		<property name="signInUrl" value="/uss/ion/fbk/facebookSignin.do"/>
-		<property name="postSignInUrl" value="/uss/ion/fbk/facebook.do"/>
-	</bean>
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/uss/ion/fbk/**" />
-			<bean class="egovframework.com.uss.ion.fbk.web.FacebookUserInterceptor" >
-				<constructor-arg ref="usersConnectionRepository"/>
-			</bean>
-		</mvc:interceptor>
-	</mvc:interceptors>
-	<mvc:view-controller path="/uss/ion/fbk/facebook.do" view-name="egovframework/com/uss/ion/fbk/EgovFacebookHome" />
-	<mvc:view-controller path="/uss/ion/fbk/facebookSignin.do" view-name="egovframework/com/uss/ion/fbk/EgovFacebookSignin" />
-	<mvc:view-controller path="/uss/ion/fbk/facebookSignout.do" view-name="egovframework/com/uss/ion/fbk/EgovFacebookHome" />
-	-->
-
 </beans>

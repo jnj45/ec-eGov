@@ -5,14 +5,15 @@
     <!-- 실행환경에서 빈이름 참조(EgovAbstractDAO) -->
 	<bean id="egov.lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" lazy-init="true" />
 
-	<!-- Mybatis setup for Mybatis Database Layer -->
-	<bean id="egov.sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">		
+	<!-- Mybatis setup for Mybatis Database Layer  -->
+	<bean id="egov.sqlSession" class="net.ecbank.fwk.common.RefreshableSqlSessionFactoryBean"><!-- org.mybatis.spring.SqlSessionFactoryBean -->		
 		<property name="dataSource" ref="egov.dataSource"/>
 		<property name="configLocation" value="classpath:/egovframework/mapper/config/mapper-config.xml" />
 		
 		<property name="mapperLocations">
 			<list>
 				<value>classpath:/egovframework/mapper/com/**/*_${Globals.DbType}.xml</value>
+				<value>classpath:/egovframework/mapper/fwk/**/*_${Globals.DbType}.xml</value>
 			</list>
 		</property>
 	</bean>
