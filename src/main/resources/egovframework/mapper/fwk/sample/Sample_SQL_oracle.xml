@@ -9,4 +9,12 @@
 	     , 'a' AS TEST_COL9
 	  FROM Z_AUTHOR
 	</select>
+	
+	<update id="updateAuthorName" parameterType="Map">
+	--fwk.sample.Sample.updateAuthorName
+	UPDATE Z_AUTHOR
+	   SET NAME = #{NAME}
+	 WHERE AUTHOR_ID = #{AUTHOR_ID}
+	</update>
+	
 </mapper>

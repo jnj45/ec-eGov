@@ -39,6 +39,9 @@ function init(){
 }
 //이벤트 맵핑
 function setEvent(){
+	$("#btnTest").click(function(e){
+		test();
+	});	
 	$("#btnSearch").click(function(e){
 		searchList();
 	});	
@@ -85,10 +88,21 @@ function searchList(){
 	        gridView.closeProgress();
     });
 }
+function test(){
+	var params = fnGetParams();
+	ajaxJsonCall('<c:url value="/sample/testTransaction.do"/>', params, 
+    	function(data){
+	    	if (typeof data.status != 'undefined' && 'SUCC' !== data.status) {
+	            alert(data.errMsg);
+	            return;
+	        }
+    });
+}
 </script>
 </head>
 <body>
 <h1>작가목록1</h1>
+<input type="button" id="btnTest" value="테스트"/><br>
 <input type="button" id="btnSearch" value="조회"/>
 <!-- realgrid 들어가는 영역 : S -->
 <div class="realgrid-area">

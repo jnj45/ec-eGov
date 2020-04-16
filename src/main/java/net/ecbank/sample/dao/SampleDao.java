@@ -42,4 +42,7 @@ public class SampleDao extends EgovComAbstractDAO {
 		return selectList("fwk.sample.Sample.selectAuthorList", paramMap);
 	}
 	
+	public int updateAuthorName(Map<String, Object> paramMap) {
+		return update("fwk.sample.Sample.updateAuthorName", paramMap);
+	}
 }

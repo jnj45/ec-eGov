@@ -21,7 +21,12 @@ egovframework 3.9 버전 전체 공통 콤포넌트에서 사용하지 않는 �
     - MyBatis와 계층간 Map Data기반 개발이 효율적일 수 있음.
     
   * 샘플 프로그램 예제(spring MVC, MyBatis dao, 계층간 Map 데이타 기반)
-  
+    - Z_AUTHOR, Z_BOOK 테이블 기준
+    - 목록(realgrid), 조회, 수정
+    - realgrid 데이타 타입별 처리
+    - 파일업로드/다운로드 처리
+    - 트랜잭션 테스트
+          
   * 업무별 로깅처리 및 로그레벨 관리콘솔로 실시간 변경기능.
     - log구현체 logback으로 변경적용(버전문제로 보류)
     

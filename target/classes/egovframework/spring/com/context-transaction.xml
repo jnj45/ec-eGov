@@ -21,5 +21,7 @@
 												  execution(* egovframework.rte.fdl.excel.impl.*Impl.*(..))"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="requiredTx" />
 	</aop:config>
-
+	
+	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/><!-- 인터페이스없이 트랜잭션을 작동시키려면 CGLib Proxy를 사용 -->
+	
 </beans>

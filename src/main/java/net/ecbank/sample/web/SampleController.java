@@ -119,5 +119,26 @@ public class SampleController extends BaseController {
 		return jsonData;
 	}
 	
+	@RequestMapping("/sample/testTransaction.do")
+	@ResponseBody
+	public JsonData testTransaction(HttpServletRequest request, ModelMap model) {
+		JsonData jsonData = new JsonData();
+		
+		log.debug("111==========================================================================================");
+		sampleService.testTransaction();
+		log.debug("111==========================================================================================");
+		/*
+		Map<String, Object> testMap = new HashMap<String, Object>();
+		testMap.put("AUTHOR_ID", 2);
+		testMap.put("NAME",      "222NAME");
+		
+		sampleService.testUpdateAuthorName(testMap);
+		
+		testMap.put("AUTHOR_ID", 3);
+		testMap.put("NAME",      "333NAME");
+		sampleService.testUpdateAuthorName(testMap);
+		*/
+		return jsonData;
+	}
 	
 }
