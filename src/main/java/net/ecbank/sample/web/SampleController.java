@@ -1,5 +1,6 @@
 package net.ecbank.sample.web;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmm.annotation.IncludedInfo;
+import net.ecbank.fwk.common.PropertyService;
 import net.ecbank.fwk.manage.service.ServerConfigManageService;
 import net.ecbank.fwk.mvc.BaseController;
 import net.ecbank.fwk.mvc.JsonData;
@@ -68,7 +70,10 @@ public class SampleController extends BaseController {
 	 * @return
 	 */
 	@GetMapping("/sample/authorList.do")
-	public String authorList() {
+	public String authorList(ModelMap model) {
+		model.put("pageUnit", propertyService.getString("pageUnit"));
+		model.put("testProp", propertyService.getString("test.prop"));
+		model.put("testDbProp", Arrays.toString(propertyService.getStringArray("test.db.prop")));		
 		return "/sample/authorList";
 	}
 	

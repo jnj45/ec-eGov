@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fwk.manage.DBProperty">
+	
+	<select id="selectValidAllPropertyListByProfile" parameterType="Map" resultType="Map">
+	--fwk.manage.DBProperties.selectValidAllPropertyListByProfile
+	SELECT PROP_ID
+	     , PROFILE
+	     , KEY
+	     , VALUE
+	  FROM EF_PROPERTY
+	 WHERE USE_YN = 'Y'
+	 <choose>
+	 	<when test='PROFILE != null and PROFILE != "" '>
+			AND (PROFILE like '%'||#{PROFILE}||'%' OR PROFILE = '*')
+		</when>
+		<otherwise>
+			AND PROFILE = '*'
+		</otherwise>
+	 </choose>
+	</select>
+	
+</mapper>

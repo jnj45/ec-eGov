@@ -1,5 +1,7 @@
 package net.ecbank.fwk.common;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 /**
@@ -19,5 +21,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
  * </pre>
  */
 public class BaseService extends EgovAbstractServiceImpl {
-
+	
+	@Autowired
+	protected PropertyService propertyService;
 }

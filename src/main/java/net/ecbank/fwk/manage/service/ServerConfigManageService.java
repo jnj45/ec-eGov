@@ -6,6 +6,7 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.security.intercept.EgovReloadableFilterInvocationSecurityMetadataSource;
+import net.ecbank.fwk.common.PropertyService;
 
 /**
  * Web Application 환경설정 처리 서비스
@@ -30,7 +31,10 @@ public class ServerConfigManageService{
 	
 	@Autowired
 	private EgovReloadableFilterInvocationSecurityMetadataSource securityMetadataSource;
-
+	
+	@Autowired
+	private PropertyService propertyService;
+	
 	/**
 	 * spring security의 role과 url 리소스 권한 맵핑 정보를 reload한다.
 	 * @throws Exception 
@@ -40,4 +44,14 @@ public class ServerConfigManageService{
 //		throw new RuntimeException("jmx 에러 테스트");
 		securityMetadataSource.reload();
 	}
+	
+	/**
+	 * 프로퍼티 리로딩 처리.
+	 * @throws Exception
+	 */
+	@ManagedOperation
+	public void realodProperties() throws Exception{
+		propertyService.afterPropertiesSet();
+	}
+	
 }

@@ -3,6 +3,8 @@
  */
 package net.ecbank.fwk.common;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 
 /**
@@ -22,5 +24,7 @@ import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
  * </pre>
  */
 public class BaseDao extends EgovComAbstractDAO {
-
+	
+	@Autowired
+	protected PropertyService propertyService;
 }

@@ -102,6 +102,7 @@ function test(){
 </head>
 <body>
 <h1>작가목록1</h1>
+pageUnit : ${pageUnit} / testProp : ${testProp} / testDbProp : ${testDbProp}<br>
 <input type="button" id="btnTest" value="테스트"/><br>
 <input type="button" id="btnSearch" value="조회"/>
 <!-- realgrid 들어가는 영역 : S -->
