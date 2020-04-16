@@ -9,11 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.stringtemplate.v4.compiler.STParser.mapExpr_return;
 
-import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import net.ecbank.fwk.common.BaseService;
 import net.ecbank.sample.dao.SampleDao;
 
 /**
@@ -35,7 +33,7 @@ import net.ecbank.sample.dao.SampleDao;
  */
 @Service
 @Transactional
-public class SampleService extends EgovAbstractServiceImpl {
+public class SampleService extends BaseService {
 
 	private final Logger log = LoggerFactory.getLogger(SampleService.class);
 

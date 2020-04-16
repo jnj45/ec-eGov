@@ -26,7 +26,9 @@ egovframework 3.9 버전 전체 공통 콤포넌트에서 사용하지 않는 �
     - realgrid 데이타 타입별 처리
     - 파일업로드/다운로드 처리
     - 트랜잭션 테스트
-          
+    - ajax runtime exception 메세지 처리.
+    - 화면단 권한제어 (spring security 사용)
+            
   * 업무별 로깅처리 및 로그레벨 관리콘솔로 실시간 변경기능.
     - log구현체 logback으로 변경적용(버전문제로 보류)
     

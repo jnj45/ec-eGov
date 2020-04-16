@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import net.ecbank.fwk.common.BaseService;
 import net.ecbank.sample.dao.SampleDao;
 
 /**
@@ -19,7 +19,7 @@ import net.ecbank.sample.dao.SampleDao;
  *
  */
 @Service
-public class NewTransactionService extends EgovAbstractServiceImpl {
+public class NewTransactionService extends BaseService {
 	
 	private final Logger log = LoggerFactory.getLogger(NewTransactionService.class);
 	
