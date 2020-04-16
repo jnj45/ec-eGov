@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmm.annotation.IncludedInfo;
+import net.ecbank.fwk.common.BaseController;
 import net.ecbank.fwk.common.PropertyService;
 import net.ecbank.fwk.manage.service.ServerConfigManageService;
-import net.ecbank.fwk.mvc.BaseController;
 import net.ecbank.fwk.mvc.JsonData;
 import net.ecbank.sample.service.SampleService;
 
