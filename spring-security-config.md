@@ -36,6 +36,13 @@
   	  
 * SecuredObjectDAO   
   : DB 기반의 Secured Object 정보를 제공하기 위한 DAO
-  	  
+
+## 커스트마이징
+* 로그인 컨트롤러 : egovframework.com.uat.uia.web.EgovLoginController
+* 로그인 필터 : egovframework.com.sec.security.filter.EgovSpringSecurityLoginFilter
+* 로그인 시 사용자정보와 로그인세션정보 맵핑처리 : egovframework.com.sec.security.common.EgovSessionMapping
+* 로그아웃 필터 : egovframework.com.sec.security.filter.EgovSpringSecurityLogoutFilter
+
+
   	  
   	  
