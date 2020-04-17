@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.annotation.IncludedInfo;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import net.ecbank.fwk.common.BaseController;
 import net.ecbank.fwk.common.PropertyService;
 import net.ecbank.fwk.manage.service.ServerConfigManageService;
@@ -66,14 +68,34 @@ public class SampleController extends BaseController {
 	}
 	
 	/**
+	 * 세션 및 권한정보 조회
+	 * @return
+	 */
+	@GetMapping("/sample/securityView.do")
+	public String securityView(ModelMap model) {
+		//로그인 사용자의 권한조회
+		List<String> authorities = EgovUserDetailsHelper.getAuthorities();
+		log.debug("로그인 사용자 권한:" + Arrays.toString(authorities.toArray()));
+		log.debug("ROLE_ADMIN 권한여부:" + EgovUserDetailsHelper.hasRole("ROLE_ADMIN"));
+		log.debug("ROLE_TEST 권한여부:" + EgovUserDetailsHelper.hasRole("ROLE_TEST"));
+		//로그인 사용자 정보 객체
+		LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		log.debug("로그인 사용자 정보 객체:" + loginVO);
+		
+		return "/sample/securityView";
+	}
+	
+	/**
 	 * 작가 목록 조회
 	 * @return
 	 */
 	@GetMapping("/sample/authorList.do")
 	public String authorList(ModelMap model) {
-		model.put("pageUnit", propertyService.getString("pageUnit"));
-		model.put("testProp", propertyService.getString("test.prop"));
-		model.put("testDbProp", Arrays.toString(propertyService.getStringArray("test.db.prop")));		
+		//프로퍼티 값 조회 예제
+		model.put("pageUnit", propertyService.getString("pageUnit")); //context-properties.xml 에 있는 값
+		model.put("testProp", propertyService.getString("test.prop")); //별도의 properties 파일에 있는 값
+		model.put("testDbProp", Arrays.toString(propertyService.getStringArray("test.db.prop"))); //EF_PROPERTY 테이블에 있는 값.(현대 spring profile에 해당하는 값)
+
 		return "/sample/authorList";
 	}
 	

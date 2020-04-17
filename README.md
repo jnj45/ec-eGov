@@ -22,12 +22,13 @@ egovframework 3.9 버전 전체 공통 콤포넌트에서 사용하지 않는 �
     
   * 샘플 프로그램 예제(spring MVC, MyBatis dao, 계층간 Map 데이타 기반)
     - Z_AUTHOR, Z_BOOK 테이블 기준
-    - 목록(realgrid), 조회, 수정
+    - 목록(realgrid), 조회, 수정 샘플
     - realgrid 데이타 타입별 처리
     - 파일업로드/다운로드 처리
-    - 트랜잭션 테스트
+    - 트랜잭션 테스트(완료)
     - ajax runtime exception 메세지 처리.
-    - 화면단 권한제어 (spring security 사용)
+    - 화면단 권한제어 (spring security 사용) 샘플
+    - spring profile별 프로퍼티 적용
       
   * DB properties & 런타임 리로딩
               

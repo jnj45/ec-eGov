@@ -211,6 +211,7 @@ function fnShowLogin(stat) {
 </script>
 </head>
 <body onLoad="fnInit();">
+로그인id : ${loginVO.id}
 
 <!-- javascript warning tag  -->
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>

@@ -2,6 +2,7 @@ package egovframework.com.cmm.util;
 
 import java.util.List;
 
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovUserDetailsService;
 
 /**
@@ -57,5 +58,47 @@ public class EgovUserDetailsHelper {
 	 */
 	public static Boolean isAuthenticated() {
 		return egovUserDetailsService.isAuthenticated();
+	}
+	
+	/**
+	 * 해당 권한이 있는지 여부.
+	 * @param auth
+	 * @return
+	 */
+	public static boolean hasRole(String auth) {
+		if (isAuthenticated()) {
+			return getAuthorities().contains(auth);
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * 로그인된 사용자정보 객체 조회
+	 * @return
+	 */
+	public static LoginVO getLoginVO() {
+		if (isAuthenticated()) {
+			return (LoginVO)egovUserDetailsService.getAuthenticatedUser();
+		}else {
+			return null;
+		}
+	}
+	/**
+	 * 로그인한 사용자 이름
+	 * @return
+	 */
+	public static String getUserName() {
+		LoginVO loginVO = getLoginVO();
+		return loginVO==null?null:loginVO.getName();
+	}
+	
+	/**
+	 * 로그인한 사용자 id
+	 * @return
+	 */
+	public static String getUserId() {
+		LoginVO loginVO = getLoginVO();
+		return loginVO==null?null:loginVO.getId();
 	}
 }

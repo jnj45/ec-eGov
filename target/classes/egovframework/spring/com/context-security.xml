@@ -133,5 +133,8 @@
 	</bean>
 	<security:http-firewall ref="egovStrictHttpFirewall"/>
 	-->
-
+	
+	<!-- jsp 에서 security tag lib 사용하기 위해 필요. -->
+	<bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" /> 
+	
 </beans>
