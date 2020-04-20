@@ -1479,10 +1479,20 @@ var ajaxJsonCall = function(url, param, successCallback, errorCallback) {
     },
     error : function(xhr, status, error) {
         if (401 === xhr.status) {
-            alert('<spring:message code="M1000015" javaScriptEscape="true"/>');
+            //alert('<spring:message code="M1000015" javaScriptEscape="true"/>');
+        	alert('권한이 없습니다. 시스템 관리자에게 문의하세요.');
             location.href = "/";
         } else if (500 === xhr.status) {
-        	alert('서버에 오류가 발생하여 요청을 수행할 수 없습니다. 시스템 관리자에게 문의 바랍니다.');
+        	var errorMsg = '';
+        	if (typeof xhr.responseJSON !== 'undefined'){
+        		errorMsg = xhr.responseJSON.errMsg;
+        		if (!isEmpty(xhr.responseJSON.stackTrace)){
+        			errorMsg += "\r\n" + xhr.responseJSON.stackTrace;
+        		}
+        	}else{
+        		errorMsg = '서버에 오류가 발생하여 요청을 수행할 수 없습니다. 시스템 관리자에게 문의 바랍니다.';
+        	}
+        	alert(errorMsg);
         } else {
             alert(error);
         }
@@ -1575,7 +1585,12 @@ var ajaxJsonCallSync = function(url, param, successCallback, errorCallback, isPr
                 //alert('사용자 세션이 만료 되었거나, 로그인 하지 않았습니다.');
                 location.href = getContextPath() + "/common/accessDenied.jsp";
             } else {
-                alert("서버 응답 오류:" + error);
+            	if (typeof xhr.responseJSON.errMsg !== 'undefined'){
+            		alert(xhr.responseJSON.errMsg);
+            	}else{
+            		alert('서버에 오류가 발생하여 요청을 수행할 수 없습니다. 시스템 관리자에게 문의 바랍니다.');
+            		//alert("서버 응답 오류:" + error);
+            	}
             }
         }
     });

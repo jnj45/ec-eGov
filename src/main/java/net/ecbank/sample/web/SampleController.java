@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 import net.ecbank.fwk.common.BaseController;
-import net.ecbank.fwk.common.PropertyService;
 import net.ecbank.fwk.manage.service.ServerConfigManageService;
 import net.ecbank.fwk.mvc.JsonData;
 import net.ecbank.sample.service.SampleService;
@@ -45,7 +45,7 @@ import net.ecbank.sample.service.SampleService;
 @Controller
 public class SampleController extends BaseController {
 	
-	private final Logger log = LoggerFactory.getLogger(SampleController.class);
+	private static final Logger log = LoggerFactory.getLogger(SampleController.class);
 	
 	@Autowired
 	ServerConfigManageService securityManageService;
@@ -90,12 +90,12 @@ public class SampleController extends BaseController {
 	 * @return
 	 */
 	@GetMapping("/sample/authorList.do")
-	public String authorList(ModelMap model) {
+	public String authorList(ModelMap model) throws Exception{
 		//프로퍼티 값 조회 예제
 		model.put("pageUnit", propertyService.getString("pageUnit")); //context-properties.xml 에 있는 값
 		model.put("testProp", propertyService.getString("test.prop")); //별도의 properties 파일에 있는 값
 		model.put("testDbProp", Arrays.toString(propertyService.getStringArray("test.db.prop"))); //EF_PROPERTY 테이블에 있는 값.(현대 spring profile에 해당하는 값)
-
+//		if (true) throw new EgovBizException("test");
 		return "/sample/authorList";
 	}
 	
@@ -144,14 +144,20 @@ public class SampleController extends BaseController {
 		return jsonData;
 	}
 	
+	/**
+	 * 트랜잭션 테스트.
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/sample/testTransaction.do")
 	@ResponseBody
-	public JsonData testTransaction(HttpServletRequest request, ModelMap model) {
+	public JsonData testTransaction(HttpServletRequest request, ModelMap model) throws Exception{
 		JsonData jsonData = new JsonData();
 		
-		log.debug("111==========================================================================================");
+		log.debug("333==========================================================================================");
 		sampleService.testTransaction();
-		log.debug("111==========================================================================================");
+		log.debug("333==========================================================================================");
 		/*
 		Map<String, Object> testMap = new HashMap<String, Object>();
 		testMap.put("AUTHOR_ID", 2);

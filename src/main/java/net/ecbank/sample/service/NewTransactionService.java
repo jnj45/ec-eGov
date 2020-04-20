@@ -26,7 +26,7 @@ public class NewTransactionService extends BaseService {
 	@Autowired
 	SampleDao sampleDao;
 	
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor=Exception.class)
 	public void newTranServiceTest() {
 		log.debug("newTranServiceTest =======================================================");
 		Map<String, Object> testMap = new HashMap<String, Object>();

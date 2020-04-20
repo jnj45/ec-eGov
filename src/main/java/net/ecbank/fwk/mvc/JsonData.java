@@ -17,8 +17,8 @@ public class JsonData extends BaseObject {
 	 */
 	private static final long serialVersionUID = 8552964146629739537L;
 	
-	private static final String SUCC = "SUCC";
-    private static final String FAIL = "FAIL";
+	public static final String SUCC = "SUCC";
+	public static final String FAIL = "FAIL";
     
 	/** 상태 코드  SUCC, FAIL */
     private String status;  

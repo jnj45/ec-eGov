@@ -28,7 +28,7 @@ import net.ecbank.fwk.common.BaseDao;
 @Repository
 public class SampleDao extends BaseDao {
 	
-	private final Logger log = LoggerFactory.getLogger(SampleDao.class);
+	private static final Logger log = LoggerFactory.getLogger(SampleDao.class);
 	
 	/**
 	 * 작가 목록 조회

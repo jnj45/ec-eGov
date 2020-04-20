@@ -26,6 +26,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -69,6 +70,9 @@ public class PropertyService implements EgovPropertyService, ApplicationContextA
 	
 	@Autowired
 	private DBPropertyDao dbPropertyDao;
+	
+	@Autowired
+	private Environment env;
 	
 	public void loadPropertyFromDb() {
 		List<Map<String, String>> listMap = dbPropertyDao.selectValidAllPropertyListByProfile();
@@ -453,4 +457,6 @@ public class PropertyService implements EgovPropertyService, ApplicationContextA
 		egovProperty.load(resource.getInputStream(), encoding);
 		egovProperties.combine(egovProperty);
 	}
+	
+	
 }

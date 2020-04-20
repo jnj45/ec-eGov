@@ -32,7 +32,7 @@ public class EgovComExcepHndlr implements ExceptionHandler {
      * 발생된 Exception을 처리한다.
      */
     public void occur(Exception ex, String packageName) {
-    	//log.debug(" EgovServiceExceptionHandler run...............");
+    	LOGGER.debug(" EgovServiceExceptionHandler run...............");
     	
     	/*
 		try {
