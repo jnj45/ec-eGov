@@ -9,12 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.annotation.IncludedInfo;
@@ -53,6 +55,11 @@ public class SampleController extends BaseController {
 	@Autowired
 	SampleService sampleService;
 	
+	@Autowired
+	Environment env;
+	
+	@Autowired private ConfigurableWebApplicationContext configContext;
+	
 	/**
 	 * 롤,권한 맵핑정보 reloading test
 	 * @return
@@ -81,6 +88,10 @@ public class SampleController extends BaseController {
 		//로그인 사용자 정보 객체
 		LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		log.debug("로그인 사용자 정보 객체:" + loginVO);
+		//
+		log.debug("profiles:" + Arrays.toString(propertyService.getActiveProfiles()));
+		log.debug("env.getProperty:" + env.getProperty("testvar"));
+		log.debug("profiles2:" + Arrays.toString(configContext.getEnvironment().getActiveProfiles()));
 		
 		return "/sample/securityView";
 	}

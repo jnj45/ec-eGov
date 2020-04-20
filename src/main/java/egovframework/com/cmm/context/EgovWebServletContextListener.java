@@ -26,8 +26,9 @@ import org.slf4j.LoggerFactory;
  *
  *   수정일        수정자           수정내용
  *  -------      -------------  ----------------------
- *   2016.06.23  장동한           최초 생성
- *   2017.03.03     조성원 	시큐어코딩(ES)-오류 메시지를 통한 정보노출[CWE-209]
+ *   2016.06.23   장동한        최초 생성
+ *   2017.03.03   조성원 	    시큐어코딩(ES)-오류 메시지를 통한 정보노출[CWE-209]
+ *   2020.04.30   이용진        초기 spring.profiles.active 값에 추가하는 형식으로 변경.
  * </pre>
  */
 
@@ -53,7 +54,7 @@ public class EgovWebServletContextListener implements ServletContextListener {
     public void setEgovProfileSetting(){
         try {
             LOGGER.debug("===========================Start EgovServletContextLoad START ===========");
-            System.setProperty("spring.profiles.active", EgovProperties.getProperty("Globals.DbType")+","+EgovProperties.getProperty("Globals.Auth"));
+            System.setProperty("spring.profiles.active", System.getProperty("spring.profiles.active") + "," + EgovProperties.getProperty("Globals.DbType")+","+EgovProperties.getProperty("Globals.Auth"));
             LOGGER.debug("Setting spring.profiles.active>"+System.getProperty("spring.profiles.active"));
             LOGGER.debug("===========================END   EgovServletContextLoad END ===========");
         //2017.03.03 	조성원 	시큐어코딩(ES)-오류 메시지를 통한 정보노출[CWE-209]

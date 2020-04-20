@@ -4,7 +4,7 @@
 package net.ecbank.fwk.common;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -32,14 +33,12 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Assert;
 
-import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.cmmn.exception.FdlException;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.fdl.property.impl.EgovPropertyServiceImpl;
 import net.ecbank.fwk.manage.dao.DBPropertyDao;
 
 /**
- * 프로퍼티 클래스
+ * 파일 프로퍼티, DB 프로퍼티, 환경변수 등을 처리하는 클래스
  * 
  * @author LYJ
  * @since 2020. 4. 16.
@@ -72,7 +71,7 @@ public class PropertyService implements EgovPropertyService, ApplicationContextA
 	private DBPropertyDao dbPropertyDao;
 	
 	@Autowired
-	private Environment env;
+	private Environment enviroment;
 	
 	public void loadPropertyFromDb() {
 		List<Map<String, String>> listMap = dbPropertyDao.selectValidAllPropertyListByProfile();
@@ -458,5 +457,35 @@ public class PropertyService implements EgovPropertyService, ApplicationContextA
 		egovProperties.combine(egovProperty);
 	}
 	
+	/**
+	 * 스프링 프로파일 조회
+	 * @return
+	 */
+	public String[] getActiveProfiles() {
+		return enviroment.getActiveProfiles();
+	}
 	
+	/**
+	 * 로컬환경 여부
+	 * @return
+	 */
+	public boolean isLocalMode() {
+		return StringUtils.contains(Arrays.toString(enviroment.getActiveProfiles()), "local");
+	}
+	
+	/**
+	 * 개발환경 여부
+	 * @return
+	 */
+	public boolean isDevMode() {
+		return StringUtils.contains(Arrays.toString(enviroment.getActiveProfiles()), "dev");
+	}
+	
+	/**
+	 * 운영환경 여부
+	 * @return
+	 */
+	public boolean isProdMode() {
+		return StringUtils.contains(Arrays.toString(enviroment.getActiveProfiles()), "prod");
+	}
 }

@@ -59,6 +59,9 @@ session.setAttribute("loginVO", loginVO);
 	<%-- <li>ROLE_ADMIN 권한 없는지 여부: <sec:authorize ifnotgranted="hasRole('ROLE_ADMIN')" var="b">${b}</sec:authorize></li> --%>
 	<li>/sample/authorList.do 액세스권한여부: <sec:authorize url="/sample/authorList.do" var="t">${t}</sec:authorize></li>
 </ul>
-    
+<h3>환경설정 정보</h3>
+<ul>
+	<li>profiles : </li>
+</ul>
 </body>
 </html>
