@@ -27,4 +27,7 @@ public class BaseDao extends EgovComAbstractDAO {
 	
 	@Autowired
 	protected PropertyService propertyService;
+	
+	@Autowired
+	protected CodeService codeService;
 }

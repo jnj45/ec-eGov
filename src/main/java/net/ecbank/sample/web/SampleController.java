@@ -75,25 +75,31 @@ public class SampleController extends BaseController {
 	}
 	
 	/**
-	 * 세션 및 권한정보 조회
+	 * 세션, 권한, 코드 등 정보 조회
 	 * @return
 	 */
-	@GetMapping("/sample/securityView.do")
-	public String securityView(ModelMap model) {
+	@GetMapping("/sample/infoView.do")
+	public String infoView(ModelMap model) {
+		//로그인 사용자 정보 조회
+		LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		log.debug("로그인 사용자 정보 객체:" + loginVO);
+				
 		//로그인 사용자의 권한조회
 		List<String> authorities = EgovUserDetailsHelper.getAuthorities();
 		log.debug("로그인 사용자 권한:" + Arrays.toString(authorities.toArray()));
 		log.debug("ROLE_ADMIN 권한여부:" + EgovUserDetailsHelper.hasRole("ROLE_ADMIN"));
 		log.debug("ROLE_TEST 권한여부:" + EgovUserDetailsHelper.hasRole("ROLE_TEST"));
-		//로그인 사용자 정보 객체
-		LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		log.debug("로그인 사용자 정보 객체:" + loginVO);
-		//
-		log.debug("profiles:" + Arrays.toString(propertyService.getActiveProfiles()));
-		log.debug("env.getProperty:" + env.getProperty("testvar"));
-		log.debug("profiles2:" + Arrays.toString(configContext.getEnvironment().getActiveProfiles()));
 		
-		return "/sample/securityView";
+		//프로퍼티 정보 조회
+		log.debug("profiles:" + Arrays.toString(propertyService.getActiveProfiles()));
+		log.debug("test.prop:" + propertyService.getString("test.prop", "defalut val"));
+		
+		//코드정보 조회
+		log.debug("COM001 코드그룹 코드:");
+		for(Map<String,Object> map : codeService.selectCodeList("COM001")) {
+			log.debug(map.toString());
+		}
+		return "/sample/infoView";
 	}
 	
 	/**

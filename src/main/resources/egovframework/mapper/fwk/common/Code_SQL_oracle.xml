@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fwk.common.Code">
+	
+	<select id="selectCodeList" parameterType="String" resultType="Map">
+	--fwk.common.Code.selectCodeList
+	SELECT CODE_ID AS CODE_GRP
+	     , CODE
+	     , CODE_NM
+	     , CODE_ENG_NM
+	     , CODE_DC AS CODE_DESC
+	     , ATTR1
+	     , ATTR2
+	     , ATTR3
+	  FROM COMTCCMMNDETAILCODE
+	 WHERE CODE_ID = #{CODE_GRP}
+	   AND USE_YN = 'Y'
+	</select>
+	
+	<select id="selectCode" parameterType="Map" resultType="Map">
+	--fwk.common.Code.selectCode
+	SELECT CODE_ID AS CODE_GRP
+	     , CODE
+	     , CODE_NM
+	     , CODE_ENG_NM
+	     , CODE_DC AS CODE_DESC
+	     , ATTR1
+	     , ATTR2
+	     , ATTR3
+	  FROM COMTCCMMNDETAILCODE
+	 WHERE CODE_ID = #{CODE_GRP}
+	   AND CODE    = #{CODE}
+	</select>
+			
+</mapper>

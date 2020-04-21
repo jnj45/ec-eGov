@@ -24,4 +24,7 @@ public class BaseService extends EgovAbstractServiceImpl {
 	
 	@Autowired
 	protected PropertyService propertyService;
+	
+	@Autowired
+	protected CodeService codeService;
 }
