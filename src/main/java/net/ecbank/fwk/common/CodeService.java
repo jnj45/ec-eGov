@@ -3,6 +3,7 @@
  */
 package net.ecbank.fwk.common;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,10 @@ public class CodeService extends BaseService {
 	 * @param paramMap
 	 * @return
 	 */
-	public Map<String, Object> selectCode(Map<String, Object> paramMap){
+	public Map<String, Object> selectCode(String codeGrp, String code){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("CODE_GRP", codeGrp);
+		paramMap.put("CODE", 	 code);
 		return codeDao.selectCode(paramMap);
 	}
 }

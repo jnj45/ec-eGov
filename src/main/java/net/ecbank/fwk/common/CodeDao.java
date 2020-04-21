@@ -32,7 +32,7 @@ public class CodeDao extends BaseDao {
 	 * @param codeGrp
 	 * @return
 	 */
-	//@Cacheable
+	@Cacheable("codeCache")
 	public List<Map<String, Object>> selectCodeList(String codeGrp){
 		return selectList("fwk.common.Code.selectCodeList", codeGrp);
 	}
@@ -42,7 +42,7 @@ public class CodeDao extends BaseDao {
 	 * @param paramMap {CODE_GRP, CODE}
 	 * @return
 	 */
-	//@Cacheable
+	@Cacheable("codeCache")
 	public Map<String, Object> selectCode(Map<String, Object> paramMap){
 		return selectOne("fwk.common.Code.selectCode", paramMap);
 	}

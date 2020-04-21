@@ -99,6 +99,8 @@ public class SampleController extends BaseController {
 		for(Map<String,Object> map : codeService.selectCodeList("COM001")) {
 			log.debug(map.toString());
 		}
+		log.debug("COM001-REGC02 코드:" + codeService.selectCode("COM001", "REGC02"));
+		
 		return "/sample/infoView";
 	}
 	
