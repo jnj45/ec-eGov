@@ -46,6 +46,10 @@ public class CodeService extends BaseService {
 		return codeDao.selectCodeList(codeGrp);
 	}
 	
+	public List<Map<String, Object>> getCodeList(String codeGrp){
+		return selectCodeList(codeGrp);
+	}
+	
 	/**
 	 * 코드조회
 	 * @param paramMap
@@ -56,5 +60,9 @@ public class CodeService extends BaseService {
 		paramMap.put("CODE_GRP", codeGrp);
 		paramMap.put("CODE", 	 code);
 		return codeDao.selectCode(paramMap);
+	}
+	
+	public Map<String, Object> getCode(String codeGrp, String code){
+		return selectCode(codeGrp, code);
 	}
 }
