@@ -62,7 +62,17 @@ session.setAttribute("loginVO", loginVO);
 <h3>환경설정 정보</h3>
 <ul>
 	<li>코드조회 bean : <c:out value='${codeService}'/></li>
-	<li>코드조회  <c:out value='${codeService.selectCode("COM001", "REGC02")}'/></li>
+	<li>코드정보 :  <c:out value='${codeService.selectCode("COM001", "REGC02")}'/></li>
+	<li>코드값   : <c:out value='${codeService.selectCode("COM001", "REGC02").CODE_NM}'/></li>
+	<li>
+		코드selectbox :
+		<select name="codeBox">
+			<option value="">선택</option>
+			<c:forEach var="code" items='${codeService.selectCodeList("COM001")}'>
+				<option value="${code.CODE}">${code.CODE_NM}</option>	
+			</c:forEach>
+		</select>
+	</li>
 </ul>
 </body>
 </html>
