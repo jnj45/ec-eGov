@@ -7,8 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jdk.internal.org.jline.utils.Log;
 
 /**
  * 공통 코드 조회 서비스
@@ -27,6 +31,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CodeService extends BaseService {
+	
+	private final static Logger log = LoggerFactory.getLogger(CodeService.class);
 	
 	@Autowired
 	CodeDao codeDao;

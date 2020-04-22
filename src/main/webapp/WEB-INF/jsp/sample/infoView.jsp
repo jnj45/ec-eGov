@@ -61,7 +61,8 @@ session.setAttribute("loginVO", loginVO);
 </ul>
 <h3>환경설정 정보</h3>
 <ul>
-	<li>profiles : </li>
+	<li>코드조회 bean : <c:out value='${codeService}'/></li>
+	<li>코드조회  <c:out value='${codeService.selectCode("COM001", "REGC02")}'/></li>
 </ul>
 </body>
 </html>

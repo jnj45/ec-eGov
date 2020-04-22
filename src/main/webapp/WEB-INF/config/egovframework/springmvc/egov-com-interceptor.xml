@@ -45,4 +45,14 @@
 	        </mvc:interceptor>
 	    </mvc:interceptors> 
 	</beans>
+	
+	<beans>
+		<mvc:interceptors>
+			<mvc:interceptor>
+				<!-- 모든 요청의 request에 공통 유틸서비스용 bean을 셋팅 -->
+				<mvc:mapping path="/**/*.do" />
+				<bean class="net.ecbank.fwk.mvc.SetBeansInterceptor"/>
+			</mvc:interceptor>
+		</mvc:interceptors>
+	</beans>
 </beans>

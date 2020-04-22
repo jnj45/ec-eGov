@@ -95,6 +95,7 @@ public class SampleController extends BaseController {
 		log.debug("test.prop:" + propertyService.getString("test.prop", "defalut val"));
 		
 		//코드정보 조회
+		log.debug("codeService bean:" + codeService);
 		log.debug("COM001 코드그룹 코드:");
 		for(Map<String,Object> map : codeService.selectCodeList("COM001")) {
 			log.debug(map.toString());
