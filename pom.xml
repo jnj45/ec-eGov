@@ -430,6 +430,14 @@
             <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc8.jar</systemPath>
         </dependency>
         
+        <dependency>
+            <groupId>mssql-jdbc</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>7.4.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/mssql-jdbc-7.4.1.jre8.jar</systemPath>
+        </dependency>
+        
                  
         <!-- 3rd party 라이브러리로 별도의 설치 필요 끝 -->
 
