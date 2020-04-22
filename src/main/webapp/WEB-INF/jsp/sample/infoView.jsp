@@ -80,5 +80,10 @@ session.setAttribute("loginVO", loginVO);
 		</select>
 	</li>
 </ul>
+<h3>메세지 조회</h3>
+<ul>
+	<li>메세지 : <spring:message code="fail.common.msg"/></li>
+	<li>메세지(인자) : <spring:message code="fail.common.sql" arguments="첫번째, 두번째"/></li>
+</ul>
 </body>
 </html>
