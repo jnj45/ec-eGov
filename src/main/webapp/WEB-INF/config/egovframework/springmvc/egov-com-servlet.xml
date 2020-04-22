@@ -100,8 +100,21 @@
 
 	<!-- for JFile -->
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
-
-	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
+	
+	<!-- Tiles -->
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles/tiles_conf.xml</value>
+            </list>
+        </property>
+    </bean>        
+    <bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+        <property name="order" value="1" />
+    </bean>
+	
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="2"
 		  p:viewClass="org.springframework.web.servlet.view.JstlView"
 		  p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
 		  
