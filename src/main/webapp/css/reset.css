@@ -1,0 +1,209 @@
+@charset "utf-8";
+/* *******************************************************
+ * filename : reset.css
+ * description : 태그초기화 CSS
+ * date : 2019-00-00
+******************************************************** */
+
+@font-face {
+    font-family: 'NotoSans';
+    font-style: normal;
+    font-weight: 100;
+    src: url(../fonts/NotoSans/notokr-thin.eot);
+    src: url(../fonts/NotoSans/notokr-thin.eot?#iefix) format('embedded-opentype'),
+    url(../fonts/NotoSans/notokr-thin.woff) format('woff'),
+    url(../fonts/NotoSans/notokr-thin.ttf) format('truetype'),
+    url(../fonts/NotoSans/notokr-thin.svg#notokr-thin) format('svg');
+}
+@font-face {
+    font-family: 'NotoSans';
+    font-style: normal;
+    font-weight: 300;
+    src: url(../fonts/NotoSans/notokr-light.eot);
+    src: url(../fonts/NotoSans/notokr-light.eot?#iefix) format('embedded-opentype'),
+    url(../fonts/NotoSans/notokr-light.woff) format('woff'),
+    url(../fonts/NotoSans/notokr-light.ttf) format('truetype'),
+    url(../fonts/NotoSans/notokr-light.svg#notokr-light) format('svg');
+}
+@font-face {
+    font-family: 'NotoSans';
+    font-style: normal;
+    font-weight: 500;
+    src: url(../fonts/NotoSans/notokr-regular.eot);
+    src: url(../fonts/NotoSans/notokr-regular.eot?#iefix) format('embedded-opentype'),
+    url(../fonts/NotoSans/notokr-regular.woff) format('woff'),
+    url(../fonts/NotoSans/notokr-regular.ttf) format('truetype'),
+    url(../fonts/NotoSans/notokr-regular.svg#notokr-regular) format('svg');
+}
+
+@font-face {
+    font-family: 'NotoSans';
+    font-style: normal;
+    font-weight: 700;
+    src: url(../fonts/NotoSans/notokr-medium.eot);
+    src: url(../fonts/NotoSans/notokr-medium.eot?#iefix) format('embedded-opentype'),
+    url(../fonts/NotoSans/notokr-medium.woff) format('woff'),
+    url(../fonts/NotoSans/notokr-medium.ttf) format('truetype'),
+    url(../fonts/NotoSans/notokr-medium.svg#notokr-medium) format('svg');
+}
+@font-face {
+    font-family: 'NotoSans';
+    font-style: normal;
+    font-weight: 900;
+    src: url(../fonts/NotoSans/notokr-bold.eot);
+    src: url(../fonts/NotoSans/notokr-bold.eot?#iefix) format('embedded-opentype'),
+    url(../fonts/NotoSans/notokr-bold.woff) format('woff'),
+    url(../fonts/NotoSans/notokr-bold.ttf) format('truetype'),
+    url(../fonts/NotoSans/notokr-bold.svg#notokr-bold) format('svg');
+}
+
+/* html {
+	overflow-y:scroll;
+} */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin:0;
+	padding:0;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary {
+	display:block;
+}
+audio, canvas, video {
+    display:inline-block;
+}
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+audio, canvas, img, video {
+	vertical-align:middle;
+}
+body {
+	line-height:normal;
+}
+ol, ul {
+	list-style:none;
+}
+blockquote, q {
+	quotes:none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content:"";
+	content:none;
+}
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+img, fieldset {
+	border:0;
+}
+input, select, textarea {
+	line-height:normal;
+	vertical-align:middle;
+	border:1px solid #d9d9d9;
+}
+body, table, th, td, input,
+textarea, button, select {
+	font-family:'NotoSans','맑은고딕','Malgun Gothic','돋움', Dotum, Arial, sans-serif;
+	font-size:13px;
+	color:#444;
+	letter-spacing:-.5px;
+}
+button, select {
+	text-transform:none;
+}
+button, input {
+	line-height:normal;
+}
+textarea {
+	overflow:auto;
+	width:100%;
+	padding:5px;
+	box-sizing:border-box;
+	border:1px solid #dedede;
+	color:#757575;
+	resize:none;
+}
+address, caption, cite, code,
+dfn, em, var {
+	font-style:normal;
+	font-weight:normal;
+}
+label {
+	cursor:pointer;
+}
+/* For Screen Reader */
+legend {
+	display:none;
+	visibility:hidden;
+}
+/* For Screen Reader */
+caption {
+	display:none;
+	visibility:hidden;
+}
+hr {
+	display:block;
+	height:1px;
+	border:0;
+	border-top:1px solid #ccc;
+	margin:1em 0;
+	padding:0;
+}
+a {
+	color:#666;
+	text-decoration:none;
+	outline:none;
+}
+/* a:hover {
+	color:#333;
+} */
+button{
+	margin:0px;
+	padding:0px;
+	cursor:pointer;
+	border:0px;
+	background:none;
+	outline:none;
+}
+input{
+	padding:5px 9px 5px 9px;
+	color:#666;
+	box-sizing:border-box;
+	border:1px solid #cbccd3;
+}
+select{
+	height:30px;
+	padding:0 2px 0 5px;
+	border:1px solid #d5d5d5;
+}
+
+.wp100 {width:100% !important}
+.bb_none{border-bottom:none ! important;}
+.m_t0{ margin-top:0 !important;}
+.m_t10{ margin-top:10px !important;}
+.m_l10{ margin-left:20px  !important;}
+.p_t40{ padding-top:40px  !important;}
+.w180{ width:180px !important; }
+.w800{ width:800px !important; }
+.t_left{ text-align:left !important; }
+.t_right{ text-align:right !important; }
+.t_center{ text-align:center !important; }
+.p0{ padding:0px  !important; }
+.p_t0{ padding-top:0 !important; }
+
