@@ -8,10 +8,9 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
-
-import jdk.internal.org.jline.utils.Log;
 
 /**
  * 공통코드 조회 dao
@@ -52,5 +51,10 @@ public class CodeDao extends BaseDao {
 	public Map<String, Object> selectCode(Map<String, Object> paramMap){
 		log.debug("[paramMap] " + paramMap + "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
 		return selectOne("fwk.common.Code.selectCode", paramMap);
+	}
+	
+	@CacheEvict(value="codeCache", allEntries=true)
+	public void clearCodeCache() {
+		log.info("코드 캐쉬 초기화");
 	}
 }

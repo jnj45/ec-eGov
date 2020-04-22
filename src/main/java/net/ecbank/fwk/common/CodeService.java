@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jdk.internal.org.jline.utils.Log;
-
 /**
  * 공통 코드 조회 서비스
  * 
@@ -64,5 +62,12 @@ public class CodeService extends BaseService {
 	
 	public Map<String, Object> getCode(String codeGrp, String code){
 		return selectCode(codeGrp, code);
+	}
+	
+	/**
+	 * 코드 캐쉬 초기화
+	 */
+	public void clearCodeCache() {
+		codeDao.clearCodeCache();
 	}
 }
