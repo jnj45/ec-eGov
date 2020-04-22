@@ -1,6 +1,7 @@
 package net.ecbank.fwk.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
@@ -27,4 +28,7 @@ public class BaseService extends EgovAbstractServiceImpl {
 	
 	@Autowired
 	protected CodeService codeService;
+	
+	@Autowired
+	protected MessageSource messageSource;
 }

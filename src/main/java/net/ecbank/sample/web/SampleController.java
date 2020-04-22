@@ -110,7 +110,7 @@ public class SampleController extends BaseController {
 	 * @return
 	 */
 	@GetMapping("/sample/authorList.do")
-	public String authorList(ModelMap model) throws Exception{
+	public String authorList(ModelMap model){
 		//프로퍼티 값 조회 예제
 		model.put("pageUnit", propertyService.getString("pageUnit")); //context-properties.xml 에 있는 값
 		model.put("testProp", propertyService.getString("test.prop")); //별도의 properties 파일에 있는 값
@@ -172,7 +172,7 @@ public class SampleController extends BaseController {
 	 */
 	@RequestMapping("/sample/testTransaction.do")
 	@ResponseBody
-	public JsonData testTransaction(HttpServletRequest request, ModelMap model) throws Exception{
+	public JsonData testTransaction(HttpServletRequest request, ModelMap model) {
 		JsonData jsonData = new JsonData();
 		
 		log.debug("333==========================================================================================");

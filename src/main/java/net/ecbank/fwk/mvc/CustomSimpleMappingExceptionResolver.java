@@ -19,6 +19,7 @@ import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 import net.ecbank.fwk.common.PropertyService;
+import net.ecbank.fwk.exception.BizRuntimeException;
 
 /**
  * Spring MVC 예외처리 커스트마이징.
@@ -57,7 +58,7 @@ public class CustomSimpleMappingExceptionResolver extends SimpleMappingException
         	
         	view.addObject("status", JsonData.FAIL);
         	String errorMsg = "";
-        	if (ex instanceof EgovBizException) {
+        	if (ex instanceof EgovBizException || ex instanceof BizRuntimeException) {
         		errorMsg = ex.getMessage();
         	}else {
         		errorMsg = "서버에 오류가 발생하여 요청을 수행할 수 없습니다. 시스템 관리자에게 문의 바랍니다.";

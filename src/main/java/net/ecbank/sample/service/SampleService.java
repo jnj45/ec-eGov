@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import egovframework.rte.fdl.cmmn.exception.BaseRuntimeException;
 import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 import net.ecbank.fwk.common.BaseService;
+import net.ecbank.fwk.exception.BizRuntimeException;
 import net.ecbank.sample.dao.SampleDao;
 
 /**
@@ -48,17 +50,17 @@ public class SampleService extends BaseService {
 		return sampleDao.selectAuthorList(paramMap);
 	}
 	
-	public int testUpdateAuthorName(Map<String, Object> paramMap) throws Exception{
+	public int testUpdateAuthorName(Map<String, Object> paramMap){
 		log.debug("called testUpdateAuthorName ==========================================================================================");
 		int r = sampleDao.updateAuthorName(paramMap);
 		
 		if ("3".equals(MapUtils.getString(paramMap, "AUTHOR_ID"))) {
-			throw new EgovBizException("테스트 예외11");
+			throw new BizRuntimeException(messageSource, "errors.invalid", new String[]{"3"} );
 		}
 		return r;
 	}
 	
-	public void testTransaction() throws Exception{
+	public void testTransaction() {
 		//newTranServiceTest() 는 항상 새로운 트랜잭션으로 실행하므로 이후 예외와 상관없이 commit
 		//spring aop는 proxy 기반이므로 다른 빈의 required_new 메소드를 호출해야만 new transaction이 생성됨.
 		newTransactionService.newTranServiceTest();
