@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import net.ecbank.fwk.common.CodeService;
+import net.ecbank.fwk.common.MenuService;
 import net.ecbank.fwk.common.PropertyService;
 
 /**
@@ -42,6 +43,9 @@ public class SetBeansInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	PropertyService propertyService;
 	
+	@Autowired
+	MenuService menuService;
+	
 	/* (non-Javadoc)
 	 * @see org.springframework.web.servlet.handler.HandlerInterceptorAdapter#postHandle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.web.servlet.ModelAndView)
 	 */
@@ -53,6 +57,7 @@ public class SetBeansInterceptor extends HandlerInterceptorAdapter {
 		if (modelAndView != null) {
 			modelAndView.addObject("codeService",     codeService);
 			modelAndView.addObject("propertyService", propertyService);
+			modelAndView.addObject("menuService", menuService);
 		}
 	}
 

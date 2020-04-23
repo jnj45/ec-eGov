@@ -18,6 +18,18 @@
 		transactionalMode="off">
 		<persistence strategy="localTempSwap" />
 	</cache>
+	
+	<cache name="menuCache" 
+		maxEntriesLocalHeap="10000"
+		maxEntriesLocalDisk="1000" 
+		eternal="false" 
+		diskSpoolBufferSizeMB="20"
+		timeToIdleSeconds="300" 
+		timeToLiveSeconds="600"
+		memoryStoreEvictionPolicy="LFU" 
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
 	<!-- 
 	name				: 코드에서 사용할 캐시 name	필수
 	maxEntriesLocalHeap	: 메모리에 생성 될 최대 캐시 갯수	기본값:0
