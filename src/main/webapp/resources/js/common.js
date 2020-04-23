@@ -4672,8 +4672,8 @@ function fnSetElementVal(data){
 	                    $("#"+key).text(val);
 	                }else{
 	                    $("#"+key).val(val);
-	                    if ($("#"+key+"_span").length){
-	                        $("#"+key+"_span").text(val);
+	                    if ($("#s_"+key).length){
+	                        $("#s_"+key).text(val);
 	                    }
 	                    //if ($("#"+key).hasClass('phone')) {$("#"+key).change();}
 	                }

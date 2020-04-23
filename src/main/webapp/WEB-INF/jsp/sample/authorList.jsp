@@ -5,7 +5,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="sec"    uri="http://www.springframework.org/security/tags" %>
-<%@ page import="egovframework.com.cmm.util.EgovUserDetailsHelper" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +22,7 @@
 <!-- ===== realGrid  end ===== -->
 <script src="<c:url value='/resources/js/site_define.js'/>"></script>
 <script src="<c:url value='/resources/js/common.js'/>"></script>
+<script src="<c:url value='/resources/js/popup.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/resources/js/rgrid.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/resources/js/rtgrid.js'/>"></script>
 <script type="text/javascript">
@@ -35,7 +35,7 @@ $(function(){
 	setEvent();
 	setInitGrid();
 });
-//페이지내용 및 데이타 초기화 작업
+//페이지 초기화 작업
 function init(){
 	
 }
@@ -50,13 +50,14 @@ function setEvent(){
 }
 //그리드 초기화
 function setInitGrid(){
-	var gridId = "gridList";
+	var gridId = "gridList"; //div id
     gridView = new RealGridJS.GridView(gridId);
     
     var colModel = [];
     // obj, fieldName, headerStyle, width, dataType, colStyles, extraOption(visible, sortable 등), editType, editOption
+    addField(colModel, 'AUTHOR_VIEW',      {text: '상세보기'},       60, 'popupLink');
     addField(colModel, 'AUTHOR_ID',        {text: '작가ID'},        100, 'text',  {textAlignment: 'center'});
-    addField(colModel, 'NAME',             {text: '작가명'},        100, 'text',  {textAlignment: 'center'});
+    addField(colModel, 'AUTHOR_NM',        {text: '작가명'},        100, 'text',  {textAlignment: 'center'});
     addField(colModel, 'BIRTH_DAY',        {text: '생년월일'},      100, 'text',  {textAlignment: 'center'});
     addField(colModel, 'DEBUT_YEAR',       {text: '데뷔년도'},      100, 'text',  {textAlignment: 'center'});
     addField(colModel, 'TOT_ACCMLT_INCME', {text: '총누적수입'},    100, 'text',  {textAlignment: 'center'});
@@ -78,7 +79,8 @@ function setInitGrid(){
     });
     
     gridView.onDataCellClicked =  function (grid, index) {
-        if (index.column == "NAME") {
+        if (index.column == "AUTHOR_VIEW") {
+        	authorView();
         }
     };
 }
@@ -96,6 +98,16 @@ function searchList(){
 	        gridView.closeProgress();
     });
 }
+//상세조회(팝업)
+function authorView(row) {
+	var rowData = gridView.getCurrentRow();
+    var params = {
+    		AUTHOR_ID : rowData.AUTHOR_ID
+    };
+    $.extend(params, fnGetParams());
+    fnPostPopup('<c:url value="/sample/authorViewPop.do"/>', params, 'authorViewPop', 800, 0); 
+};
+
 function test(){
 	var params = fnGetParams();
 	ajaxJsonCall('<c:url value="/sample/testTransaction.do"/>', params, 
@@ -110,12 +122,18 @@ function test(){
 </head>
 <body>
 <h1>작가목록1</h1>
-pageUnit : ${pageUnit} / testProp : ${testProp} / testDbProp : ${testDbProp}<br>
-<input type="button" id="btnTest" value="테스트"/><br>
-<input type="button" id="btnSearch" value="조회"/>
+<table>
+	<tr>
+		<td>작가명: <input type="text" id="AUTHOR_NM"/></td>
+		<td>데뷔년도: <input type="text" id="DEBUT_YEAR_FROM"/> ~ <input type="text" id="DEBUT_YEAR_TO"/></td>
+		<td><input type="button" id="btnSearch" value="조회"/><input type="button" id="btnTest" value="테스트"/></td>
+	</tr>
+</table>
 <!-- realgrid 들어가는 영역 : S -->
 <div class="realgrid-area">
     <div id="gridList"></div> 
 </div>
+<br>
+pageUnit : ${pageUnit} / testProp : ${testProp} / testDbProp : ${testDbProp}<br>
 </body>
 </html>

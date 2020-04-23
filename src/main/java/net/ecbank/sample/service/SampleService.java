@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import egovframework.rte.fdl.cmmn.exception.BaseRuntimeException;
-import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 import net.ecbank.fwk.common.BaseService;
 import net.ecbank.fwk.exception.BizRuntimeException;
 import net.ecbank.sample.dao.SampleDao;
@@ -46,8 +44,72 @@ public class SampleService extends BaseService {
 	@Autowired
 	NewTransactionService newTransactionService;
 	
+	/**
+	 * 작가 목록 조회
+	 * @param paramMap
+	 * @return
+	 */
 	public List<Map<String, Object>> selectAuthorList(Map<String, Object> paramMap) {
 		return sampleDao.selectAuthorList(paramMap);
+	}
+	
+	/**
+	 * 작가 상세 조회
+	 * @param paramMap
+	 * @return
+	 */
+	public Map<String, Object> selectAuthor(Map<String, Object> paramMap) {
+		return sampleDao.selectAuthor(paramMap);
+	}
+	
+	/**
+	 * 작가 책 목록 조회
+	 * @param paramMap
+	 * @return
+	 */
+	public List<Map<String, Object>> selectAuthorBookList(Map<String, Object> paramMap) {
+		return sampleDao.selectAuthorBookList(paramMap);
+	}
+	
+	/**
+	 * 작가 정보 수정
+	 * @param paramMap
+	 * @return
+	 */
+	public Map<String, Object> updateAuthor(Map<String, Object> paramMap) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		//작가정보 update
+		int insertedCnt = sampleDao.updateAuthor(paramMap);
+		
+		//책 목록 저장
+		if (paramMap.get("BOOK_LIST") != null) {
+			//책 그리드 데이타
+			Map<String, Object> bookList = (Map<String, Object>) paramMap.get("BOOK_LIST");
+			//신규 데이타
+			if (bookList.get("CREATED")!=null) {
+				List<Map<String, Object>> listMap = (List<Map<String, Object>>)bookList.get("CREATED");
+				for (Map<String, Object> map : listMap) {
+					sampleDao.insertBook(map);
+				}
+			}
+			//수정 데이타
+			if (bookList.get("CREATED")!=null) {
+				List<Map<String, Object>> listMap = (List<Map<String, Object>>)bookList.get("UPDATED");
+				for (Map<String, Object> map : listMap) {
+					sampleDao.updateBook(map);
+				}
+			}
+			//삭제 데이타
+			if (bookList.get("DELETED")!=null) {
+				List<Map<String, Object>> listMap = (List<Map<String, Object>>)bookList.get("DELETED");
+				for (Map<String, Object> map : listMap) {
+					sampleDao.deleteBook(map);
+				}
+			}
+		}
+		
+		return resultMap; 
 	}
 	
 	public int testUpdateAuthorName(Map<String, Object> paramMap){

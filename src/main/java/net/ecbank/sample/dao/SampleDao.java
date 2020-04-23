@@ -36,8 +36,59 @@ public class SampleDao extends BaseDao {
 	 * @return
 	 */
 	public List<Map<String, Object>> selectAuthorList(Map<String, Object> paramMap){
-		log.debug("paramMap:{}", paramMap);
 		return selectList("fwk.sample.Sample.selectAuthorList", paramMap);
+	}
+
+	/**
+	 * 작가 상세 조회
+	 * @param paramMap
+	 * @return
+	 */
+	public Map<String, Object> selectAuthor(Map<String, Object> paramMap) {
+		return selectOne("fwk.sample.Sample.selectAuthor", paramMap);
+	}
+	
+	/**
+	 * 작가 책 목록
+	 * @param paramMap
+	 * @return
+	 */
+	public List<Map<String, Object>> selectAuthorBookList(Map<String, Object> paramMap){
+		return selectList("fwk.sample.Sample.selectAuthorBookList", paramMap);
+	}
+	
+	/**
+	 * 작가 정보 수정
+	 * @param paramMap
+	 * @return
+	 */
+	public int updateAuthor(Map<String, Object> paramMap) {
+		return update("fwk.sample.Sample.updateAuthor", paramMap);
+	}
+	
+	/**
+	 * 책 등록
+	 * @param paramMap
+	 * @return
+	 */
+	public int insertBook(Map<String, Object> paramMap) {
+		return insert("fwk.sample.Sample.insertBook", paramMap);
+	}
+	/**
+	 * 책 수정
+	 * @param paramMap
+	 * @return
+	 */
+	public int updateBook(Map<String, Object> paramMap) {
+		return update("fwk.sample.Sample.updateBook", paramMap);
+	}
+	/**
+	 * 책 삭제
+	 * @param paramMap
+	 * @return
+	 */
+	public int deleteBook(Map<String, Object> paramMap) {
+		return delete("fwk.sample.Sample.deleteBook", paramMap);
 	}
 	
 	public int updateAuthorName(Map<String, Object> paramMap) {

@@ -58,7 +58,7 @@ public class SampleController extends BaseController {
 	 * 롤,권한 맵핑정보 reloading test
 	 * @return
 	 */
-	@GetMapping("/sample/reloadRolesAndUrlMapping")
+	@RequestMapping("/sample/reloadRolesAndUrlMapping")
 	public @ResponseBody String reloadRolesAndUrlMapping() {
 		try {
 			securityManageService.reloadRolesAndUrlMapping();
@@ -72,7 +72,7 @@ public class SampleController extends BaseController {
 	 * 세션, 권한, 코드 등 정보 조회
 	 * @return
 	 */
-	@GetMapping("/sample/infoView.do")
+	@RequestMapping("/sample/infoView.do")
 	public String infoView(ModelMap model) {
 		//로그인 사용자 정보 조회
 		LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
@@ -106,9 +106,39 @@ public class SampleController extends BaseController {
 	 * 작가 목록 조회 페이지
 	 * @return
 	 */
-	@GetMapping("/sample/authorList.do")
+	@RequestMapping("/sample/authorList.do")
 	public String authorList(ModelMap model){
 		return "/sample/authorList"; //jsp파일경로
+	}
+	
+	/**
+	 * 작가 상세 조회 페이지
+	 * @return
+	 */
+	@RequestMapping("/sample/authorViewPop.do")
+	public String authorViewPop(ModelMap model){
+		model.addAttribute("VIEW_TYPE", "R"); //페이지조회구분 C:작성, U:수정, R:조회
+		return "/sample/authorViewPop"; //jsp파일경로
+	}
+	
+	/**
+	 * 작가 등록 페이지
+	 * @return
+	 */
+	@RequestMapping("/sample/authorRegPop.do")
+	public String authorRegPop(ModelMap model){
+		model.addAttribute("VIEW_TYPE", "C"); //페이지조회구분 C:등록, U:수정, R:조회
+		return "/sample/authorViewPop"; //jsp파일경로
+	}
+	
+	/**
+	 * 작가 수정 페이지
+	 * @return
+	 */
+	@RequestMapping("/sample/authorEditPop.do")
+	public String authorEditPop(ModelMap model){
+		model.addAttribute("VIEW_TYPE", "U"); //페이지조회구분 C:등록, U:수정, R:조회
+		return "/sample/authorViewPop"; //jsp파일경로
 	}
 	
 	/**
@@ -125,6 +155,45 @@ public class SampleController extends BaseController {
 		
 		List<Map<String,Object>> dataList = sampleService.selectAuthorList(paramMap);
 		jsonData.setPageRows(paramMap, dataList, dataList!=null ? dataList.size() : 0);
+		
+		return jsonData;
+	}
+	
+	/**
+	 * 작가 상세 데이타 조회
+	 * @param paramMap
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/sample/selectAuthor.do")
+	@ResponseBody
+	public JsonData selectAuthor(@RequestBody Map<String,Object> paramMap, HttpServletRequest request, ModelMap model) {
+		JsonData jsonData = new JsonData();
+		
+		Map<String,Object> author = sampleService.selectAuthor(paramMap);
+		jsonData.addFields("author", author);
+		
+		List<Map<String, Object>> authorBookList = sampleService.selectAuthorBookList(paramMap);
+		jsonData.addFields("authorBookList", authorBookList);
+		
+		return jsonData;
+	}
+	
+	/**
+	 * 작가 수정
+	 * @param paramMap
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/sample/updateAuthor.do")
+	@ResponseBody
+	public JsonData updateAuthor(@RequestBody Map<String,Object> paramMap, HttpServletRequest request, ModelMap model) {
+		JsonData jsonData = new JsonData();
+		
+		Map<String,Object> resultMap = sampleService.updateAuthor(paramMap);
+		jsonData.addFields("result", resultMap);
 		
 		return jsonData;
 	}
