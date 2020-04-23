@@ -4720,3 +4720,11 @@ function checkDateFromToParam(from, to, name, isBothRequired){
 	}
 	return true;
 }
+
+function goMenu(url){
+	
+	var params = new Object();
+	
+	fnPostGoto(url, params, "");
+	
+}

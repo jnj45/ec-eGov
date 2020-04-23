@@ -34,18 +34,18 @@
 						<c:forEach var="list" items="${menuService.selectUserMenuList()}" varStatus="status">
 						
 							<c:if test="${list.LEVEL eq '2'}">
-							<c:if test="${initYn ne 'Y' }">
-								</ul>
-							</li>
-							</c:if>
+								<c:if test="${initYn ne 'Y' }">
+									</ul>
+								</li>
+								</c:if>
 							<li>
 								<a href="#none">${list.MENU_NM}</a>
 								<ul class="gnb-sub">
-							<c:set var="initYn" value="N" />
+								<c:set var="initYn" value="N" />
 							</c:if>
 							
 							<c:if test="${list.LEVEL eq '3'}">
-								<li><a href="#none">${list.MENU_NM}</a></li>
+								<li><a href="#none" onclick="goMenu('${list.URL}')">${list.MENU_NM}</a></li>
 							</c:if>
 							
 						</c:forEach>

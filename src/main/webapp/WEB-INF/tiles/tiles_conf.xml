@@ -15,6 +15,26 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/cmm/EgovUnitContent.jsp" />
 	</definition>
 	
+	<definition name="egovframework/com/cmm/*/*" extends="tilesLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/cmm/{1}/{2}.jsp" />
+	</definition>
+	
+	<definition name="egovframework/com/cop/*/*" extends="tilesLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/cop/{1}/{2}.jsp" />
+	</definition>
+	
+	<definition name="egovframework/com/sec/*/*" extends="tilesLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/sec/{1}/{2}.jsp" />
+	</definition>
+	
+	<definition name="egovframework/com/sym/*/*" extends="tilesLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/sym/{1}/{2}.jsp" />
+	</definition>
+	
+	<definition name="egovframework/com/*/*/*/*" extends="tilesLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+	
 	<!-- <definition name="egovframework/com/uat/uia/EgovLoginUsr" extends="tilesLayout">
 		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/uat/uia/EgovLoginUsr.jsp" />
 	</definition> -->

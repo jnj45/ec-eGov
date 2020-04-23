@@ -13,6 +13,7 @@
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.treeview.js"></script>
 <script src="/js/common.js"></script>
+<script src="/resources/js/common.js"></script>
 </head>
 
 </html>

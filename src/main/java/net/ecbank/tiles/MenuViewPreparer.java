@@ -11,10 +11,6 @@ public class MenuViewPreparer implements ViewPreparer {
 	
 	public void execute(Request tilesContext, AttributeContext attributeContext) {
 		
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
-		System.out.println(loginVO.getId());
-
 		System.out.println("execute Preparer================== bio");
 		
 	}

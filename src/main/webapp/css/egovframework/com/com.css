@@ -16,28 +16,12 @@
 /* Base Style *****************************/
 * { margin:0; padding:0; border:0; }
 /* body { overflow-y:auto; } */
-body{ 
-	/*margin-top:20px;*/ 
-	margin-left:10px;
-	padding-top:0px;
-	padding-left:0px;
-	margin-bottom:0;
-	font-family:'돋움', '굴림', 'Arial', 'AppleGothic', 'sans-serif'; 
-	font-size:12px;
-}
-
-div,table,em,h1,h2,h3,h4,h5,h6,form,fieldset,p,th,td,input,textarea,select,button { 
-	font-family:'돋움', '굴림', 'Arial', 'AppleGothic', 'sans-serif'; font-size:12px; color:#666; }
 
 fieldset, img { border:0; }
 textarea { width:100%; resize:none; }
 img, label { vertical-align:middle; }
-ul, ol { list-style :none; } 
 caption span, .hide, legend { position:absolute; left:-1000%; top:0; }
 table { border-collapse:collapse; border-spacing:0; width:100%; }
-a { color:#666; text-decoration:none; }
-a:hover { color:#000; text-decoration:none; }
-a, button, input[type="button"] { cursor:pointer; }
 textarea,
 input[type="file"],
 input[type="password"],
