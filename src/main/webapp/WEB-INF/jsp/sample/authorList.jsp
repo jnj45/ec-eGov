@@ -55,8 +55,14 @@ function setInitGrid(){
     
     var colModel = [];
     // obj, fieldName, headerStyle, width, dataType, colStyles, extraOption(visible, sortable 등), editType, editOption
-    addField(colModel, 'AUTHOR_ID',  {text: '작가ID'}, 110, 'text',  {textAlignment: 'center'});
-    addField(colModel, 'NAME',       {text: '작가명'},  40, 'text',  {textAlignment: 'center'});
+    addField(colModel, 'AUTHOR_ID',        {text: '작가ID'},        100, 'text',  {textAlignment: 'center'});
+    addField(colModel, 'NAME',             {text: '작가명'},        100, 'text',  {textAlignment: 'center'});
+    addField(colModel, 'BIRTH_DAY',        {text: '생년월일'},      100, 'text',  {textAlignment: 'center'});
+    addField(colModel, 'DEBUT_YEAR',       {text: '데뷔년도'},      100, 'text',  {textAlignment: 'center'});
+    addField(colModel, 'TOT_ACCMLT_INCME', {text: '총누적수입'},    100, 'text',  {textAlignment: 'center'});
+    addField(colModel, 'HISTORY',          {text: '작가이력'},      100, 'text',  {textAlignment: 'center'});
+    addField(colModel, 'LAST_UPDT_PNTTM',  {text: '최종수정일시'},  100, 'text',  {textAlignment: 'center'});
+    addField(colModel, 'LAST_UPDUSR_ID',   {text: '최종수정자ID'},  100, 'text',  {textAlignment: 'center'});
     
     gridView.rgrid({
          gridId         : gridId    //required 그리드 ID

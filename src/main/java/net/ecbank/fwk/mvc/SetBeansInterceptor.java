@@ -50,8 +50,10 @@ public class SetBeansInterceptor extends HandlerInterceptorAdapter {
 		//Object bean = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("codeService");
 		//log.debug("SetBeansInterceptor bean : ==================================================================== " + bean);
 		//modelAndView.addObject("codeService", bean != null ? (CodeService)bean : null);
-		modelAndView.addObject("codeService",     codeService);
-		modelAndView.addObject("propertyService", propertyService);
+		if (modelAndView != null) {
+			modelAndView.addObject("codeService",     codeService);
+			modelAndView.addObject("propertyService", propertyService);
+		}
 	}
 
 	

@@ -21,7 +21,6 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 import net.ecbank.fwk.common.BaseController;
 import net.ecbank.fwk.manage.service.ServerConfigManageService;
 import net.ecbank.fwk.mvc.JsonData;
@@ -55,11 +54,6 @@ public class SampleController extends BaseController {
 	@Autowired
 	SampleService sampleService;
 	
-	@Autowired
-	Environment env;
-	
-	@Autowired private ConfigurableWebApplicationContext configContext;
-	
 	/**
 	 * 롤,권한 맵핑정보 reloading test
 	 * @return
@@ -82,17 +76,20 @@ public class SampleController extends BaseController {
 	public String infoView(ModelMap model) {
 		//로그인 사용자 정보 조회
 		LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		log.debug("로그인 사용자 정보 객체:" + loginVO);
+		log.debug("로그인 사용자 정보 객체:{}", loginVO);
 				
 		//로그인 사용자의 권한조회
 		List<String> authorities = EgovUserDetailsHelper.getAuthorities();
-		log.debug("로그인 사용자 권한:" + Arrays.toString(authorities.toArray()));
-		log.debug("ROLE_ADMIN 권한여부:" + EgovUserDetailsHelper.hasRole("ROLE_ADMIN"));
-		log.debug("ROLE_TEST 권한여부:" + EgovUserDetailsHelper.hasRole("ROLE_TEST"));
+		log.debug("로그인 사용자 권한:{}",  Arrays.toString(authorities.toArray()));
+		log.debug("ROLE_ADMIN 권한여부:{}", EgovUserDetailsHelper.hasRole("ROLE_ADMIN"));
+		log.debug("ROLE_TEST 권한여부:{}",  EgovUserDetailsHelper.hasRole("ROLE_TEST"));
 		
 		//프로퍼티 정보 조회
-		log.debug("profiles:" + Arrays.toString(propertyService.getActiveProfiles()));
-		log.debug("test.prop:" + propertyService.getString("test.prop", "defalut val"));
+		log.debug("profiles: {}", Arrays.toString(propertyService.getActiveProfiles()));
+		log.debug("로컬환경 여부:{}, 개발환경 여부:{}, 운영환경 여부:{}", propertyService.isLocalMode(), propertyService.isDevMode(), propertyService.isProdMode());
+		log.debug("pageUnit: {}",   propertyService.getString("pageUnit", "defalut val"));  //context-properties.xml 에 있는 값
+		log.debug("test.prop: {}",  propertyService.getString("test.prop", "defalut val")); //별도의 properties 파일에 있는 값
+		log.debug("testDbProp: {}", Arrays.toString(propertyService.getStringArray("test.db.prop"))); //EF_PROPERTY 테이블에 있는 값.(현대 spring profile에 해당하는 값)
 		
 		//코드정보 조회
 		log.debug("codeService bean:" + codeService);
@@ -106,17 +103,30 @@ public class SampleController extends BaseController {
 	}
 	
 	/**
-	 * 작가 목록 조회
+	 * 작가 목록 조회 페이지
 	 * @return
 	 */
 	@GetMapping("/sample/authorList.do")
 	public String authorList(ModelMap model){
-		//프로퍼티 값 조회 예제
-		model.put("pageUnit", propertyService.getString("pageUnit")); //context-properties.xml 에 있는 값
-		model.put("testProp", propertyService.getString("test.prop")); //별도의 properties 파일에 있는 값
-		model.put("testDbProp", Arrays.toString(propertyService.getStringArray("test.db.prop"))); //EF_PROPERTY 테이블에 있는 값.(현대 spring profile에 해당하는 값)
-//		if (true) throw new EgovBizException("test");
-		return "/sample/authorList";
+		return "/sample/authorList"; //jsp파일경로
+	}
+	
+	/**
+	 * 작가 목록 데이타 조회
+	 * @param paramMap
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/sample/selectAuthorList.do")
+	@ResponseBody
+	public JsonData selectAuthorList(@RequestBody Map<String,Object> paramMap, HttpServletRequest request, ModelMap model) {
+		JsonData jsonData = new JsonData();
+		
+		List<Map<String,Object>> dataList = sampleService.selectAuthorList(paramMap);
+		jsonData.setPageRows(paramMap, dataList, dataList!=null ? dataList.size() : 0);
+		
+		return jsonData;
 	}
 	
 	/*@RequestMapping("/getAuthorList.do")
@@ -133,36 +143,6 @@ public class SampleController extends BaseController {
 		//에러 : java.lang.IllegalArgumentException: No converter found for return value of type: class java.util.HashMap
 		//https://www.egovframe.go.kr/uss/olh/qna/QnaInqireCoUpdt.do?qaId=QA_00000000000017650&menu=5&submenu=3
 	}*/
-	
-	/**
-	 * 작가 목록 데이타 조회
-	 * @param paramMap
-	 * @param request
-	 * @param model
-	 * @return
-	 */
-	@IncludedInfo(name="샘플-작가목록",order = 900 ,gid = 900)
-	@RequestMapping("/sample/selectAuthorList.do")
-	@ResponseBody
-	public JsonData selectAuthorList(@RequestBody Map<String,Object> paramMap, HttpServletRequest request, ModelMap model) {
-		JsonData jsonData = new JsonData();
-		
-//		List<Map<String,Object>> dataList = new ArrayList<Map<String,Object>>();
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("AUTHOR_ID", "123");
-//		map.put("NAME",      "홍길동");
-//		dataList.add(map);
-		paramMap.put("NAME", "길동");
-		
-		List<Map<String,Object>> dataList = sampleService.selectAuthorList(paramMap);
-		
-		jsonData.setPageRows(paramMap, dataList, dataList!=null?dataList.size():0);
-		
-//		ModelAndView jsonView = new ModelAndView("jsonView");
-//		jsonView.addObject("result", list);
-		
-		return jsonData;
-	}
 	
 	/**
 	 * 트랜잭션 테스트.

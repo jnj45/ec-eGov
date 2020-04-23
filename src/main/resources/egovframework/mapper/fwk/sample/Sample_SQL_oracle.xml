@@ -3,10 +3,16 @@
 <mapper namespace="fwk.sample.Sample">
 	
 	<select id="selectAuthorList" parameterType="Map" resultType="Map">
+	--작가목록 조회
 	--fwk.sample.Sample.selectAuthorList
-	SELECT AUTHOR_ID
-	     , NAME
-	     , 'a' AS TEST_COL9
+	SELECT AUTHOR_ID       --작가ID
+	     , NAME            --이름
+	     , BIRTH_DAY       --생년월일
+	     , HISTORY         --작가이력
+	     , DEBUT_YEAR      --데뷔년도 
+	     , TOT_ACCMLT_INCME --총누적수입
+	     , LAST_UPDT_PNTTM  --최종수정시점
+         , LAST_UPDUSR_ID   --최종수정자ID
 	  FROM Z_AUTHOR
 	</select>
 	
