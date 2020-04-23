@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fwk.common.Menu">
+	
+	<select id="selectUserMenuList" parameterType="Map" resultType="Map">
+	--fwk.common.Code.selectUserMenuList
+		
+		SELECT 
+	        MENU_NM,   
+	        PROGRM_FILE_NM,  
+	        MENU_NO,   
+	        UPPER_MENU_NO, 
+	        MENU_ORDR, 
+	        MENU_DC, 
+	        RELATE_IMAGE_PATH, 
+	        RELATE_IMAGE_NM, 
+	        LEVEL,
+	        REG_YN,
+	        URL   
+		FROM   
+		    (SELECT
+		    	 DISTINCT  
+		         AA.MENU_NM  
+		        ,AA.PROGRM_FILE_NM  
+		        ,AA.MENU_NO  
+		        ,CASE WHEN AA.UPPER_MENU_NO = AA.MENU_NO THEN 1 ELSE AA.UPPER_MENU_NO END AS UPPER_MENU_NO  
+		        ,AA.MENU_ORDR  
+		        ,AA.MENU_DC  
+		        ,AA.RELATE_IMAGE_PATH  
+		        ,AA.RELATE_IMAGE_NM
+		        ,CASE 
+                    WHEN BB.MENU_NO IS NULL THEN 'N' 
+                    ELSE 
+                        CASE 
+                            WHEN AA.UPPER_MENU_NO = 0 THEN 'Y' 
+                            WHEN (
+                            	SELECT COUNT(*) FROM COMTNMENUCREATDTLS WHERE MENU_NO = AA.UPPER_MENU_NO 
+                            	<choose>
+						            <when test="ROLE_LIST.size != 0">
+						                AND AUTHOR_CODE IN 
+						                <foreach collection="ROLE_LIST" item="item" index="index" separator="," open="(" close=")">
+						                    #{item}
+						                </foreach>
+						            </when>
+						            <when test="ROLE_LIST.size == 0">
+						            	AND 1 != 1
+						            </when>
+						        </choose>
+                            ) > 0 THEN 'Y'
+                            ELSE 'N' 
+                        END
+                    END AS REG_YN
+                 ,AA.URL  
+		    FROM  COMTNMENUINFO AA 
+		    LEFT OUTER JOIN COMTNMENUCREATDTLS BB 
+		    ON AA.MENU_NO = BB.MENU_NO 
+		    <choose>
+	            <when test="ROLE_LIST.size != 0">
+	                AND BB.AUTHOR_CODE IN
+	                <foreach collection="ROLE_LIST" item="item" index="index" separator="," open="(" close=")">
+	                    #{item}
+	                </foreach>
+	            </when>
+	            <when test="ROLE_LIST.size == 0">
+	            	AND 1 != 1
+	            </when>
+	        </choose>
+		    )
+           WHERE REG_YN = 'Y'
+		START WITH MENU_NO = 0   
+		CONNECT BY PRIOR MENU_NO = UPPER_MENU_NO
+		
+	</select>
+			
+</mapper>

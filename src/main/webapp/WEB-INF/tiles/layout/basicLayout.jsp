@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %> 
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html>
@@ -27,85 +28,30 @@
 
 			<nav class="gnb-area">
 				<ul class="gnb">
-					<li>
-						<a href="#none">구매요청</a>
-						<ul class="gnb-sub">
-							<li><a href="#none">자재</a></li>
-							<li><a href="#none">외주</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#none">구매진행</a>
-						<ul class="gnb-sub">
-							<li><a href="#none">요약정보</a></li>
-							<li><a href="#none">OPS 전송</a></li>
-							<li><a href="#none">자재</a></li>
-							<li><a href="#none">외주</a></li>
-							<li><a href="#none">견적의뢰</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#none">업체선정</a>
-						<ul class="gnb-sub">
-							<li><a href="#none">업체 선정</a></li>
-							<li><a href="#none">업체선정 결과</a></li>
-							<li><a href="#none">오프라인 견적</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#none">구매오더</a>
-						<ul class="gnb-sub">
-							<li><a href="#none">구매오더 대기</a></li>
-							<li><a href="#none">구매오더 결과</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#none">전자계약</a>
-						<ul class="gnb-sub">
-							<li><a href="#none">전자계약생성</a></li>
-							<li><a href="#none">전자계약진행</a></li>
-							<li><a href="#none">전자계약완료</a></li>
-							<li><a href="#none">서면계약관리</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#none">협력업체관리</a>
-						<ul class="gnb-sub">
-							<li><a href="#none">신규등록업체 관리</a></li>
-							<li><a href="#none">업체정보 관리</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#none">레포트</a>
-						<ul class="gnb-sub">
-							<li><a href="#none">레포트</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#none">전자결재</a>
-						<ul class="gnb-sub">
-							<li><a href="#none">결재 진행</a></li>
-							<li><a href="#none">결재 완료</a></li>
-							<li><a href="#none">결재선 지정</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#none">시스템관리</a>
-						<ul class="gnb-sub">
-							<li><a href="#none">코드관리</a></li>
-							<li><a href="#none">팝업관리</a></li>
-							<li><a href="#none">게시판 관리</a></li>
-							<li><a href="#none">권한관리</a></li>
-							<li><a href="#none">정보관리</a></li>
-							<li><a href="#none">Sample</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#none">커뮤니티</a>
-						<ul class="gnb-sub">
-							<li><a href="#none">게시판</a></li>
-						</ul>
-					</li>
+					
+					<c:if test="${fn:length(menuService.selectUserMenuList()) > 0}">
+						<c:set var="initYn" value="Y" />
+						<c:forEach var="list" items="${menuService.selectUserMenuList()}" varStatus="status">
+						
+							<c:if test="${list.LEVEL eq '2'}">
+							<c:if test="${initYn ne 'Y' }">
+								</ul>
+							</li>
+							</c:if>
+							<li>
+								<a href="#none">${list.MENU_NM}</a>
+								<ul class="gnb-sub">
+							<c:set var="initYn" value="N" />
+							</c:if>
+							
+							<c:if test="${list.LEVEL eq '3'}">
+								<li><a href="#none">${list.MENU_NM}</a></li>
+							</c:if>
+							
+						</c:forEach>
+							</ul>
+						</li>
+					</c:if>
 				</ul>
 			</nav>
 
