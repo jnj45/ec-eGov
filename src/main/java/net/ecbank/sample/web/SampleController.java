@@ -189,12 +189,12 @@ public class SampleController extends BaseController {
 	 */
 	@RequestMapping("/sample/updateAuthor.do")
 	@ResponseBody
-	public JsonData updateAuthor(@RequestBody Map<String,Object> paramMap, HttpServletRequest request, ModelMap model) {
+	public JsonData updateAuthor(@RequestBody Map<String,Object> paramMap, HttpServletRequest request, ModelMap model) throws Exception {
 		JsonData jsonData = new JsonData();
 		
 		Map<String,Object> resultMap = sampleService.updateAuthor(paramMap);
 		jsonData.addFields("result", resultMap);
-		
+			
 		return jsonData;
 	}
 	

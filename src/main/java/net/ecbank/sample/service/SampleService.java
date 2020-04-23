@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import egovframework.rte.fdl.cmmn.exception.FdlException;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import net.ecbank.fwk.common.BaseService;
+import net.ecbank.fwk.common.IdGnrStrategy;
 import net.ecbank.fwk.exception.BizRuntimeException;
 import net.ecbank.sample.dao.SampleDao;
 
@@ -39,10 +44,13 @@ public class SampleService extends BaseService {
 	private static final Logger log = LoggerFactory.getLogger(SampleService.class);
 
 	@Autowired
-	SampleDao sampleDao;
+	private SampleDao sampleDao;
+	
+	@Resource(name="bookIdGnrService")
+	private EgovIdGnrService bookIdGnrService;
 	
 	@Autowired
-	NewTransactionService newTransactionService;
+	private NewTransactionService newTransactionService;
 	
 	/**
 	 * 작가 목록 조회
@@ -76,7 +84,7 @@ public class SampleService extends BaseService {
 	 * @param paramMap
 	 * @return
 	 */
-	public Map<String, Object> updateAuthor(Map<String, Object> paramMap) {
+	public Map<String, Object> updateAuthor(Map<String, Object> paramMap) throws FdlException {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		//작가정보 update
@@ -90,11 +98,15 @@ public class SampleService extends BaseService {
 			if (bookList.get("CREATED")!=null) {
 				List<Map<String, Object>> listMap = (List<Map<String, Object>>)bookList.get("CREATED");
 				for (Map<String, Object> map : listMap) {
+					//ID채번
+					long bookId = bookIdGnrService.getNextLongId();
+					map.put("BOOK_ID", bookId);
+					
 					sampleDao.insertBook(map);
 				}
 			}
 			//수정 데이타
-			if (bookList.get("CREATED")!=null) {
+			if (bookList.get("UPDATED")!=null) {
 				List<Map<String, Object>> listMap = (List<Map<String, Object>>)bookList.get("UPDATED");
 				for (Map<String, Object> map : listMap) {
 					sampleDao.updateBook(map);
