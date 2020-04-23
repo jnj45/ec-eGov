@@ -6,7 +6,7 @@
 <tiles-definitions>
 
 	<!-- tiles 적용 -->
-	<definition name="tilesLayout" template="/WEB-INF/tiles/layout/basicLayout.jsp">
+	<definition name="tilesLayout" template="/WEB-INF/tiles/layout/basicLayout.jsp" preparer="net.ecbank.tiles.MenuViewPreparer">
 		<put-attribute name="head" value="/WEB-INF/tiles/layout/basicHeader.jsp" />
 		<put-attribute name="foot" value="/WEB-INF/tiles/layout/basicFooter.jsp" />
 	</definition>
@@ -15,9 +15,9 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/cmm/EgovUnitContent.jsp" />
 	</definition>
 	
-	<definition name="egovframework/com/uat/uia/EgovLoginUsr" extends="tilesLayout">
+	<!-- <definition name="egovframework/com/uat/uia/EgovLoginUsr" extends="tilesLayout">
 		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/uat/uia/EgovLoginUsr.jsp" />
-	</definition>
+	</definition> -->
 	
 	
 		
