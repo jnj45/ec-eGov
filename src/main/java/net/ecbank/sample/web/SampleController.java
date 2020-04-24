@@ -241,4 +241,10 @@ public class SampleController extends BaseController {
 		return jsonData;
 	}
 	
+	@RequestMapping("/sample/insertSample.do")
+	public String insertSample(ModelMap model) {
+		//로그인 사용자 정보 조회
+		
+		return "sample/insertSample";
+	}
 }

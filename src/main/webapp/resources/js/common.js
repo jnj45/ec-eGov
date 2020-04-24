@@ -4728,3 +4728,99 @@ function goMenu(url){
 	fnPostGoto(url, params, "");
 	
 }
+
+var ajaxJsonCallAddValidate = function(url, param, successCallback, errorCallback, formId, options) {
+	var contentType;
+    var data;
+    var dataType;
+
+    if (typeof param == "string") {
+        contentType = "application/json;charset=UTF-8";
+        data = param;
+        dataType = "json"
+    } else {
+        //contentType = "application/x-www-form-urlencoded;charset=UTF-8";
+    	contentType = "application/json;charset=UTF-8";
+    	data = JSON.stringify(param);;
+        dataType = "json";
+    }
+
+    $.ajax({
+    type : 'POST',
+    url : url,
+    contentType : contentType,
+    data : data,
+    dataType : dataType,
+    cache: false,
+    beforeSend:function(){
+    	$.validator.setDefaults({
+		    onkeyup:false,
+		    onclick:false,
+		    onfocusout:false,
+		    showErrors: function(errorMap,errorList){
+		        if(this.numberOfInvalids()){ // 에러가 있으면
+		            alert(errorList[0].message); // 경고창으로 띄움
+		        }
+		    },
+		    invalidHandler: function(form, validator) {
+		        var errors = validator.numberOfInvalids();
+		        if (errors) {                    
+		            validator.errorList[0].element.focus();
+		        }
+		    } 
+		});
+    	$("#"+formId).validate(options);
+        return $('#'+formId).valid();
+    },
+    complete:function(){
+    	if (undefined==param.pageLoader || !param.pageLoader) $('.pageLoader').remove();
+    },
+    success : function(data) {
+        try {
+            if (data) {
+                if (data["status"] == "SUCC") {
+                    if (typeof successCallback !== 'undefined') {
+                        successCallback(data);
+                    }
+                } else if (data["status"] == "FAIL"){
+                    
+                    if (typeof errorCallback !== 'undefined') {
+                        errorCallback(data);
+                    }else{
+                    	alert(data["errMsg"]);
+                    }
+                    try{ $('.pageLoader').remove(); } catch(e){}
+                } else {
+                    if (typeof successCallback !== 'undefined') {
+                        successCallback(data);
+                    }
+                }
+            }
+        } catch (e) {
+            alert(e.message);
+            try{ $('.pageLoader').remove(); } catch(e){}
+        }
+    },
+    error : function(xhr, status, error) {
+        if (401 === xhr.status) {
+            //alert('<spring:message code="M1000015" javaScriptEscape="true"/>');
+        	alert('권한이 없습니다. 시스템 관리자에게 문의하세요.');
+            location.href = "/";
+        } else if (500 === xhr.status) {
+        	var errorMsg = '';
+        	if (typeof xhr.responseJSON !== 'undefined'){
+        		errorMsg = xhr.responseJSON.errMsg;
+        		if (!isEmpty(xhr.responseJSON.stackTrace)){
+        			errorMsg += "\r\n" + xhr.responseJSON.stackTrace;
+        		}
+        	}else{
+        		errorMsg = '서버에 오류가 발생하여 요청을 수행할 수 없습니다. 시스템 관리자에게 문의 바랍니다.';
+        	}
+        	alert(errorMsg);
+        } else {
+            alert(error);
+        }
+        try{ $('.pageLoader').remove(); } catch(e){}
+        }
+    });
+};
