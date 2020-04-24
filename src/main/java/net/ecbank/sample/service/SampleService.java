@@ -33,8 +33,8 @@ import net.ecbank.sample.dao.SampleDao;
  * 추가설명이 필요하면 기술.
  *  
  * << 개정이력(Modification Information) >>
- *   2020. 4. 14. 홍길동 - 최초 생성
- *   2020. 4. 14. 홍길동 - 수정내용 기술.
+ *   2020. 4. 14. LYJ - 최초 생성
+ *   2020. 4. 14. LYJ - 수정내용 기술.
  * </pre>
  */
 @Service
@@ -46,6 +46,8 @@ public class SampleService extends BaseService {
 	@Autowired
 	private SampleDao sampleDao;
 	
+	@Resource(name="authorIdGnrService")
+	private EgovIdGnrService authorIdGnrService;
 	@Resource(name="bookIdGnrService")
 	private EgovIdGnrService bookIdGnrService;
 	
@@ -80,6 +82,43 @@ public class SampleService extends BaseService {
 	}
 	
 	/**
+	 * 작가 정보 등록
+	 * @param paramMap
+	 * @return
+	 */
+	public Map<String, Object> registAuthor(Map<String, Object> paramMap) throws FdlException {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		//작가정보 insert
+		long authorId = authorIdGnrService.getNextLongId(); //신규ID채번
+		paramMap.put("AUTHOR_ID", authorId);
+		
+		sampleDao.insertAuthor(paramMap);
+		
+		//책 목록 저장
+		if (paramMap.get("BOOK_LIST") != null) {
+			//책 그리드 데이타
+			Map<String, Object> bookList = (Map<String, Object>) paramMap.get("BOOK_LIST");
+			//신규 데이타
+			if (bookList.get("CREATED")!=null) {
+				List<Map<String, Object>> listMap = (List<Map<String, Object>>)bookList.get("CREATED");
+				for (Map<String, Object> map : listMap) {
+					//ID채번
+					long bookId = bookIdGnrService.getNextLongId();
+					map.put("AUTHOR_ID", authorId);
+					map.put("BOOK_ID",   bookId);
+					
+					sampleDao.insertBook(map);
+				}
+			}
+		}
+		
+		//신규채번id 리턴
+		resultMap.put("AUTHOR_ID", authorId);
+		
+		return resultMap; 
+	}
+	/**
 	 * 작가 정보 수정
 	 * @param paramMap
 	 * @return
@@ -88,7 +127,7 @@ public class SampleService extends BaseService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		//작가정보 update
-		int insertedCnt = sampleDao.updateAuthor(paramMap);
+		sampleDao.updateAuthor(paramMap);
 		
 		//책 목록 저장
 		if (paramMap.get("BOOK_LIST") != null) {

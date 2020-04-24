@@ -138,4 +138,11 @@
 	<!-- jsp 에서 security tag lib 사용하기 위해 필요. -->
 	<bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" /> 
 	
+	<!-- 
+	<bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager"  ref="org.springframework.security.authenticationManager" />
+		<property name="accessDecisionManager"  ref="org.springframework.security.access.vote.AffirmativeBased#0" />
+		<property name="securityMetadataSource" ref="databaseSecurityMetadataSource" />
+	</bean>
+	 -->
 </beans>

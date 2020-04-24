@@ -13,9 +13,9 @@
 	     , AUTHOR_ID        --작가ID
 	     , AUTHOR_NM        --이름
 	     , BIRTH_DAY        --생년월일
-	     --, HISTORY          --작가이력
 	     , DEBUT_YEAR       --데뷔년도 
 	     , TOT_ACCMLT_INCME --총누적수입
+	     , REGIST_STTUS      --등록상태
 	     , LAST_UPDT_PNTTM  --최종수정시점
          , LAST_UPDUSR_ID   --최종수정자ID
 	  FROM Z_AUTHOR
@@ -23,11 +23,11 @@
 	 <if test='AUTHOR_NM != null and AUTHOR_NM != ""'>
        AND AUTHOR_NM LIKE '%'||#{AUTHOR_NM}||'%'
      </if>
-     <if test='DEBUT_YEAR_FROM != null and DEBUT_YEAR_FROM != ""'>
-       AND DEBUT_YEAR <![CDATA[>=]]> #{DEBUT_YEAR_FROM}
+     <if test='DEBUT_YEAR_BGN != null and DEBUT_YEAR_BGN != ""'>
+       AND DEBUT_YEAR <![CDATA[>=]]> #{DEBUT_YEAR_BGN}
      </if>
-     <if test='DEBUT_YEAR_TO != null and DEBUT_YEAR_TO != ""'>
-       AND DEBUT_YEAR <![CDATA[<=]]> #{DEBUT_YEAR_TO}
+     <if test='DEBUT_YEAR_END != null and DEBUT_YEAR_END != ""'>
+       AND DEBUT_YEAR <![CDATA[<=]]> #{DEBUT_YEAR_END}
      </if>
 	</select>
 	
@@ -56,6 +56,37 @@
 	  FROM Z_BOOK
 	 WHERE AUTHOR_ID = #{AUTHOR_ID}
 	</select>
+	
+	<insert id="insertAuthor" parameterType="Map">
+	--작가정보 등록
+	--fwk.sample.Sample.insertAuthor
+	INSERT INTO Z_AUTHOR(
+		   AUTHOR_ID         --작가ID
+	     , AUTHOR_NM         --이름
+	     , BIRTH_DAY         --생년월일
+	     , HISTORY           --작가이력
+	     , DEBUT_YEAR        --데뷔년도 
+	     , TOT_ACCMLT_INCME  --총누적수입
+	     , REGIST_STTUS       --등록상태
+	     , FRST_REGIST_PNTTM --최초등록시점
+		 , FRST_REGISTER_ID	 --최초등록자ID
+	     , LAST_UPDT_PNTTM   --최종수정시점
+         , LAST_UPDUSR_ID    --최종수정자ID
+	)
+	VALUES(
+		   #{AUTHOR_ID        } --작가ID
+	     , #{AUTHOR_NM        } --이름
+	     , REPLACE(#{BIRTH_DAY},'-','') --생년월일
+	     , #{HISTORY          } --작가이력
+	     , #{DEBUT_YEAR       } --데뷔년도 
+	     , #{TOT_ACCMLT_INCME } --총누적수입
+	     , #{REGIST_STTUS      } --등록상태
+	     , SYSDATE --최초등록시점
+		 , #{FRST_REGISTER_ID } --최초등록자ID
+	     , SYSDATE --최종수정시점
+         , #{LAST_UPDUSR_ID   } --최종수정자ID
+	)
+	</insert>
 	
 	<update id="updateAuthor" parameterType="Map">
 	--작가정보 수정

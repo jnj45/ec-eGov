@@ -1,5 +1,7 @@
 package egovframework.com.cmm.config;
 
+import java.util.Map;
+
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -7,8 +9,12 @@ import javax.servlet.ServletRegistration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
@@ -126,7 +132,18 @@ public class EgovWebApplicationInitializer implements WebApplicationInitializer 
 			//-------------------------------------------------------------	
 			FilterRegistration.Dynamic egovSpringSecurityLogoutFilter = servletContext.addFilter("egovSpringSecurityLogoutFilter", new EgovSpringSecurityLogoutFilter());
 			egovSpringSecurityLogoutFilter.addMappingForUrlPatterns(null, false, "/uat/uia/actionLogout.do");
-		
+			
+			/*ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+			Map<String, WebInvocationPrivilegeEvaluator> wipes = ctx.getBeansOfType(WebInvocationPrivilegeEvaluator.class);
+
+			if(wipes.size() > 0){
+			    //I need last one
+			    WebInvocationPrivilegeEvaluator appEvaluator = (WebInvocationPrivilegeEvaluator)wipes.values().toArray()[wipes.size() - 1];
+
+			    //set request attribute so that JSP tag can use it        
+			    request.setAttribute(WebAttributes.WEB_INVOCATION_PRIVILEGE_EVALUATOR_ATTRIBUTE, appEvaluator);
+			}*/
+			
 		} else if("session".equals(EgovProperties.getProperty("Globals.Auth").trim())) {
 			//-------------------------------------------------------------
 			// EgovLoginPolicyFilter 설정

@@ -125,8 +125,8 @@ public class SampleController extends BaseController {
 	 * 작가 등록 페이지
 	 * @return
 	 */
-	@RequestMapping("/sample/authorRegPop.do")
-	public String authorRegPop(ModelMap model){
+	@RequestMapping("/sample/authorRegistPop.do")
+	public String authorRegistPop(ModelMap model){
 		model.addAttribute("VIEW_TYPE", "C"); //페이지조회구분 C:등록, U:수정, R:조회
 		return "/sample/authorViewPop"; //jsp파일경로
 	}
@@ -180,6 +180,23 @@ public class SampleController extends BaseController {
 		return jsonData;
 	}
 	
+	/**
+	 * 작가 등록
+	 * @param paramMap
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/sample/registAuthor.do")
+	@ResponseBody
+	public JsonData registAuthor(@RequestBody Map<String,Object> paramMap, HttpServletRequest request, ModelMap model) throws Exception {
+		JsonData jsonData = new JsonData();
+		
+		Map<String,Object> resultMap = sampleService.registAuthor(paramMap);
+		jsonData.addFields("result", resultMap);
+		
+		return jsonData;
+	}
 	/**
 	 * 작가 수정
 	 * @param paramMap

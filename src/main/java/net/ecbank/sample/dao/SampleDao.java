@@ -58,6 +58,14 @@ public class SampleDao extends BaseDao {
 	}
 	
 	/**
+	 * 작가 정보 등록
+	 * @param paramMap
+	 * @return
+	 */
+	public int insertAuthor(Map<String, Object> paramMap) {
+		return insert("fwk.sample.Sample.insertAuthor", paramMap);
+	}
+	/**
 	 * 작가 정보 수정
 	 * @param paramMap
 	 * @return

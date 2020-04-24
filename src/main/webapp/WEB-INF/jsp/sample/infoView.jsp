@@ -56,8 +56,8 @@ session.setAttribute("loginVO", loginVO);
 	<li>ROLE_ADMIN 권한 있는지 여부: <sec:authorize access="hasRole('ROLE_ADMIN')" var="u">${u}</sec:authorize></li>
 	<li>ROLE_ADMIN, ROLE_TEST 하나라도 있는지 여부: <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_TEST')" var="u">${u}</sec:authorize></li>
 	<li>ROLE_XXX 없는 경우: <sec:authorize access="!hasRole('ROLE_XXX')" var="u">${u}</sec:authorize></li>
-	<%-- <li>ROLE_ADMIN 권한 없는지 여부: <sec:authorize ifnotgranted="hasRole('ROLE_ADMIN')" var="b">${b}</sec:authorize></li> --%>
-	<li>/sample/authorList.do 액세스권한여부: <sec:authorize url="/sample/authorList.do" var="t">${t}</sec:authorize></li>
+	<%-- <li>/sample/authorList.do 액세스권한여부: <sec:authorize url="/sample/authorList.do" var="t">${t}</sec:authorize></li> 적용안됨 --%>
+	<%-- <li>/sample/authorRegistPop.do 액세스권한여부: <sec:authorize url="/sample/authorRegistPop.do" var="t">${t}</sec:authorize></li> --%>
 </ul>
 <h3>환경설정, 코드 정보</h3>
 <ul>

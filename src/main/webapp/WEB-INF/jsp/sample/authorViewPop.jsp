@@ -10,21 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/jquery-ui.css' />" /> 
-<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/jquery-ui.theme.css'/>"/>
-<script src="<c:url value='/resources/js/jquery-3.4.1.min.js'/>"></script>
-<!-- ===== realGrid  start ===== -->
-<script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/realgridjs-lic.js'/>"></script>
-<%-- <script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/realgridjs.1.1.33.min.js'/>"></script> --%>
-<script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/realgridjs_eval.1.1.33.min.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/realgridjs-api.1.1.33.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/jszip.min.js'/>"></script>
-<!-- ===== realGrid  end ===== -->
-<script src="<c:url value='/resources/js/site_define.js'/>"></script>
-<script src="<c:url value='/resources/js/common.js'/>"></script>
-<script src="<c:url value='/resources/js/popup.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/rgrid.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/rtgrid.js'/>"></script>
+<%@ include file="/include/css.jsp" %>
+<%@ include file="/include/script.jsp" %>
 <script type="text/javascript">
 
 var viewType = '${VIEW_TYPE}'; //페이지조회구분 C:등록, U:수정, R:조회
@@ -140,16 +127,19 @@ function deleteBook(){
 }
 //저장
 function save(){
-	commitGrids();
-	
-	if (!checkValidation()){
-		return false;
+	if (!confirm('<spring:message code="confirm.common.save"/>')){
+		return;
 	}
 	var url = '';
 	if (isRegist){
 		url = "<c:url value='/sample/registAuthor.do'/>";
 	}else{
 		url = "<c:url value='/sample/updateAuthor.do'/>";
+	}
+	commitGrids();
+	
+	if (!checkValidation()){
+		return false;
 	}
 	
 	// 저장 파라미터 셋팅
@@ -163,7 +153,7 @@ function save(){
             if (jObj.status == "SUCC") {
                 alert('<spring:message code="success.common.save"/>');
                 if (isRegist){
-	                $("#AUTHOR_ID").val(jObj.fields.AUTHOR_ID); //등록 시 신규 키값 셋팅
+	                $("#AUTHOR_ID").val(jObj.fields.result.AUTHOR_ID); //등록 시 신규 키값 셋팅
                 }
                 refreshPage(); //페이지 재조회
             } else {
@@ -205,12 +195,12 @@ function refreshPage() {
 <h2>작가기본정보</h2>
 <table>
 	<tr>
-		<td>작가ID: <span id="s_AUTHOR_ID"></span><input type="text" id="AUTHOR_ID"/></td>
-		<td>작가명: <span id="s_AUTHOR_NM"></span><input type="text" id="AUTHOR_NM"/></td>
+		<td>작가ID: <input type="text" id="AUTHOR_ID"/></td>
+		<td>작가명: <input type="text" id="AUTHOR_NM"/></td>
 	</tr>
 	<tr>		
-		<td>생년월일: <span id="s_BIRTH_DAY"></span><input type="text" id="BIRTH_DAY"/></td>
-		<td>데뷔년도: <span id="s_DEBUT_YEAR"></span><input type="text" id="DEBUT_YEAR"/></td>
+		<td>생년월일: <input type="text" id="BIRTH_DAY" class="datepicker"/></td>
+		<td>데뷔년도: <input type="text" id="DEBUT_YEAR"/></td>
 	</tr>
 </table>
 <h2>작가 책목록</h2>

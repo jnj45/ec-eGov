@@ -10,21 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/jquery-ui.css' />" /> 
-<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/jquery-ui.theme.css'/>"/>
-<script src="<c:url value='/resources/js/jquery-3.4.1.min.js'/>"></script>
-<!-- ===== realGrid  start ===== -->
-<script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/realgridjs-lic.js'/>"></script>
-<%-- <script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/realgridjs.1.1.33.min.js'/>"></script> --%>
-<script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/realgridjs_eval.1.1.33.min.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/realgridjs-api.1.1.33.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/jszip.min.js'/>"></script>
-<!-- ===== realGrid  end ===== -->
-<script src="<c:url value='/resources/js/site_define.js'/>"></script>
-<script src="<c:url value='/resources/js/common.js'/>"></script>
-<script src="<c:url value='/resources/js/popup.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/rgrid.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/resources/js/rtgrid.js'/>"></script>
+<%@ include file="/include/css.jsp" %>
+<%@ include file="/include/script.jsp" %>
 <script type="text/javascript">
 
 var gridView;
@@ -37,32 +24,46 @@ $(function(){
 });
 //페이지 초기화 작업
 function init(){
+	$("#BIRTH_DAY_BGN").val(firstDayByMonth(getDiffDay("m",-1))); //한달전 첫째일
+	$("#BIRTH_DAY_END").val(getToDay()); //금일
 	
+	//Enter 이벤트
+    $(".enterEvent").keyup(function(e) {
+        if (e.keyCode == 13) {
+        	searchList();
+        }
+    });
 }
 //이벤트 맵핑
 function setEvent(){
 	$("#btnTest").click(function(e){
 		test();
-	});	
+	});
 	$("#btnSearch").click(function(e){
 		searchList();
 	});	
+	$("#btnRegist").click(function(e){
+		regist();
+	});
 }
 //그리드 초기화
 function setInitGrid(){
 	var gridId = "gridList"; //div id
     gridView = new RealGridJS.GridView(gridId);
     
+    var cmbSttsValues = [<c:forEach var="item" items="${codeService.getCodeList('TEST01')}" varStatus="status"><c:if test="${status.count!=1}">,</c:if>'${item.CODE}'</c:forEach>];
+    var cmbSttsLabels = [<c:forEach var="item" items="${codeService.getCodeList('TEST01')}" varStatus="status"><c:if test="${status.count!=1}">,</c:if>'${item.CODE_NM}'</c:forEach>];
+    
     var colModel = [];
     // obj, fieldName, headerStyle, width, dataType, colStyles, extraOption(visible, sortable 등), editType, editOption
     addField(colModel, 'AUTHOR_VIEW',      {text: '상세보기'},       60, 'popupLink');
     addField(colModel, 'AUTHOR_ID',        {text: '작가ID'},        100, 'text',  {textAlignment: 'center'});
     addField(colModel, 'AUTHOR_NM',        {text: '작가명'},        100, 'text',  {textAlignment: 'center'});
-    addField(colModel, 'BIRTH_DAY',        {text: '생년월일'},      100, 'text',  {textAlignment: 'center'});
+    addField(colModel, 'BIRTH_DAY',        {text: '생년월일'},      100, 'datetime',  {textAlignment: 'center'});
     addField(colModel, 'DEBUT_YEAR',       {text: '데뷔년도'},      100, 'text',  {textAlignment: 'center'});
-    addField(colModel, 'TOT_ACCMLT_INCME', {text: '총누적수입'},    100, 'text',  {textAlignment: 'center'});
-    addField(colModel, 'HISTORY',          {text: '작가이력'},      100, 'text',  {textAlignment: 'center'});
-    addField(colModel, 'LAST_UPDT_PNTTM',  {text: '최종수정일시'},  100, 'text',  {textAlignment: 'center'});
+    addField(colModel, 'TOT_ACCMLT_INCME', {text: '총누적수입'},    100, 'number',  {textAlignment: 'center'});
+    addField(colModel, 'REGIST_STTUS',    {text: '등록상태'},      100, 'text',  {textAlignment: "center"}, {lookupDisplay:true,values:cmbSttsValues,labels:cmbSttsLabels}, 'dropDown');
+    addField(colModel, 'LAST_UPDT_PNTTM',  {text: '최종수정일시'},  100, 'datetime',  {textAlignment: 'center'}, {visible:true, editable:false});
     addField(colModel, 'LAST_UPDUSR_ID',   {text: '최종수정자ID'},  100, 'text',  {textAlignment: 'center'});
     
     gridView.rgrid({
@@ -80,7 +81,7 @@ function setInitGrid(){
     
     gridView.onDataCellClicked =  function (grid, index) {
         if (index.column == "AUTHOR_VIEW") {
-        	authorView();
+        	view();
         }
     };
 }
@@ -99,13 +100,18 @@ function searchList(){
     });
 }
 //상세조회(팝업)
-function authorView(row) {
+function view() {
 	var rowData = gridView.getCurrentRow();
     var params = {
     		AUTHOR_ID : rowData.AUTHOR_ID
     };
     $.extend(params, fnGetParams());
     fnPostPopup('<c:url value="/sample/authorViewPop.do"/>', params, 'authorViewPop', 800, 0); 
+};
+//등록(팝업)
+function regist() {
+    var params = fnGetParams();
+    fnPostPopup('<c:url value="/sample/authorRegistPop.do"/>', params, 'authorViewPop', 800, 0); 
 };
 
 function test(){
@@ -124,9 +130,16 @@ function test(){
 <h1>작가목록1</h1>
 <table>
 	<tr>
-		<td>작가명: <input type="text" id="AUTHOR_NM"/></td>
-		<td>데뷔년도: <input type="text" id="DEBUT_YEAR_FROM"/> ~ <input type="text" id="DEBUT_YEAR_TO"/></td>
-		<td><input type="button" id="btnSearch" value="조회"/><input type="button" id="btnTest" value="테스트"/></td>
+		<td>작가명: <input type="text" id="AUTHOR_NM" class="enterEvent" /></td>
+		<td>데뷔년도: <input type="text" id="DEBUT_YEAR_BGN" class="enterEvent" maxlength="4" /> ~ 
+					  <input type="text" id="DEBUT_YEAR_END" class="enterEvent" maxlength="4" /></td>
+		<td>생년월일: <input type="text" id="BIRTH_DAY_BGN" class="datepicker enterEvent" maxlength="10" dateHolder="bgn"/> ~ 
+					  <input type="text" id="BIRTH_DAY_END" class="datepicker enterEvent" maxlength="10" dateHolder="end"/></td>					  
+		<td>
+			<input type="button" id="btnSearch" value="조회"/>
+			<input type="button" id="btnRegist" value="등록"/>
+			<input type="button" id="btnTest" value="테스트"/>
+		</td>
 	</tr>
 </table>
 <!-- realgrid 들어가는 영역 : S -->
