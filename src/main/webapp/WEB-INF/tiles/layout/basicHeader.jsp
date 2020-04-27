@@ -18,6 +18,29 @@
 <script src="/resources/js/jquery.validate.js"></script>
 <script src="/resources/js/messages_ko.js"></script>
 <script src="/resources/js/additional-methods.js"></script>
+<script src="/resources/js/validate.js"></script>
+<script>
+
+	$.validator.setDefaults({
+	    onkeyup:false,
+	    onclick:false,
+	    onfocusout:false,
+	    showErrors: function(errorMap,errorList){
+	        if(this.numberOfInvalids()){ // 에러가 있으면
+	            alert(errorList[0].message); // 경고창으로 띄움
+	        }
+	    },
+	    invalidHandler: function(form, validator) {
+	        var errors = validator.numberOfInvalids();
+	        if (errors) {                    
+	            validator.errorList[0].element.focus();
+	        }
+	    } 
+	});
+	
+	
+	
+</script>
 </head>
 
 </html>

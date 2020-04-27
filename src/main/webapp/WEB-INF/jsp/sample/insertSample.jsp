@@ -5,10 +5,13 @@
 <head>
 <script type="text/javascript">
 	
-	var validateOptons = {
+	var basicValidateOptions = {
+		rules :{
+			samInput4:{required:true}
+		},	
 	    messages: {
 	    	  samInput1: { required: "토큰이 누락되었습니다." }
-	        , saamInput2: { required: "행사명을 입력하세요." }
+	        , saamInput2:{ required: "행사명을 입력하세요." }
 	        , samInput3: { required: "행사지역을 선택하세요." }
 	        , samInput4: { required: "행사유형을 선택하세요." }
 	    }
@@ -24,7 +27,13 @@
 	function sssave(){
 		var param = new Object();
 		
-		 ajaxJsonCallAddValidate("/", param, function(){}, function(){}, "frm",validateOptons);
+		if(validateForm("frm",basicValidateOptions)){
+			
+			alert("validate pass success");
+			
+		}
+		
+		 //ajaxJsonCallAddValidate("/", param, function(){}, function(){}, "frm",validateOptons);
 	}
 	
 </script>
@@ -75,7 +84,7 @@
 				</tr>
 				<tr>
 					<th>항목3</th>
-					<td><input type="text" id="samInput3" style="width: 30%" ></td>
+					<td><input type="text" id="samInput3" style="width: 30%" required="required" /></td>
 				</tr>
 				<tr>
 					<th>항목4</th>

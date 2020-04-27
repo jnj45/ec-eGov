@@ -4760,24 +4760,7 @@ var ajaxJsonCallAddValidate = function(url, param, successCallback, errorCallbac
     dataType : dataType,
     cache: false,
     beforeSend:function(){
-    	$.validator.setDefaults({
-		    onkeyup:false,
-		    onclick:false,
-		    onfocusout:false,
-		    showErrors: function(errorMap,errorList){
-		        if(this.numberOfInvalids()){ // 에러가 있으면
-		            alert(errorList[0].message); // 경고창으로 띄움
-		        }
-		    },
-		    invalidHandler: function(form, validator) {
-		        var errors = validator.numberOfInvalids();
-		        if (errors) {                    
-		            validator.errorList[0].element.focus();
-		        }
-		    } 
-		});
-    	$("#"+formId).validate(options);
-        return $('#'+formId).valid();
+        
     },
     complete:function(){
     	if (undefined==param.pageLoader || !param.pageLoader) $('.pageLoader').remove();
