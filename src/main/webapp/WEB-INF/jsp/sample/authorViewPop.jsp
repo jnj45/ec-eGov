@@ -21,6 +21,8 @@ var isView = isEmpty(viewType)||viewType=='R'?true:false;
 
 var gridView;
 
+var author; //조회한 작가정보 json data.
+
 $(function(){
 	//alert('viewType:'+viewType);
 	init();
@@ -31,6 +33,7 @@ $(function(){
 //페이지 초기화 작업
 function init(){
 	
+	fnDx5View();
 }
 //이벤트 맵핑
 function setEvent(){
@@ -86,8 +89,13 @@ function setViewData(){
         ajaxJsonCall("<c:url value='/sample/selectAuthor.do'/>", params, 
         	function(jObj){
 	        	//작가정보 셋팅
-	            fnSetElementVal(jObj.fields.author);
-	            
+	        	author = jObj.fields.author;
+	            fnSetElementVal(author);
+	            //에디터 내용
+	        	DEXT5.setBodyValue(author.HISTORY, 'dx5');
+	        	$("#HISTORY").html(author.HISTORY);
+	        	$("#div_HISTORY").html(author.HISTORY);
+	        	
 	            //책 목록
 	            jObj.fields.authorBookList.forEach(function(row){
 	            	var rowId = gridView.addRow(row);
@@ -143,6 +151,7 @@ function save(){
 	}
 	
 	// 저장 파라미터 셋팅
+	$("#HISTORY").val(DEXT5.getBodyValue("dx5")); //에디터 내용.
     var params = fnGetParams();
     
     // 책 목록
@@ -185,6 +194,26 @@ function refreshPage() {
     var url = '<c:url value="/sample/authorViewPop.do"/>';
     fnPostGoto(url, fnGetParams(), "_self");
 }
+var fnDx5View = function(){
+    // 에디터에 example.xml 으로 로드합니다.
+    DEXT5.config.EditorHolder = "editor_area"; //에디터가 위치할 div 태그 id
+    DEXT5.config.SkinName = "gray";
+    DEXT5.config.InitXml = "dext_work_editor2.xml";
+    DEXT5.config.FileFieldID = "dx5";
+    DEXT5.config.Width = "100%";
+    DEXT5.config.Height = "320px";
+    
+    //DEXT5.config.FocusInitObjId = "section1"; //페이지로드 후 기본 포커스 이동이 필요한 경우 해당 html elementid
+    
+    new Dext5editor("dx5");
+}
+
+<%-- function dext_editor_loaded_event(){
+    var url1 = "<%=URL_IN%>/resources/css/wf_common.css";
+    var url2 = "<%=URL_IN%>/resources/css/wf_reset.css";
+    DEXT5.addUserCssUrl(url1, 'dx5');
+    DEXT5.addUserCssUrl(url2, 'dx5');
+} --%>
 </script>
 </head>
 <body>
@@ -193,14 +222,22 @@ function refreshPage() {
 <input type="button" id="btnSave"   value="저장"/>
 <input type="button" id="btnClose"  value="닫기"/>
 <h2>작가기본정보</h2>
-<table>
+<table width="100%">
 	<tr>
-		<td>작가ID: <input type="text" id="AUTHOR_ID"/></td>
-		<td>작가명: <input type="text" id="AUTHOR_NM"/></td>
+		<td>작가ID</td><td><input type="text" id="AUTHOR_ID"/></td>
+		<td>작가명</td><td><input type="text" id="AUTHOR_NM"/></td>
 	</tr>
 	<tr>		
-		<td>생년월일: <input type="text" id="BIRTH_DAY" class="datepicker"/></td>
-		<td>데뷔년도: <input type="text" id="DEBUT_YEAR"/></td>
+		<td>생년월일</td><td><input type="text" id="BIRTH_DAY" class="datepicker"/></td>
+		<td>데뷔년도</td><td><input type="text" id="DEBUT_YEAR"/></td>
+	</tr>
+	<tr>
+		<td>작가이력</td>
+	    <td colspan="3">
+	    	<div id="editor_area"></div>
+	        <div id="div_HISTORY" name="div_HISTORY" style="display:none;"></div>
+	        <textarea id="HISTORY" name="HISTORY" style="display:none;"></textarea><!-- 서버로 전송할 에디터내용 -->
+	    </td>
 	</tr>
 </table>
 <h2>작가 책목록</h2>

@@ -13,6 +13,9 @@
 <script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/realgridjs-api.1.1.33.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/resources/plugin/realgrid/jszip.min.js'/>"></script>
 <!-- ===== realGrid  end ===== -->
+<!-- DEXT5 -->
+<script type="text/javascript" src="<c:url value="/resources/plugin/dext5/js/dext5editor.js"/>"></script>
+<!-- //DEXT5 -->
 <script src="<c:url value='/resources/js/site_define.js'/>"></script>
 <script src="<c:url value='/resources/js/common.js'/>"></script>
 <script src="<c:url value='/resources/js/popup.js'/>"></script>

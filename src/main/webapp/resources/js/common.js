@@ -2090,6 +2090,9 @@ var fnGetParams = function(isIncludeDisabled) {
 		            	if ( $(this).is('.decimal, .decimal1, .decimal2, .decimal3, .integer') ){
 		            		params[this.id] = params[this.id].replace(/,/gi,"");
 		            	}
+		            	if ( $(this).is('.datepicker') ){ //달력
+		            		params[this.id] = params[this.id].replace(/-/gi,"");
+		            	}
 	                }
 	            } else {
 	            	if (this.type=="checkbox") {
@@ -2100,8 +2103,11 @@ var fnGetParams = function(isIncludeDisabled) {
 	            	} else {
             			params[this.id] = $.trim($(this).val());		
 	            	}
-	            	if ( $(this).is('.decimal, .decimal1, .decimal2, .decimal3, .integer') ){
+	            	if ( $(this).is('.decimal, .decimal1, .decimal2, .decimal3, .integer') ){ //숫자.
 	            		params[this.id] = params[this.id].replace(/,/gi,"");
+	            	}
+	            	if ( $(this).is('.datepicker') ){ //달력
+	            		params[this.id] = params[this.id].replace(/-/gi,"");
 	            	}
 	            }
         	}
@@ -2131,6 +2137,9 @@ var fnGetParamsOn = function() {
 					if ( $(this).is('.decimal, .decimal1, .decimal2, .decimal3, .integer') ){
 						params[this.id] = params[this.id].replace(/,/gi,"");
 					}
+					if ( $(this).is('.datepicker') ){ //달력
+	            		params[this.id] = params[this.id].replace(/-/gi,"");
+	            	}
 				}
 			}
 		}
@@ -4667,14 +4676,28 @@ function fnSetElementVal(data){
             	$('input:radio[name="'+key+'"][value="' + val + '"]').prop("checked", true);
             }else{
             	//input,sapn
-	            if ($("#"+key).length){
-	                if ($("#"+key).prop('tagName') == 'SPAN'){
-	                    $("#"+key).text(val);
+            	var elm = $("#"+key);
+            	
+	            if (elm.length){
+	                if (elm.prop('tagName') == 'SPAN'){
+	                	elm.text(val); //span tag
 	                }else{
-	                    $("#"+key).val(val);
-	                    if ($("#s_"+key).length){
-	                        $("#s_"+key).text(val);
-	                    }
+	                	//달력 입력인 경우 날짜 포맷.
+	                	if ( elm.is('.datepicker') ){
+	                		elm.val(formatDate(val));
+	                		//'s_해당id' 의 id의 span태그가 있다면 값 셋팅
+		                	if ($("#span_"+key).length){
+		                        $("#span_"+key).text(formatDate(val));
+		                    }
+	                	}
+	                	//그 외 입력값인 경우.
+	                	else{
+	                		elm.val(val);
+	                		//'s_해당id' 의 id의 span태그가 있다면 값 셋팅
+	                		if ($("#span_"+key).length){
+	                			$("#span_"+key).text(val);
+	                		}
+	                	}
 	                    //if ($("#"+key).hasClass('phone')) {$("#"+key).change();}
 	                }
 	            }
