@@ -24,6 +24,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import net.ecbank.fwk.common.BaseController;
 import net.ecbank.fwk.manage.service.ServerConfigManageService;
 import net.ecbank.fwk.mvc.JsonData;
+import net.ecbank.fwk.util.TemplateUtils;
 import net.ecbank.sample.service.SampleService;
 
 /**
@@ -263,5 +264,31 @@ public class SampleController extends BaseController {
 		//로그인 사용자 정보 조회
 		
 		return "sample/insertSample";
+	}
+	
+	@RequestMapping("/sample/templateSample.do")
+	public String templateSample(ModelMap model) {
+		//로그인 사용자 정보 조회
+		
+		return "sample/templateSample";
+	}
+	
+	@RequestMapping("/sample/getTemplate.do")
+	@ResponseBody
+	public JsonData getTemplate(@RequestBody Map<String, Object> paramMap, ModelMap model) {
+		JsonData jsonData = new JsonData();
+		
+		TemplateUtils tu = new TemplateUtils("/freemarker/", "sampleFreemarker");
+		
+		try {
+			String html = tu.createTemplateHtml(paramMap);
+			
+			jsonData.addFields("contents", html);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonData;
 	}
 }

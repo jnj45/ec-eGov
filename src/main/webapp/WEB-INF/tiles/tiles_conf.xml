@@ -35,8 +35,8 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/{1}/{2}/{3}/{4}.jsp" />
 	</definition>
 	
-	<definition name="sample/insertSample" extends="tilesLayout">
-		<put-attribute name="content" value="/WEB-INF/jsp/sample/insertSample.jsp" />
+	<definition name="sample/*" extends="tilesLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/sample/{1}.jsp" />
 	</definition>
 	
 	<!-- <definition name="egovframework/com/uat/uia/EgovLoginUsr" extends="tilesLayout">
