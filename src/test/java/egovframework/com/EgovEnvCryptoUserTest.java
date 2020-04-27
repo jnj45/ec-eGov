@@ -18,8 +18,8 @@ public class EgovEnvCryptoUserTest {
 	
 	public static void main(String[] args) {
 		String[] arrCryptoString = { 
-				"ecegov",         //데이터베이스 접속 계정 설정
-				"ecegov",   //데이터베이스 접속 패드워드 설정
+				"ecegovall",         //데이터베이스 접속 계정 설정
+				"ecegovall",   //데이터베이스 접속 패드워드 설정
 				"url",            //데이터베이스 접속 주소 설정
 				"databaseDriver"  //데이터베이스 드라이버
 		              };

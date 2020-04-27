@@ -16,8 +16,9 @@
 <!-- DEXT5 -->
 <script type="text/javascript" src="<c:url value="/resources/plugin/dext5/js/dext5editor.js"/>"></script>
 <!-- //DEXT5 -->
-<script src="<c:url value='/resources/js/site_define.js'/>"></script>
-<script src="<c:url value='/resources/js/common.js'/>"></script>
-<script src="<c:url value='/resources/js/popup.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/resources/js/site_define.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/resources/js/common.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/resources/js/popup.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/resources/js/rgrid.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/resources/js/rtgrid.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/resources/js/EcEgovMultiFiles.js'/>"></script>

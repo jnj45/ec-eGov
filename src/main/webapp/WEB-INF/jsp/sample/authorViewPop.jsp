@@ -32,8 +32,8 @@ $(function(){
 });
 //페이지 초기화 작업
 function init(){
-	
 	fnDx5View();
+	initUploadFile();
 }
 //이벤트 맵핑
 function setEvent(){
@@ -207,7 +207,11 @@ var fnDx5View = function(){
     
     new Dext5editor("dx5");
 }
-
+function initUploadFile(){
+	var maxFileNum = 3;
+	var multi_selector = new MultiSelector( document.getElementById('uploadingFileList'), maxFileNum ); //파일목록이 표시될 영역(div), 최대파일개수, 
+	multi_selector.addElement( document.getElementById('fileUpload') ); //<input type="file">
+}
 <%-- function dext_editor_loaded_event(){
     var url1 = "<%=URL_IN%>/resources/css/wf_common.css";
     var url2 = "<%=URL_IN%>/resources/css/wf_reset.css";
@@ -238,6 +242,15 @@ var fnDx5View = function(){
 	        <div id="div_HISTORY" name="div_HISTORY" style="display:none;"></div>
 	        <textarea id="HISTORY" name="HISTORY" style="display:none;"></textarea><!-- 서버로 전송할 에디터내용 -->
 	    </td>
+	</tr>
+	<tr>
+		<td>첨부파일</td>
+		<td colspan="3">
+			<div>
+				<input name="fileUpload" id="fileUpload" type="file" multiple/><!-- 첨부파일명 입력 -->
+				<div id="uploadingFileList"></div>
+			</div>
+		</td>
 	</tr>
 </table>
 <h2>작가 책목록</h2>
