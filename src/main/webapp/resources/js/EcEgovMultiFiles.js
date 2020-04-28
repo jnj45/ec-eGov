@@ -7,7 +7,7 @@
  * ----------   ---------   ----------------------------
  * 2019.10.15   취두영        다중 파일 업로드 개선 (HTML5)
  * 2019.12.06   신용호        EgovMultiFilesChecker 추가하여 확장자 체크 및 용량 체크 하기
- * 2020.04.                   확장자 체크 추가. 
+ * 2020.04.                   webapp\js\egovframework\com\cmm\fms\EgovMultiFiles.js 를 copy해서 수정  
  */
 /**
  * 생성자
@@ -206,3 +206,74 @@ var EgovMultiFilesChecker = {
 
 };
 
+/**
+ * 첨부파일 목록 표시 
+ * @param atchFileId 첨부파일id
+ * @param displayTargetId 첨부파일목록 테이블id
+ * @param deletable 삭제여부
+ * @returns
+ */
+function displayFileList(atchFileId, displayTargetId, deletable){
+	var params = {"param_atchFileId": atchFileId};
+	var target = $("#"+displayTargetId);
+	
+	ajaxJsonCall("/cmm/fms/selectFileList.do", params, 
+        	function(jObj){
+				console.log(JSON.stringify(jObj));
+				var html = '';
+				if (!isEmpty(jObj.fields.fileList)){
+					
+					jObj.fields.fileList.forEach(function(row){
+						html += "<tr id='fileTr_"+row.atchFileId+row.fileSn+"'>";
+						html += "	<td><a href=\"javascript:fn_egov_downFile('"+row.atchFileId+"','"+row.fileSn+"');\">"+row.orignlFileNm+"</td>";
+						html += "	<td>"+row.fileMg+"</td>";
+						html += "	<td>"+row.creatDt+"</td>";
+						if (deletable){
+							html += "	<td><img src='/images/egovframework/com/cmm/btn/btn_del.png'";
+							html += "          class='cursor' onClick=\"fn_egov_deleteFile('"+row.atchFileId+"','"+row.fileSn + "', 'fileTr_"+row.atchFileId+row.fileSn+"');\" alt='파일삭제'></td>";
+						}
+						html += "</tr>";
+		            }); 
+				}else{
+					html = '<tr><td colspan="3">등록된 파일이 없습니다.</td></tr>';
+				}
+				target.append(html);
+            }, 
+        	function(jObj){
+            	alert('첨부파일 데이타 조회 중 오류가 발생하였습니다.\n'+jObj.errMsg);
+        });		
+}
+
+//파일다운로드
+function fn_egov_downFile(atchFileId, fileSn){
+	window.open("/cmm/fms/FileDown.do?atchFileId="+atchFileId+"&fileSn="+fileSn);
+}
+//파일삭제
+function fn_egov_deleteFile(atchFileId, fileSn, delTrId) {
+	var newForm = document.createElement( 'form' );
+	var newfileSn = document.createElement( 'input' );
+	var newAtchFileId = document.createElement( 'input' );
+	// Chrome 56+ 동적 생성한 form submit 불가 (HTML5)
+	// HTML5 표준에선 Browsing contexts(document)에 form 이 연결되어 있지 않으면, form submit을 중단하도록 규정
+	// https://www.w3.org/TR/html5/forms.html#constraints 4.10.22.3
+	document.body.appendChild(newForm);
+	
+	newfileSn.setAttribute("name","fileSn");
+	newAtchFileId.setAttribute("name","atchFileId");
+	
+	newfileSn.setAttribute("type","hidden");
+	newAtchFileId.setAttribute("type","hidden");
+
+	newfileSn.setAttribute("value",fileSn);
+	newAtchFileId.setAttribute("value",atchFileId);
+	
+	newForm.appendChild( newfileSn );
+	newForm.appendChild( newAtchFileId );
+
+	newForm.method = "post";
+	newForm.action = "/cmm/fms/deleteFileInfs.do";
+	newForm.target = "iframe_egov_file_delete" 
+	newForm.submit();
+	
+	$("#"+delTrId).remove();
+}

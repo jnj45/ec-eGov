@@ -102,4 +102,14 @@ public class SampleDao extends BaseDao {
 	public int updateAuthorName(Map<String, Object> paramMap) {
 		return update("fwk.sample.Sample.updateAuthorName", paramMap);
 	}
+	
+	/**
+	 * 작가 첨부파일id 업데이트
+	 * @param paramMap
+	 * @return
+	 */
+	public int updateAuthorAttachFileId(Map<String, Object> paramMap) {
+		return update("fwk.sample.Sample.updateAuthorAttachFileId", paramMap);
+	}
+	
 }

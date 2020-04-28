@@ -163,6 +163,15 @@ public class SampleService extends BaseService {
 		return resultMap; 
 	}
 	
+	/**
+	 * 작가 첨부파일id 업데이트
+	 * @param paramMap
+	 * @return
+	 */
+	public int updateAuthorAttachFileId(Map<String, Object> paramMap){
+		return sampleDao.updateAuthorAttachFileId(paramMap);
+	}
+	
 	public int testUpdateAuthorName(Map<String, Object> paramMap){
 		log.debug("called testUpdateAuthorName ==========================================================================================");
 		int r = sampleDao.updateAuthorName(paramMap);

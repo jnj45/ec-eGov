@@ -6,15 +6,19 @@ import java.util.Map;
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import net.ecbank.fwk.mvc.JsonData;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.MapUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 파일 조회, 삭제, 다운로드 처리를 위한 컨트롤러 클래스
@@ -162,4 +166,33 @@ public class EgovFileMngController {
 
 	return "egovframework/com/cmm/fms/EgovImgFileList";
     }
+    
+    /**
+     * 첨부파일에 대한 목록 데이타를 조회한다.
+     *
+     * @param fileVO
+     * @param atchFileId
+     * @param sessionVO
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/cmm/fms/selectFileList.do")
+    @ResponseBody
+    public JsonData selectFileList(@RequestBody Map<String, Object> paramMapMap, ModelMap model) throws Exception {
+    	JsonData jsonData = new JsonData();
+    	
+    	String atchFileId = MapUtils.getString(paramMapMap, "param_atchFileId");
+    	
+    	FileVO fileVO = new FileVO();
+		fileVO.setAtchFileId(atchFileId);
+		List<FileVO> result = fileService.selectFileInfs(fileVO);
+	
+		jsonData.addFields("fileList",    result);
+		jsonData.addFields("fileListCnt", result.size());
+		jsonData.addFields("atchFileId",  atchFileId);
+	
+		return jsonData;
+    }
+    
 }

@@ -40,6 +40,8 @@
 	     , HISTORY          --작가이력
 	     , DEBUT_YEAR       --데뷔년도 
 	     , TOT_ACCMLT_INCME --총누적수입
+	     , ATCH_FILE_ID_A
+	     , ATCH_FILE_ID_B
 	     , LAST_UPDT_PNTTM  --최종수정시점
          , LAST_UPDUSR_ID   --최종수정자ID
 	  FROM Z_AUTHOR
@@ -149,6 +151,21 @@
 	UPDATE Z_AUTHOR
 	   SET AUTHOR_NM = #{AUTHOR_NM}
 	 WHERE AUTHOR_ID = #{AUTHOR_ID}
+	</update>
+	
+	<update id="updateAuthorAttachFileId" parameterType="Map">
+	--작가 첨부파일 일련번호 UPDATE
+	--fwk.sample.Sample.updateAuthorAttachFileId
+	UPDATE Z_AUTHOR
+	   SET LAST_UPDT_PNTTM = SYSDATE
+		 , LAST_UPDUSR_ID  = #{SESSION_USER_ID}
+		 <if test='ATCH_FILE_ID_A != null and ATCH_FILE_ID_A != ""'>
+	     , ATCH_FILE_ID_A = #{ATCH_FILE_ID_A}
+	     </if>
+	     <if test='ATCH_FILE_ID_B != null and ATCH_FILE_ID_B != ""'>
+	     , ATCH_FILE_ID_B = #{ATCH_FILE_ID_B}
+	     </if>
+	  WHERE AUTHOR_ID = #{AUTHOR_ID}
 	</update>
 	
 </mapper>

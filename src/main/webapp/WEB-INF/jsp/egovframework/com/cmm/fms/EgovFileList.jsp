@@ -17,7 +17,7 @@
   *   2011.07.20   옥찬우<Input>   Tag id속성 추가( Line : 68 )
   *   2018.09.11   신용호                 불필요한 function 삭제 - fn_egov_multi_selector_update_delete
   *   2019.12.11   신용호                 KISA 보안약점 조치 (크로스사이트 스크립트)
-  *
+  * 
   *  @author 공통서비스 개발팀 이삼섭
   *  @since 2009.03.26
   *  @version 1.0

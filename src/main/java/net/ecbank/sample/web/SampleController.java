@@ -1,9 +1,11 @@
 package net.ecbank.sample.web;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -12,18 +14,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.util.WebUtils;
 
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.annotation.IncludedInfo;
+import egovframework.com.cmm.service.EgovFileMngService;
+import egovframework.com.cmm.service.EgovFileMngUtil;
+import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import net.ecbank.fwk.common.BaseController;
 import net.ecbank.fwk.manage.service.ServerConfigManageService;
 import net.ecbank.fwk.mvc.JsonData;
+import net.ecbank.fwk.util.MultipartFileUtils;
 import net.ecbank.fwk.util.TemplateUtils;
 import net.ecbank.sample.service.SampleService;
 
@@ -268,7 +278,6 @@ public class SampleController extends BaseController {
 	
 	@RequestMapping("/sample/templateSample.do")
 	public String templateSample(ModelMap model) {
-		//로그인 사용자 정보 조회
 		
 		return "sample/templateSample";
 	}
@@ -288,6 +297,102 @@ public class SampleController extends BaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return jsonData;
+	}
+	
+	@RequestMapping("/sample/signSample.do")
+	public String signSample(ModelMap model) {
+		
+		return "sample/signSample";
+	}
+	
+	@RequestMapping("/sample/serverSign.do")
+	@ResponseBody
+	public JsonData serverSign(@RequestBody Map<String, Object> paramMap) {
+		JsonData jsonData = new JsonData();
+		
+		String signData = "";
+		
+		try {
+			
+			
+			
+			jsonData.addFields("signData", signData);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonData;
+	}
+	
+	
+	@RequestMapping("/sample/uploadFile.do")
+	@ResponseBody
+	public JsonData uploadFile(final MultipartHttpServletRequest multiRequest, HttpServletRequest request, ModelMap model) throws Exception {
+		JsonData jsonData = new JsonData();
+		
+		String authorId = ServletRequestUtils.getStringParameter(request, "AUTHOR_ID");
+		
+		final Map<String, MultipartFile> files = multiRequest.getFileMap();
+		
+		final Map<String, MultipartFile> files_A = MultipartFileUtils.getMulipartFileByFieldName(files, "files_A");
+		final Map<String, MultipartFile> files_B = MultipartFileUtils.getMulipartFileByFieldName(files, "files_B");
+		
+		log.debug("uploaded Files : {}", files);
+		log.debug("ATCH_FILE_ID_A: {}", ServletRequestUtils.getStringParameter(multiRequest, "ATCH_FILE_ID_A"));
+		log.debug("ATCH_FILE_ID_A: {}", ServletRequestUtils.getStringParameter(request, "ATCH_FILE_ID_A"));
+		log.debug("ATCH_FILE_ID_B: {}", ServletRequestUtils.getStringParameter(request, "ATCH_FILE_ID_B"));
+		
+		//첨부파일A 처리
+		String atchFileId_A = ServletRequestUtils.getStringParameter(request, "ATCH_FILE_ID_A", "");
+		
+		if (!files_A.isEmpty()) {
+			if ("".equals(atchFileId_A)) { //처음 등록
+			    List<FileVO> result = fileUtil.parseFileInf(files_A, "FAQ_", 0, atchFileId_A, "");
+			    atchFileId_A = fileMngService.insertFileInfs(result);
+			    
+			    //첨부파일id 정보 update
+				Map<String, Object> fileParamMap = new HashMap<String, Object>();
+				fileParamMap.put("AUTHOR_ID",      authorId);
+				fileParamMap.put("ATCH_FILE_ID_A", atchFileId_A);
+				sampleService.updateAuthorAttachFileId(fileParamMap);
+				
+			} else { //기존 업로드에 추가
+			    FileVO fvo = new FileVO();
+			    fvo.setAtchFileId(atchFileId_A);
+			    int cnt = fileMngService.getMaxFileSN(fvo);
+			    List<FileVO> _result = fileUtil.parseFileInf(files_A, "FAQ_", cnt, atchFileId_A, "");
+			    fileMngService.updateFileInfs(_result);
+			}
+	    }
+		
+		//첨부파일B 처리
+		String atchFileId_B = ServletRequestUtils.getStringParameter(request, "ATCH_FILE_ID_B", "");
+		
+		if (!files_B.isEmpty()) {
+			if ("".equals(atchFileId_B)) { //처음 등록
+			    List<FileVO> result = fileUtil.parseFileInf(files_B, "FAQ_", 0, atchFileId_B, "");
+			    atchFileId_B = fileMngService.insertFileInfs(result);
+			    
+			    //첨부파일id 정보 update
+				Map<String, Object> fileParamMap = new HashMap<String, Object>();
+				fileParamMap.put("AUTHOR_ID",      authorId);
+				fileParamMap.put("ATCH_FILE_ID_B", atchFileId_B);
+				sampleService.updateAuthorAttachFileId(fileParamMap);
+				
+			} else { //기존 업로드에 추가
+			    FileVO fvo = new FileVO();
+			    fvo.setAtchFileId(atchFileId_B);
+			    int cnt = fileMngService.getMaxFileSN(fvo);
+			    List<FileVO> _result = fileUtil.parseFileInf(files_B, "FAQ_", cnt, atchFileId_B, "");
+			    fileMngService.updateFileInfs(_result);
+			}
+	    }
+		
+		jsonData.addFields("ATCH_FILE_ID_A", atchFileId_A);
+		jsonData.addFields("ATCH_FILE_ID_B", atchFileId_B);
 		
 		return jsonData;
 	}

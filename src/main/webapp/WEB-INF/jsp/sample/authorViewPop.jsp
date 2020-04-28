@@ -52,6 +52,9 @@ function setEvent(){
 	$("#btnClose").click(function(e){
 		self.close();
 	});
+	$("#btnTest").click(function(e){
+		uploadFile();
+	});
 }
 //그리드 초기화
 function setInitGrid(){
@@ -101,6 +104,11 @@ function setViewData(){
 	            	var rowId = gridView.addRow(row);
 	            	gridView.setRowState(rowId, 'none'); //각 행의 데이타 상태 초기화.
 	            });
+	            
+	            //첨부파일
+	            displayFileList(author.ATCH_FILE_ID_A, 'fileList_A', true);
+	            displayFileList(author.ATCH_FILE_ID_B, 'fileList_B', true);
+	            
             }, 
         	function(jObj){
             	alert('데이타 조회 중 오류가 발생하였습니다.\n'+jObj.errMsg);
@@ -160,11 +168,13 @@ function save(){
     ajaxJsonCall(url, params, 
     	function(jObj){
             if (jObj.status == "SUCC") {
-                alert('<spring:message code="success.common.save"/>');
                 if (isRegist){
 	                $("#AUTHOR_ID").val(jObj.fields.result.AUTHOR_ID); //등록 시 신규 키값 셋팅
                 }
-                refreshPage(); //페이지 재조회
+                if (uploadFile()){ //첨부파일 업로드
+	                alert('<spring:message code="success.common.save"/>');
+                }
+	            refreshPage(); //페이지 재조회
             } else {
                 alert('<spring:message code="fail.common.save"/>\n' + jObj.errMsg);
             }
@@ -180,6 +190,11 @@ function checkValidation(){
 		alert('작가명을 입력하세요.');
 		return false;
 	}
+	var resultExtension = EgovMultiFilesChecker.checkExtensions("files_A", ".xls,.xlsx'/>"); // 결과가 false인경우 허용되지 않음
+	if (!resultExtension) return false;
+	var resultSize = EgovMultiFilesChecker.checkFileSize("files_A", 1024*1024*10); // 파일당 1M까지 허용 (1K=1024), 결과가 false인경우 허용되지 않음
+	if (!resultSize) return false;
+	
 	return true;
 }
 //그리드 변경데이타 commit
@@ -207,23 +222,76 @@ var fnDx5View = function(){
     
     new Dext5editor("dx5");
 }
-function initUploadFile(){
-	var maxFileNum = 3;
-	var multi_selector = new MultiSelector( document.getElementById('uploadingFileList'), maxFileNum ); //파일목록이 표시될 영역(div), 최대파일개수, 
-	multi_selector.addElement( document.getElementById('fileUpload') ); //<input type="file">
-}
 <%-- function dext_editor_loaded_event(){
     var url1 = "<%=URL_IN%>/resources/css/wf_common.css";
     var url2 = "<%=URL_IN%>/resources/css/wf_reset.css";
     DEXT5.addUserCssUrl(url1, 'dx5');
     DEXT5.addUserCssUrl(url2, 'dx5');
 } --%>
+//파일업로드 부분 초기화
+function initUploadFile(){
+	var maxFileNum = 3;
+	var multi_selector_A = new MultiSelector( document.getElementById('uploadingFileList_A'), maxFileNum ); //파일목록이 표시될 영역(div), 최대파일개수, 
+	multi_selector_A.addElement( document.getElementById('files_A') ); //<input type="file">
+	
+	var multi_selector_B = new MultiSelector( document.getElementById('uploadingFileList_B'), maxFileNum ); //파일목록이 표시될 영역(div), 최대파일개수, 
+	multi_selector_B.addElement( document.getElementById('files_B') ); //<input type="file">
+}
+
+//파일업로드 처리
+function uploadFile(){
+	if (!checkValidation()){
+		return false;
+	}
+	var isSuccess = false;
+	
+	var formData = new FormData();
+	formData.append("AUTHOR_ID", $("#AUTHOR_ID").val()); //작가id
+	
+	//첨부파일A ====================================================
+	var files_A = document.getElementById('files_A').files;
+	for(var i=0; i < files_A.length; i++){
+		formData.append("files_A", files_A[i]);
+	}
+	formData.append("ATCH_FILE_ID_A", $("#ATCH_FILE_ID_A").val());
+	
+	//첨부파일B =====================================================
+	var files_B = document.getElementById('files_B').files;
+	for(var i=0; i < files_B.length; i++){
+		formData.append("files_B", files_B[i]);
+	}
+	formData.append("ATCH_FILE_ID_B", $("#ATCH_FILE_ID_B").val());
+	
+	//첨부파일 업로드 ===============================================
+	$.ajax({
+	    type : "POST",
+	    url : '<c:url value="/sample/uploadFile.do"/>',
+	    data : formData,
+	    processData: false,
+	    contentType: false,
+	    success : function(jObj) {
+	    	if (jObj.status == "SUCC") {
+	    		isSuccess = true;
+                $("#ATCH_FILE_ID_A").val(jObj.fields.result.ATCH_FILE_ID_A);
+                $("#ATCH_FILE_ID_B").val(jObj.fields.result.ATCH_FILE_ID_B);
+            } else {
+                alert('<spring:message code="fail.common.save"/>\n' + jObj.errMsg);
+            }
+	    },
+	    err : function(err) {
+	        //alert(err.status);
+	    }
+	});
+	
+	return isSuccess;
+}
 </script>
 </head>
 <body>
 <h1>작가상세조회</h1>
 <input type="button" id="btnRegist" value="등록"/>
 <input type="button" id="btnSave"   value="저장"/>
+<input type="button" id="btnTest"   value="테스트"/>
 <input type="button" id="btnClose"  value="닫기"/>
 <h2>작가기본정보</h2>
 <table width="100%">
@@ -244,15 +312,43 @@ function initUploadFile(){
 	    </td>
 	</tr>
 	<tr>
-		<td>첨부파일</td>
+		<td>첨부파일A<input type="hidden" id="ATCH_FILE_ID_A"/><!-- 첨부파일A 일련번호 --></td>
 		<td colspan="3">
 			<div>
-				<input name="fileUpload" id="fileUpload" type="file" multiple/><!-- 첨부파일명 입력 -->
-				<div id="uploadingFileList"></div>
+				<table id="fileList_A" style="border:0px solid #666;">
+					<tr>
+						<th>파일명</th>
+						<th>파일크기</th>
+						<th>등록일</th>
+					</tr>
+				</table>
+			</div>
+			<div>
+				<input name="files_A" id="files_A" type="file" multiple aceept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*,.xls,.xlsx,.pdf"/><!-- 첨부파일명 입력  accept="image/jpeg,video/*[, MIME_TYPES]" -->
+				<div id="uploadingFileList_A"></div>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>첨부파일B<input type="hidden" id="ATCH_FILE_ID_B"/><!-- 첨부파일B 일련번호 --></td>
+		<td colspan="3">
+			<div>
+				<table id="fileList_B" style="border:0px solid #666;">
+					<tr>
+						<th>파일명</th>
+						<th>파일크기</th>
+						<th>등록일</th>
+					</tr>
+				</table>
+			</div>
+			<div>
+				<input name="files_B" id="files_B" type="file" multiple aceept="image/*"/><!-- 첨부파일명 입력  accept="image/jpeg,video/*[, MIME_TYPES]" -->
+				<div id="uploadingFileList_B"></div>
 			</div>
 		</td>
 	</tr>
 </table>
+<div style="display:none;"><iframe name="iframe_egov_file_delete" src=""></iframe></div><!-- 첨부파일 삭제처리용 iframe -->
 <h2>작가 책목록</h2>
 <button type="button" id="btnAddBook" class="btn">책 추가</button>
 <button type="button" id="btnDelBook" class="btn">책 삭제</button>
