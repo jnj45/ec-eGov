@@ -327,7 +327,6 @@ public class SampleController extends BaseController {
 		return jsonData;
 	}
 	
-	
 	@RequestMapping("/sample/uploadFile.do")
 	@ResponseBody
 	public JsonData uploadFile(final MultipartHttpServletRequest multiRequest, HttpServletRequest request, ModelMap model) throws Exception {
