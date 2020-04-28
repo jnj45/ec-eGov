@@ -268,7 +268,6 @@ public class SampleController extends BaseController {
 	
 	@RequestMapping("/sample/templateSample.do")
 	public String templateSample(ModelMap model) {
-		//로그인 사용자 정보 조회
 		
 		return "sample/templateSample";
 	}
@@ -284,6 +283,32 @@ public class SampleController extends BaseController {
 			String html = tu.createTemplateHtml(paramMap);
 			
 			jsonData.addFields("contents", html);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonData;
+	}
+	
+	@RequestMapping("/sample/signSample.do")
+	public String signSample(ModelMap model) {
+		
+		return "sample/signSample";
+	}
+	
+	@RequestMapping("/sample/serverSign.do")
+	@ResponseBody
+	public JsonData serverSign(@RequestBody Map<String, Object> paramMap) {
+		JsonData jsonData = new JsonData();
+		
+		String signData = "";
+		
+		try {
+			
+			
+			
+			jsonData.addFields("signData", signData);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

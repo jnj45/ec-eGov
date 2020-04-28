@@ -37,7 +37,7 @@ public class MenuDao extends BaseDao {
 	 * @param paramMap {ROLE_LIST}
 	 * @return
 	 */
-	@Cacheable("menuCache")
+	/*@Cacheable("menuCache")*/
 	public List<Map<String, Object>> selectUserMenuList(Map<String, Object> paramMap){
 		return selectList("fwk.common.Menu.selectUserMenuList", paramMap);
 	}
