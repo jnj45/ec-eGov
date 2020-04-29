@@ -438,6 +438,13 @@
             <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/mssql-jdbc-7.4.1.jre8.jar</systemPath>
         </dependency>
         
+        <dependency>
+            <groupId>tradesign</groupId>
+            <artifactId>tradesign</artifactId>
+            <version>3.5.58</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/tradesign-3.5.58.jar</systemPath>
+        </dependency>
                  
         <!-- 3rd party 라이브러리로 별도의 설치 필요 끝 -->
 
