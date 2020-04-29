@@ -11,6 +11,16 @@
 		<put-attribute name="foot" value="/WEB-INF/tiles/layout/basicFooter.jsp" />
 	</definition>
  
+ 	<definition name="menuTabLayout" template="/WEB-INF/tiles/layout/menuTabLayout.jsp" preparer="net.ecbank.tiles.MenuViewPreparer">
+		<put-attribute name="head" value="/WEB-INF/tiles/layout/basicHeader.jsp" />
+		<put-attribute name="foot" value="/WEB-INF/tiles/layout/basicFooter.jsp" />
+	</definition>
+ 	
+ 	<definition name="nonMenuLayout" template="/WEB-INF/tiles/layout/nonMenuLayout.jsp" preparer="net.ecbank.tiles.MenuViewPreparer">
+		<put-attribute name="head" value="/WEB-INF/tiles/layout/basicHeader.jsp" />
+		<put-attribute name="foot" value="/WEB-INF/tiles/layout/basicFooter.jsp" />
+	</definition>
+ 	
 	<definition name="egovframework/com/cmm/EgovUnitContent" extends="tilesLayout">
 		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/cmm/EgovUnitContent.jsp" />
 	</definition>
@@ -35,11 +45,11 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/egovframework/com/{1}/{2}/{3}/{4}.jsp" />
 	</definition>
 	
-	<definition name="sample/*" extends="tilesLayout">
+	<definition name="sample/*" extends="nonMenuLayout">
 		<put-attribute name="content" value="/WEB-INF/jsp/sample/{1}.jsp" />
 	</definition>
 	
-	<definition name="main/main" extends="tilesLayout">
+	<definition name="main/main" extends="menuTabLayout">
 		<put-attribute name="content" value="/WEB-INF/jsp/main/main.jsp" />
 	</definition>
 	

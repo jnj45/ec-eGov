@@ -4751,11 +4751,61 @@ function closeInput() {
     $(".datepicker").datepicker('option', 'disabled', true);
     //$("button, .searchicon, .deleteicon, .search_icon_btn").hide();
 }
+
 function goMenu(url){
 	
 	var params = new Object();
 	
 	fnPostGoto(url, params, "");
+	
+}
+
+function goMenuTab(url,menuNm,proNm){
+	
+	if($("#tbId"+proNm).length > 0){
+		$("#tbId"+proNm).trigger("click");
+		return false;
+	}
+	
+	if(tab_size > 10){
+		alert("메뉴탭은 10개까지 가능합니다.");
+		return false;
+	}
+	
+	var params = new Object();
+	
+	var navTabHtml = "<li id=\"li_"+proNm+"\"><a data-toggle=\"tab\" href=\"#"+ proNm +"\" id=\"tbId"+proNm+"\">"+ menuNm +"</a><a href=\"#\" id=\"delTb"+proNm+"\" onclick=\"deleteTab('"+proNm+"')\"> X</a></li>"
+	
+	$("#navTab").append(navTabHtml);
+	
+	var tabContentHtml = "<div id=\""+ proNm +"\" class=\"tab-pane fade\" style=\"width:1800px\"><embed style=\"width: 100%;height:600px\" src=\""+ url +"\" ></embed></div>";
+	
+	$("#tabContents").append(tabContentHtml);
+	
+	tab_size++;
+	
+	$("#tbId"+proNm).trigger("click");
+	
+	currentTabId = proNm;
+	//fnPostGoto(url, params, "");
+	
+}
+
+function deleteTab(proNm){
+	
+	var nextTabId = "";
+	
+	if($("#li_"+proNm).next().html() === undefined){
+		nextTabId = $("#li_"+proNm).prev().attr("id");
+	}else{
+		nextTabId = $("#li_"+proNm).next().attr("id");
+	}
+	
+	$("#li_"+proNm).remove();
+	$("#"+proNm).remove();
+	
+	
+	$("#tbId"+nextTabId.replace("li_","")).trigger("click");
 	
 }
 

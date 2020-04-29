@@ -5,7 +5,6 @@
 <head>
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head> 
@@ -17,16 +16,13 @@
 
 </script>
 <input type="hidden" id="tab_size" name="tab_size" value="2" />
-
-<div class="container">
-  <ul class="nav nav-tabs" id="navTab">
+<div class="container" style="padding-right: 5px;padding-left: 5px;margin-right: 5px; margin-left: 5px;">
+  <ul class="nav nav-tabs" id="navTab" style="width: 1800px">
     <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-    <!-- <li><a data-toggle="tab" href="#menu2">Menu 2</a></li> 
-    <li><a data-toggle="tab" href="#menu3">Menu 3</a></li> -->
   </ul>
 
-  <div class="tab-content" id="tabContents"> 
-    <div id="home" class="tab-pane fade in active">
+  <div class="tab-content" id="tabContents"  style="width: 1800px"> 
+    <div id="home" class="tab-pane fade in active" style="width: 1800px">
       <h3>HOME</h3>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
     </div>
