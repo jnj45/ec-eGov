@@ -10,9 +10,9 @@
 		},	
 	    messages: {
 	    	  item1: { required: "항목1이 누락되었습니다." }
-	        , item2:{ required: "항목1이 누락되었습니다." }
-	        , item3: { required: "항목1이 누락되었습니다." }
-	        , item4: { required: "항목1이 누락되었습니다." }
+	        , item2:{ required: "항목2이 누락되었습니다." }
+	        , item3: { required: "항목3이 누락되었습니다." }
+	        , item4: { required: "항목4이 누락되었습니다." }
 	    }
 	};
 	
@@ -49,12 +49,12 @@
 <body style="background: white;">
 
 <div class="tit-area">
-	<h3>샘플페이지</h3>
+	<h3>탬플릿 샘플</h3>
 	<ul class="location-area">
 		<li><a href="#none" class="home">Home</a></li>
 		<li><a href="#none">샘플메뉴</a></li>
-		<li><a href="#none">샘플 페이지</a></li>
-		<li><strong>샘플 페이지</strong></li>
+		<li><a href="#none">탬플릿 샘플</a></li>
+		<li><strong>탬플릿 샘플</strong></li>
 	</ul>
 </div>
 
@@ -64,7 +64,7 @@
 	<div class="layout">
 		
 		<div class="sub-tit">
-			<h4>샘플</h4>
+			<h4>탬플릿 샘플</h4>
 			<div class="icon-area">
 				<button type="button" id="btnView" class="i-btn"><em class="icon03"></em>가져오기</button> 
 			</div>

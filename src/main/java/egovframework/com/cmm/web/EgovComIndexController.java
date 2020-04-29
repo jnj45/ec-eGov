@@ -162,4 +162,13 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 
 		return "egovframework/com/cmm/EgovUnitLeft";
 	}
+	
+	@RequestMapping("/main.do")
+	public String main(ModelMap model) {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		model.addAttribute("loginVO", loginVO);
+
+		return "main/main";
+	}
 }
