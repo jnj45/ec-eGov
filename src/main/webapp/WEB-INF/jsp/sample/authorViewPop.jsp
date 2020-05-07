@@ -231,11 +231,11 @@ var fnDx5View = function(){
 //파일업로드 부분 초기화
 function initUploadFile(){
 	var maxFileNum = 3;
-	var multi_selector_A = new MultiSelector( document.getElementById('uploadingFileList_A'), maxFileNum ); //파일목록이 표시될 영역(div), 최대파일개수, 
-	multi_selector_A.addElement( document.getElementById('files_A') ); //<input type="file">
+	var multi_selector_A = new MultiSelector( 'fileList_A', maxFileNum ); //파일목록이 표시될 영역id, 최대파일개수, 
+	multi_selector_A.addElement( 'files_A' ); //<input type="file">
 	
-	var multi_selector_B = new MultiSelector( document.getElementById('uploadingFileList_B'), maxFileNum ); //파일목록이 표시될 영역(div), 최대파일개수, 
-	multi_selector_B.addElement( document.getElementById('files_B') ); //<input type="file">
+	var multi_selector_B = new MultiSelector( 'fileList_B', maxFileNum ); //파일목록이 표시될 영역id, 최대파일개수, 
+	multi_selector_B.addElement( 'files_B' ); //<input type="file">
 }
 
 //파일업로드 처리
@@ -249,18 +249,20 @@ function uploadFile(){
 	formData.append("AUTHOR_ID", $("#AUTHOR_ID").val()); //작가id
 	
 	//첨부파일A ====================================================
-	var files_A = document.getElementById('files_A').files;
+	//var files_A = document.getElementById('files_A').files;
+	var files_A = fn_get_new_added_files('fileList_A');
 	for(var i=0; i < files_A.length; i++){
-		formData.append("files_A", files_A[i]);
+		formData.append("files_A", files_A[i]); //서버단에서 받을 파일필드명
 	}
-	formData.append("ATCH_FILE_ID_A", $("#ATCH_FILE_ID_A").val());
+	formData.append("ATCH_FILE_ID_A", $("#ATCH_FILE_ID_A").val()); //첨부파일ID
 	
 	//첨부파일B =====================================================
-	var files_B = document.getElementById('files_B').files;
+	//var files_B = document.getElementById('files_B').files;
+	var files_B = fn_get_new_added_files('fileList_B');
 	for(var i=0; i < files_B.length; i++){
-		formData.append("files_B", files_B[i]);
+		formData.append("files_B", files_B[i]); ////서버단에서 받을 파일필드명
 	}
-	formData.append("ATCH_FILE_ID_B", $("#ATCH_FILE_ID_B").val());
+	formData.append("ATCH_FILE_ID_B", $("#ATCH_FILE_ID_B").val()); //첨부파일ID
 	
 	//첨부파일 업로드 ===============================================
 	$.ajax({
@@ -315,11 +317,12 @@ function uploadFile(){
 		<td>첨부파일A<input type="hidden" id="ATCH_FILE_ID_A"/><!-- 첨부파일A 일련번호 --></td>
 		<td colspan="3">
 			<div>
-				<table id="fileList_A" style="border:0px solid #666;">
+				<table id="fileList_A" style="border:1px solid #666;">
 					<tr>
 						<th>파일명</th>
 						<th>파일크기</th>
 						<th>등록일</th>
+						<th>삭제</th>
 					</tr>
 				</table>
 			</div>
@@ -333,11 +336,12 @@ function uploadFile(){
 		<td>첨부파일B<input type="hidden" id="ATCH_FILE_ID_B"/><!-- 첨부파일B 일련번호 --></td>
 		<td colspan="3">
 			<div>
-				<table id="fileList_B" style="border:0px solid #666;">
+				<table id="fileList_B" style="border:1px solid #666;">
 					<tr>
 						<th>파일명</th>
 						<th>파일크기</th>
 						<th>등록일</th>
+						<th>삭제</th>
 					</tr>
 				</table>
 			</div>

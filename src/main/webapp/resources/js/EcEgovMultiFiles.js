@@ -11,16 +11,22 @@
  */
 /**
  * 생성자
- * @param list_target 파일목록이 표시될 영역(div) 객체
+ * @param list_target 파일목록이 표시될 영역 객체
  * @param max 최대파일개수
  * @param file_label
  * @returns
  */
-function MultiSelector(list_target, max, file_label) {
+var multiSelectorList = [];
 
+function MultiSelector(list_target_id, max, file_label) {
+	
+	multiSelectorList.push(this);
+	
 	// Where to write the list
-	this.list_target = list_target;
-	this.id = 0;
+	this.id = list_target_id;
+	this.list_target = document.getElementById(list_target_id);
+	
+	//this.id = 0;
 	// Is there a maximum?
 	if (max) {
 		this.max = max;
@@ -29,12 +35,17 @@ function MultiSelector(list_target, max, file_label) {
 	}
 	
 	this.file_label = file_label;
+	
+	this.filesTempArr = [];
+	
 	/**
 	 * Add a new file input element
 	 */
 	_base = this;
-	this.addElement = function(element) { //element --> <input type="file"> 객체
+	this.addElement = function(elementId) { //element id --> <input type="file"> 객체 id
 		// Make sure it's a file input element
+		var element =  document.getElementById(elementId);
+		
 		if (element.tagName == 'INPUT' && element.type == 'file') {
 
 			// Add reference to this object
@@ -51,7 +62,28 @@ function MultiSelector(list_target, max, file_label) {
 				if (typeof element.files != "undefined") {
 					files_length = element.files.length;
 				}
+				
+				/*var files = element.files;
+			    var filesArr = Array.prototype.slice.call(files);
+			    var filesArrLen = filesArr.length;
+			    var filesTempArrLen = _base.filesTempArr.length;
+			    
+			    for( var i=0; i<filesArrLen; i++ ) {
+			    	_base.filesTempArr.push(filesArr[i]);
+			        //$("#fileList").append("<div>" + filesArr[i].name + "<img src=\"/images/deleteImage.png\" onclick=\"deleteFile(event, " + (filesTempArrLen+i)+ ");\"></div>");
+			        var html = '';
+					html += "<tr id=newFileTr_'"+_base.file_label+i+"'>";
+					html += "	<td>"+element.files[i].name+"</td>";
+					html += "	<td></td>";
+					html += "	<td>신규</td>";
+					html += "	<td><img src='/images/egovframework/com/cmm/btn/btn_del.png'";
+					html += "          class='cursor' onClick=\"fn_delete_new_File('newFileTr_"+_base.file_label+i+"');\" alt='파일삭제'></td>";
+					html += "</tr>";
 
+					$(_base.list_target).append(html);
+			    }*/
+
+				/*
 				if (_base.max < files_length) {
 					element.value = "";
 					alert(sErrMsg);
@@ -79,9 +111,9 @@ function MultiSelector(list_target, max, file_label) {
 					while (list_target.firstChild) {
 						list_target.removeChild(list_target.firstChild);
 					}
-				}
+				}*/
 
-				// Update list
+				// Update list : 화면에 선택한 파일 정보 추가
 				for (i; i < files_length; i++) {
 					this.multi_selector.addListRowNew(this, i);
 				}
@@ -98,17 +130,31 @@ function MultiSelector(list_target, max, file_label) {
 
 	/**
 	 * Add a new row to the list of files
+	 * 화면에 선택한 파일 정보 추가
 	 */
 	this.addListRowNew = function(element, i) {
 
 		// Row div
-		var new_row = document.createElement('div');
+		/*var new_row = document.createElement('div');
 		new_row.className = "file_add_" + i;
-		new_row.innerHTML = "<span>" + element.files[i].name
-				+ "</span>&nbsp;&nbsp;";
+		new_row.innerHTML = "<span>" + element.files[i].name + "</span>&nbsp;&nbsp;";
 
 		// Add it to the list
-		this.list_target.appendChild(new_row);
+		this.list_target.appendChild(new_row);*/
+		this.filesTempArr.push(element.files[i]);
+		
+		var html = '';
+		var trId = "newFileTr_"+this.file_label+"_"+this.filesTempArr.length;
+		html += "<tr id='"+trId+"'>";
+		html += "	<td>"+element.files[i].name+"</td>";
+		html += "	<td></td>";
+		html += "	<td>신규</td>";
+		html += "	<td><img src='/images/egovframework/com/cmm/btn/btn_del.png'";
+		html += "          class='cursor' onClick=\"fn_delete_new_added_file('"+trId+"','"+this.id+"',"+(this.filesTempArr.length-1)+");\" alt='파일삭제'></td>";
+		html += "</tr>";
+
+		$(this.list_target).append(html);
+		//$(list_target).find('tr:last').after(html);
 	};
 
 };
@@ -207,7 +253,7 @@ var EgovMultiFilesChecker = {
 };
 
 /**
- * 첨부파일 목록 표시 
+ * 첨부파일 목록을 조회하여 화면에 표시 
  * @param atchFileId 첨부파일id
  * @param displayTargetId 첨부파일목록 테이블id
  * @param deletable 삭제여부
@@ -276,4 +322,28 @@ function fn_egov_deleteFile(atchFileId, fileSn, delTrId) {
 	newForm.submit();
 	
 	$("#"+delTrId).remove();
+}
+
+function fn_delete_new_added_file(trId, multiSelectorId, arrIdx){
+	$("#"+trId).remove();
+	//$(filesTempArr).pop(arrIdx);
+	for(var i=0; i < multiSelectorList.length; i++){
+		if (multiSelectorList[i].id == multiSelectorId){
+			multiSelectorList[i].filesTempArr[arrIdx] = null;
+		}
+	}
+}
+
+function fn_get_new_added_files(multiSelectorId){
+	var files = [];
+	for(var i=0; i < multiSelectorList.length; i++){
+		if (multiSelectorList[i].id == multiSelectorId){
+			for(var idx=0; idx < multiSelectorList[i].filesTempArr.length; idx++){
+				if (multiSelectorList[i].filesTempArr[idx] != null){
+					files.push(multiSelectorList[i].filesTempArr[idx]);
+				}
+			}
+		}
+	}
+	return files;
 }

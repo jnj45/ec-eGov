@@ -15,7 +15,7 @@
 	     , BIRTH_DAY        --생년월일
 	     , DEBUT_YEAR       --데뷔년도 
 	     , TOT_ACCMLT_INCME --총누적수입
-	     , REGIST_STTUS      --등록상태
+	     , REGIST_STTUS      --등록상태. 코드그룹.
 	     , LAST_UPDT_PNTTM  --최종수정시점
          , LAST_UPDUSR_ID   --최종수정자ID
 	  FROM Z_AUTHOR

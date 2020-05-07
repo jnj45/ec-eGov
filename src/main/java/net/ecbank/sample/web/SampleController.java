@@ -164,6 +164,8 @@ public class SampleController extends BaseController {
 	public JsonData selectAuthorList(@RequestBody Map<String,Object> paramMap, HttpServletRequest request, ModelMap model) {
 		JsonData jsonData = new JsonData();
 		
+		log.debug("test: {}", "2");
+		
 		List<Map<String,Object>> dataList = sampleService.selectAuthorList(paramMap);
 		jsonData.setPageRows(paramMap, dataList, dataList!=null ? dataList.size() : 0);
 		
@@ -340,9 +342,9 @@ public class SampleController extends BaseController {
 		final Map<String, MultipartFile> files_B = MultipartFileUtils.getMulipartFileByFieldName(files, "files_B");
 		
 		log.debug("uploaded Files : {}", files);
-		log.debug("ATCH_FILE_ID_A: {}", ServletRequestUtils.getStringParameter(multiRequest, "ATCH_FILE_ID_A"));
-		log.debug("ATCH_FILE_ID_A: {}", ServletRequestUtils.getStringParameter(request, "ATCH_FILE_ID_A"));
-		log.debug("ATCH_FILE_ID_B: {}", ServletRequestUtils.getStringParameter(request, "ATCH_FILE_ID_B"));
+		log.debug("ATCH_FILE_ID_A --: {}", ServletRequestUtils.getStringParameter(multiRequest, "ATCH_FILE_ID_A"));
+		log.debug("ATCH_FILE_ID_A --: {}", ServletRequestUtils.getStringParameter(request, "ATCH_FILE_ID_A"));
+		log.debug("ATCH_FILE_ID_B : {}", ServletRequestUtils.getStringParameter(request, "ATCH_FILE_ID_B"));
 		
 		//첨부파일A 처리
 		String atchFileId_A = ServletRequestUtils.getStringParameter(request, "ATCH_FILE_ID_A", "");
