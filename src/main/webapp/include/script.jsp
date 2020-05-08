@@ -2,6 +2,7 @@
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script src="<c:url value='/resources/js/jquery-3.4.1.min.js'/>"></script>
+<script src="<c:url value='/resources/js/jquery.form.min.js'/>"></script>
 <script src="<c:url value='/resources/js/jquery.inputmask.js'/>"></script>
 <script src="<c:url value='/resources/js/jquery-ui.min.js'/>"></script>
 <script src="<c:url value='/resources/js/jquery-ui.datepicker-ko.js'/>"></script>

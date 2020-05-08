@@ -53,8 +53,13 @@ function setEvent(){
 		self.close();
 	});
 	$("#btnTest").click(function(e){
-		uploadFile();
+		//uploadFile();
+		fn_check_uploadFiles('fileList_A');
 	});
+/* 	$('#btn-upload').click(function (e) {
+		e.preventDefault();
+		$('#file').click();
+	}); */
 }
 //그리드 초기화
 function setInitGrid(){
@@ -190,11 +195,31 @@ function checkValidation(){
 		alert('작가명을 입력하세요.');
 		return false;
 	}
-	var resultExtension = EgovMultiFilesChecker.checkExtensions("files_A", ".xls,.xlsx'/>"); // 결과가 false인경우 허용되지 않음
-	if (!resultExtension) return false;
-	var resultSize = EgovMultiFilesChecker.checkFileSize("files_A", 1024*1024*10); // 파일당 1M까지 허용 (1K=1024), 결과가 false인경우 허용되지 않음
-	if (!resultSize) return false;
+	if (!fn_check_uploadFiles('fileList_A')){
+		
+	}
 	
+	/* var resultExtension = EgovMultiFilesChecker.checkExtensions("files_A", ".xls,.xlsx"); // 결과가 false인경우 허용되지 않음
+	if (!resultExtension) return false;
+	var resultSize = EgovMultiFilesChecker.checkFileSize("files_A", 1024*1024*10); // 파일당 10K까지 허용 (1K=1024), 결과가 false인경우 허용되지 않음
+	if (!resultSize) return false; */
+	
+	return true;
+}
+//첨부파일 유효성 체크
+function fn_check_uploadFiles(){
+	var multiSelectorObj;
+	for(var i=0; i < multiSelectorList.length; i++){
+		multiSelectorObj = multiSelectorList[i];
+		//확장자
+		if (!EgovMultiFilesChecker.checkExtensionsMultiSelector(multiSelectorObj)){
+			return false;
+		}
+		//사이즈
+		if (!EgovMultiFilesChecker.checkFileSizeMultiSelector(multiSelectorObj)){
+			return false;
+		}
+	}
 	return true;
 }
 //그리드 변경데이타 commit
@@ -230,14 +255,12 @@ var fnDx5View = function(){
 } --%>
 //파일업로드 부분 초기화
 function initUploadFile(){
-	var maxFileNum = 3;
-	var multi_selector_A = new MultiSelector( 'fileList_A', maxFileNum ); //파일목록이 표시될 영역id, 최대파일개수, 
-	multi_selector_A.addElement( 'files_A' ); //<input type="file">
+	var multi_selector_A = new MultiSelector( 'fileList_A', '.xlsx,.xls', 1024*10, 3 ); //파일목록이 표시될 영역id, 허용확장자, 파일당 최대크기, 최대파일개수 
+	multi_selector_A.addElement( 'files_A' ); //<input type="file"> 파일태그 맵핑
 	
-	var multi_selector_B = new MultiSelector( 'fileList_B', maxFileNum ); //파일목록이 표시될 영역id, 최대파일개수, 
-	multi_selector_B.addElement( 'files_B' ); //<input type="file">
+	var multi_selector_B = new MultiSelector( 'fileList_B', '.ppt,.pptx', 1024*1, 1 ); //파일목록이 표시될 영역id, 허용확장자, 파일당 최대크기, 최대파일개수
+	multi_selector_B.addElement( 'files_B' ); //<input type="file"> 파일태그 맵핑
 }
-
 //파일업로드 처리
 function uploadFile(){
 	if (!checkValidation()){
@@ -271,6 +294,7 @@ function uploadFile(){
 	    data : formData,
 	    processData: false,
 	    contentType: false,
+	    async: false,
 	    success : function(jObj) {
 	    	if (jObj.status == "SUCC") {
 	    		isSuccess = true;
@@ -280,8 +304,7 @@ function uploadFile(){
                 alert('<spring:message code="fail.common.save"/>\n' + jObj.errMsg);
             }
 	    },
-	    err : function(err) {
-	        //alert(err.status);
+	    error : function(xhr, status, error) {
 	    }
 	});
 	
@@ -327,8 +350,7 @@ function uploadFile(){
 				</table>
 			</div>
 			<div>
-				<input name="files_A" id="files_A" type="file" multiple aceept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*,.xls,.xlsx,.pdf"/><!-- 첨부파일명 입력  accept="image/jpeg,video/*[, MIME_TYPES]" -->
-				<div id="uploadingFileList_A"></div>
+				<input id="files_A" type="file" multiple />
 			</div>
 		</td>
 	</tr>
@@ -346,14 +368,12 @@ function uploadFile(){
 				</table>
 			</div>
 			<div>
-				<input name="files_B" id="files_B" type="file" multiple aceept="image/*"/><!-- 첨부파일명 입력  accept="image/jpeg,video/*[, MIME_TYPES]" -->
-				<div id="uploadingFileList_B"></div>
+				<input id="files_B" type="file" multiple/>
 			</div>
 		</td>
 	</tr>
 </table>
-<div style="display:none;"><iframe name="iframe_egov_file_delete" src=""></iframe></div><!-- 첨부파일 삭제처리용 iframe -->
-<h2>작가 책목록</h2>
+<h2>작가의 책 목록</h2>
 <button type="button" id="btnAddBook" class="btn">책 추가</button>
 <button type="button" id="btnDelBook" class="btn">책 삭제</button>
 <!-- realgrid 들어가는 영역 : S -->

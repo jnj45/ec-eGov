@@ -12,13 +12,11 @@
 /**
  * 생성자
  * @param list_target 파일목록이 표시될 영역 객체
- * @param max 최대파일개수
- * @param file_label
  * @returns
  */
 var multiSelectorList = [];
 
-function MultiSelector(list_target_id, max, file_label) {
+function MultiSelector(list_target_id, allowTypes, allowSize, maxCnt) {
 	
 	multiSelectorList.push(this);
 	
@@ -26,26 +24,25 @@ function MultiSelector(list_target_id, max, file_label) {
 	this.id = list_target_id;
 	this.list_target = document.getElementById(list_target_id);
 	
-	//this.id = 0;
-	// Is there a maximum?
-	if (max) {
-		this.max = max;
-	} else {
-		this.max = -1;
-	}
+	//제한
+	this.allowTypes = allowTypes; //허용확장자들
+	this.allowSize  = allowSize; //파일당 최대크기
+	this.maxCnt     = maxCnt; //파일개수.
 	
-	this.file_label = file_label;
-	
+	// 신규 파일 저장 배열
 	this.filesTempArr = [];
+	
+	// 연결된 파일태그 obj
+	this.fileObj;
 	
 	/**
 	 * Add a new file input element
 	 */
-	_base = this;
 	this.addElement = function(elementId) { //element id --> <input type="file"> 객체 id
-		// Make sure it's a file input element
 		var element =  document.getElementById(elementId);
+		this.fileObj = element;
 		
+		// Make sure it's a file input element
 		if (element.tagName == 'INPUT' && element.type == 'file') {
 
 			// Add reference to this object
@@ -53,71 +50,14 @@ function MultiSelector(list_target_id, max, file_label) {
 
 			// What to do when a file is selected
 			element.onchange = function() {
-
-				var i = 0;
-
-				var sErrMsg = "첨부파일 개수는 [" + _base.max + "]까지 첨부할 수 있습니다!";
+				// Update list : 화면에 선택한 파일 정보 추가
 				var files_length = 1;
-				// HTML5 지원여부 체크
-				if (typeof element.files != "undefined") {
+				if (typeof element.files != "undefined") { //// HTML5 지원여부 체크
 					files_length = element.files.length;
 				}
-				
-				/*var files = element.files;
-			    var filesArr = Array.prototype.slice.call(files);
-			    var filesArrLen = filesArr.length;
-			    var filesTempArrLen = _base.filesTempArr.length;
-			    
-			    for( var i=0; i<filesArrLen; i++ ) {
-			    	_base.filesTempArr.push(filesArr[i]);
-			        //$("#fileList").append("<div>" + filesArr[i].name + "<img src=\"/images/deleteImage.png\" onclick=\"deleteFile(event, " + (filesTempArrLen+i)+ ");\"></div>");
-			        var html = '';
-					html += "<tr id=newFileTr_'"+_base.file_label+i+"'>";
-					html += "	<td>"+element.files[i].name+"</td>";
-					html += "	<td></td>";
-					html += "	<td>신규</td>";
-					html += "	<td><img src='/images/egovframework/com/cmm/btn/btn_del.png'";
-					html += "          class='cursor' onClick=\"fn_delete_new_File('newFileTr_"+_base.file_label+i+"');\" alt='파일삭제'></td>";
-					html += "</tr>";
-
-					$(_base.list_target).append(html);
-			    }*/
-
-				/*
-				if (_base.max < files_length) {
-					element.value = "";
-					alert(sErrMsg);
-
-					while (list_target.firstChild) {
-						list_target.removeChild(list_target.firstChild);
-					}
-
-					return;
-				}
-
-				if (document.getElementById("egov_file_view_table") != null) {
-					var sum = files_length
-							+ document.getElementById("egov_file_view_table")
-									.getElementsByTagName("tr").length;
-
-					if (_base.max < sum) {
-						element.value = "";
-						alert(sErrMsg);
-						return;
-					}
-				}
-
-				if (files_length > 0) {
-					while (list_target.firstChild) {
-						list_target.removeChild(list_target.firstChild);
-					}
-				}*/
-
-				// Update list : 화면에 선택한 파일 정보 추가
-				for (i; i < files_length; i++) {
+				for (var i=0; i < files_length; i++) {
 					this.multi_selector.addListRowNew(this, i);
 				}
-
 			};
 			// Most recent element
 			this.current_element = element;
@@ -133,30 +73,24 @@ function MultiSelector(list_target_id, max, file_label) {
 	 * 화면에 선택한 파일 정보 추가
 	 */
 	this.addListRowNew = function(element, i) {
-
-		// Row div
-		/*var new_row = document.createElement('div');
-		new_row.className = "file_add_" + i;
-		new_row.innerHTML = "<span>" + element.files[i].name + "</span>&nbsp;&nbsp;";
-
-		// Add it to the list
-		this.list_target.appendChild(new_row);*/
-		this.filesTempArr.push(element.files[i]);
+		//선택한 파일을  파일저장 배열에 추가
+		var file = element.files[i];
+		this.filesTempArr.push(file);
 		
+		//화면 첨부파일 목록에 표시
 		var html = '';
-		var trId = "newFileTr_"+this.file_label+"_"+this.filesTempArr.length;
+		var trId = "newFileTr_"+this.id+"_"+this.filesTempArr.length;
 		html += "<tr id='"+trId+"'>";
-		html += "	<td>"+element.files[i].name+"</td>";
-		html += "	<td></td>";
+		html += "	<td>"+file.name+"</td>";
+		html += "	<td>"+file.size+"</td>";
 		html += "	<td>신규</td>";
 		html += "	<td><img src='/images/egovframework/com/cmm/btn/btn_del.png'";
 		html += "          class='cursor' onClick=\"fn_delete_new_added_file('"+trId+"','"+this.id+"',"+(this.filesTempArr.length-1)+");\" alt='파일삭제'></td>";
 		html += "</tr>";
 
 		$(this.list_target).append(html);
-		//$(list_target).find('tr:last').after(html);
 	};
-
+		
 };
 
 var EgovMultiFilesChecker = {
@@ -211,7 +145,6 @@ var EgovMultiFilesChecker = {
 	    
 	    return true;
 	}
-
 	// 결과가 true 인경우 허용
 	// 결과가 false 인경우 불가
 	,checkFileSize: function(fileObjId, allowSize) {
@@ -249,7 +182,92 @@ var EgovMultiFilesChecker = {
 	    
 	    return true;
 	}
+	//==================================================================
+	//확장자 체크
+	,checkExtensionsMultiSelector: function(multiSelectorObj) {
+		var fileObj = multiSelectorObj.fileObj;
+		if ( typeof fileObj.files == "undefined" )
+			return this.checkExtensionsOldIEMultiSelector(multiSelectorObj);
+		else
+			return this.checkExtensionsHTML5MultiSelector(multiSelectorObj);
+			
+	}
+	,checkExtensionsHTML5MultiSelector: function(multiSelectorObj) {
+		var files = multiSelectorObj.filesTempArr;
+		var __filelen = files.length;
+		var __fileObjs = files;
+		
+	    if ( __filelen == 0 ) return true;
+	    for(var i=0; i<__fileObjs.length; i++) {
+	    	var __fileObj = __fileObjs[i];
+	    	console.log(__fileObj.name);
+	    	console.log(this.getFileExtension(__fileObj.name));
 
+	    	var __fileExt = this.getFileExtension(__fileObj.name);
+	    	if ( __fileExt == "" || multiSelectorObj.allowTypes.indexOf(__fileExt) < 0 ) {
+	    		alert("허용되지 않는 확장자 입니다.["+__fileExt+"]");
+	    		return false;
+	    	}
+	    }
+	    return true;
+	}
+	,checkExtensionsOldIEMultiSelector: function(multiSelectorObj) {
+		var __filelPath = multiSelectorObj.fileObj.value;
+		
+	    console.log(__filelPath);
+	    console.log(this.getFileExtension(__filelPath));
+
+	    var __fileExt = this.getFileExtension(__filelPath);
+    	if ( __fileExt == "" || multiSelectorObj.allowTypes.indexOf(__fileExt) < 0 ) {
+    		alert("2.허용되지 않는 확장자 입니다.["+__fileExt+"]");
+    		return false;
+    	}
+	    
+	    return true;
+	}
+	//==================================================================
+	
+	//사이즈 체크 =================================================================================================
+	,checkFileSizeMultiSelector: function(multiSelectorObj) {
+		var fileObj = multiSelectorObj.fileObj;
+		if ( fileObj == null ) return true;
+		if ( typeof fileObj.files == "undefined" )
+			return this.checkFileSizeOldIEMultiSelector(multiSelectorObj);
+		else
+			return this.checkFileSizeHTML5MultiSelector(multiSelectorObj);
+	}
+	,checkFileSizeHTML5MultiSelector: function(multiSelectorObj) {
+		var files = multiSelectorObj.filesTempArr;
+		var __filelen = files.length;
+		var __fileObjs = files;
+		
+	    if ( __filelen == 0 ) return true;
+	    
+	    for(var i=0; i<__fileObjs.length; i++) {
+	    	var __fileObj = __fileObjs[i];
+	    	console.log(__fileObj.name);
+	    	console.log(this.getFileExtension(__fileObj.name));
+	    	console.log(__fileObj.size);
+	    	
+	    	if ( __fileObj.size > multiSelectorObj.allowSize ) {
+	    		alert("허용되지 않는 파일 사이즈 입니다.["+__fileObj.name+" : "+__fileObj.size+" bytes / "+multiSelectorObj.allowSize+" bytes]");
+	    		return false;
+	    	}
+	    }
+	    
+	    return true;
+	}
+	// 구형 IE 브라우저의 경우 사이즈 체크의 제한이 있습니다.
+	,checkFileSizeOldIEMultiSelector: function(multiSelectorObj) {
+		
+		var __filelPath = document.getElementById( fileObjId ).value;
+	    console.log(__filelPath);
+
+    	alert("구형 브라우저에서는 파일 사이즈 체크를 할수 없습니다.");
+	    
+	    return true;
+	}
+	//=================================================================================================
 };
 
 /**
@@ -296,6 +314,7 @@ function fn_egov_downFile(atchFileId, fileSn){
 }
 //파일삭제
 function fn_egov_deleteFile(atchFileId, fileSn, delTrId) {
+	/*
 	var newForm = document.createElement( 'form' );
 	var newfileSn = document.createElement( 'input' );
 	var newAtchFileId = document.createElement( 'input' );
@@ -320,10 +339,22 @@ function fn_egov_deleteFile(atchFileId, fileSn, delTrId) {
 	newForm.action = "/cmm/fms/deleteFileInfs.do";
 	newForm.target = "iframe_egov_file_delete" 
 	newForm.submit();
-	
 	$("#"+delTrId).remove();
+	*/
+	var params = {"atchFileId":atchFileId
+			     ,"fileSn":fileSn};
+	
+	ajaxJsonCall("/cmm/fms/deleteFileInfsAjax.do", params, 
+    	function(jObj){
+			console.log(JSON.stringify(jObj));
+			$("#"+delTrId).remove();
+        }, 
+    	function(jObj){
+        	alert('첨부파일 삭제 오류.\n'+jObj.errMsg);
+        }
+    );
 }
-
+//새로 선택추가한 파일 삭제처리.
 function fn_delete_new_added_file(trId, multiSelectorId, arrIdx){
 	$("#"+trId).remove();
 	//$(filesTempArr).pop(arrIdx);
@@ -333,7 +364,7 @@ function fn_delete_new_added_file(trId, multiSelectorId, arrIdx){
 		}
 	}
 }
-
+//새로 선택추가한 파일들 get
 function fn_get_new_added_files(multiSelectorId){
 	var files = [];
 	for(var i=0; i < multiSelectorList.length; i++){

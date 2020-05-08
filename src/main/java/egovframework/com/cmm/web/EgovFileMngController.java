@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
  * 파일 조회, 삭제, 다운로드 처리를 위한 컨트롤러 클래스
@@ -140,6 +141,24 @@ public class EgovFileMngController {
 		}
 		*/
 		////------------------------------------------
+    }
+    
+    @RequestMapping("/cmm/fms/deleteFileInfsAjax.do")
+	@ResponseBody
+	public JsonData deleteFileInfsAjax(@RequestBody Map<String, Object> paramMap) throws Exception {
+		JsonData jsonData = new JsonData();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		if (isAuthenticated) {
+			FileVO fileVO = new FileVO();
+			fileVO.setAtchFileId(MapUtils.getString(paramMap, "atchFileId"));
+			fileVO.setFileSn    (MapUtils.getString(paramMap, "fileSn"));
+		    fileService.deleteFileInf(fileVO);
+		}
+
+		return jsonData;
+		 
     }
 
     /**
