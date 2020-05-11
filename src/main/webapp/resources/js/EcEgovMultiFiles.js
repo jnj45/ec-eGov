@@ -200,9 +200,7 @@ var EgovMultiFilesChecker = {
 	    if ( __filelen == 0 ) return true;
 	    for(var i=0; i<__fileObjs.length; i++) {
 	    	var __fileObj = __fileObjs[i];
-	    	console.log(__fileObj.name);
-	    	console.log(this.getFileExtension(__fileObj.name));
-
+	    	if (__fileObj == null) continue;
 	    	var __fileExt = this.getFileExtension(__fileObj.name);
 	    	if ( __fileExt == "" || multiSelectorObj.allowTypes.indexOf(__fileExt) < 0 ) {
 	    		alert("허용되지 않는 확장자 입니다.["+__fileExt+"]");
@@ -245,16 +243,12 @@ var EgovMultiFilesChecker = {
 	    
 	    for(var i=0; i<__fileObjs.length; i++) {
 	    	var __fileObj = __fileObjs[i];
-	    	console.log(__fileObj.name);
-	    	console.log(this.getFileExtension(__fileObj.name));
-	    	console.log(__fileObj.size);
-	    	
+	    	if (__fileObj == null) continue;
 	    	if ( __fileObj.size > multiSelectorObj.allowSize ) {
-	    		alert("허용되지 않는 파일 사이즈 입니다.["+__fileObj.name+" : "+__fileObj.size+" bytes / "+multiSelectorObj.allowSize+" bytes]");
+	    		alert("업로드 가능한 파일사이즈("+multiSelectorObj.allowSize+" bytes)를 초과하였습니다.\n["+__fileObj.name+" : "+__fileObj.size+" bytes]");
 	    		return false;
 	    	}
 	    }
-	    
 	    return true;
 	}
 	// 구형 IE 브라우저의 경우 사이즈 체크의 제한이 있습니다.
@@ -266,6 +260,17 @@ var EgovMultiFilesChecker = {
     	alert("구형 브라우저에서는 파일 사이즈 체크를 할수 없습니다.");
 	    
 	    return true;
+	}
+	//=================================================================================================
+	//파일개수 체크 =================================================================================================
+	,checkFileCountMultiSelector: function(multiSelectorObj) {
+		var nowTrCnt = $(multiSelectorObj.list_target).find('tr[id*="fileTr"]').length;
+		
+		if (nowTrCnt > multiSelectorObj.maxCnt){
+			alert('첨부가능한 파일은 최대 ' + multiSelectorObj.maxCnt + '개 입니다.');
+			return false;
+		}
+		return true
 	}
 	//=================================================================================================
 };
@@ -306,6 +311,27 @@ function displayFileList(atchFileId, displayTargetId, deletable){
         	function(jObj){
             	alert('첨부파일 데이타 조회 중 오류가 발생하였습니다.\n'+jObj.errMsg);
         });		
+}
+
+//첨부파일 유효성 체크
+function fn_check_uploadFiles(){
+	var multiSelectorObj;
+	for(var i=0; i < multiSelectorList.length; i++){
+		multiSelectorObj = multiSelectorList[i];
+		//확장자
+		if (!EgovMultiFilesChecker.checkExtensionsMultiSelector(multiSelectorObj)){
+			return false;
+		}
+		//사이즈
+		if (!EgovMultiFilesChecker.checkFileSizeMultiSelector(multiSelectorObj)){
+			return false;
+		}
+		//개수
+		if (!EgovMultiFilesChecker.checkFileCountMultiSelector(multiSelectorObj)){
+			return false;
+		}
+	}
+	return true;
 }
 
 //파일다운로드

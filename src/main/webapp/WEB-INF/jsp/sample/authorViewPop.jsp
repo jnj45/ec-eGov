@@ -54,7 +54,7 @@ function setEvent(){
 	});
 	$("#btnTest").click(function(e){
 		//uploadFile();
-		fn_check_uploadFiles('fileList_A');
+		fn_check_uploadFiles();
 	});
 /* 	$('#btn-upload').click(function (e) {
 		e.preventDefault();
@@ -195,8 +195,8 @@ function checkValidation(){
 		alert('작가명을 입력하세요.');
 		return false;
 	}
-	if (!fn_check_uploadFiles('fileList_A')){
-		
+	if (!fn_check_uploadFiles()){
+		return false;
 	}
 	
 	/* var resultExtension = EgovMultiFilesChecker.checkExtensions("files_A", ".xls,.xlsx"); // 결과가 false인경우 허용되지 않음
@@ -206,22 +206,7 @@ function checkValidation(){
 	
 	return true;
 }
-//첨부파일 유효성 체크
-function fn_check_uploadFiles(){
-	var multiSelectorObj;
-	for(var i=0; i < multiSelectorList.length; i++){
-		multiSelectorObj = multiSelectorList[i];
-		//확장자
-		if (!EgovMultiFilesChecker.checkExtensionsMultiSelector(multiSelectorObj)){
-			return false;
-		}
-		//사이즈
-		if (!EgovMultiFilesChecker.checkFileSizeMultiSelector(multiSelectorObj)){
-			return false;
-		}
-	}
-	return true;
-}
+
 //그리드 변경데이타 commit
 function commitGrids(){
 	gridView.commit();
