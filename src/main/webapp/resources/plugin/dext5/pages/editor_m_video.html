@@ -56,7 +56,7 @@
 
                 _td2InnerHtml = '<label id="label_file_info" for="radio_file_info"></label>';
 
-                _td3InnerHtml = '<input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="video_media" /><input type="hidden" id="file_text" name="file_text" />';
+                _td3InnerHtml = '<input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="video_media" /><input type="hidden" id="file_text" name="' + file_field_id + '" />';
                 _td3InnerHtml += '<div class="DEXT_fiVe_ED_Popup_DropZone DEXT_fiVe_ED_Popup_DropZone_1" id="drop_zone" style="border:dashed 1px gray; width:100%; height:40px; line-height:40px; text-align:center; color:gray; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;"></div>';
                 _td3InnerHtml += '<div style="position:absolute; left:0px; top:-40px;"><input class="noline" type="file" id="Filedata" name="Filedata" style="width:0px; height:0px" onchange="fileOnchange(this, \'video_media\');" /></div>';
             } else {

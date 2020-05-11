@@ -21,7 +21,16 @@
     </script>
 
     <style type="text/css">
-        .color li {width: 14px; height: 14px; float: left; padding: 0px; margin: 1px; border: 0px none; list-style-type: none; cursor: pointer;}
+        .color li {
+            width: 14px;
+            height: 14px;
+            float: left;
+            padding: 0px;
+            margin: 1px;
+            border: 0px none;
+            list-style-type: none;
+            cursor: pointer;
+        }
     </style>
 
     <script type="text/javascript">
@@ -35,7 +44,7 @@
         function page_loaded_event() {
 
             set_page_lang();
-            
+
             if (LayerDoc.compatMode == "BackCompat") {
                 var inputs = document.getElementsByTagName('input');
                 for (var i = 0; i < inputs.length; i++) {
@@ -47,14 +56,20 @@
 
             setPage();
 
-            setCursorPos(document.getElementById('p_font_family'), true, false);
-            LayerWin.setFocusFirstAndLast(document, document.getElementById('p_font_family'));
+            setCursorPos(document.getElementById('font_family_select'), true, false);
+            LayerWin.setFocusFirstAndLast(document, document.getElementById('font_family_select'));
         }
 
         function set_page_lang() {
             var _skin_name = LayerWin._dext_editor._config.style.skinName;
-            document.getElementById("editor_popup_input").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선junmo 19.06.03
 
+                document.getElementById("editor_popup_input").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+
+
+            } else {
+                document.getElementById("editor_popup_input").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+            }
             document.getElementById("span_title").innerHTML = LayerWin.dext5_lang.paragraph_attribute.title;
 
             document.getElementById("label_margin_left").innerHTML = LayerWin.dext5_lang.paragraph_attribute.margin_left;
@@ -128,6 +143,32 @@
             //DEXTTOP.DEXT5.util.addEvent(p_text_indent, 'keydown', LayerWin.onlyNumber);
             DEXTTOP.DEXT5.util.addEvent(p_font_size, 'keydown', LayerWin.onlyNumber);
 
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선junmo 19.06.03
+                document.getElementById('label_font_family').parentElement.style.width = '22.5%'
+                document.getElementById('font_family_select').style.width = '70px';
+                document.getElementById('label_margin_left').parentElement.style.width = '22.5%';
+                document.getElementById('label_letter_spacing').parentElement.style.width = '22.5%';
+
+
+                document.getElementById('p_font_size').style.width = '22px';
+                document.getElementById('p_font_size').style.height = '12px';
+                document.getElementById('p_text_indent').style.width = '22px';
+                document.getElementById('p_text_indent').style.height = '12px';
+
+                document.getElementById('p_margin_left').style.width = '22px';
+                document.getElementById('p_margin_left').style.height = '12px';
+                document.getElementById('p_margin_right').style.width = '22px';
+                document.getElementById('p_margin_right').style.height = '12px';
+                document.getElementById('p_margin_top').style.width = '22px';
+                document.getElementById('p_margin_top').style.height = '12px';
+                document.getElementById('p_margin_bottom').style.width = '22px';
+                document.getElementById('p_margin_bottom').style.height = '12px';
+
+                document.getElementById('p_letter_spacing').style.width = '22px';
+                document.getElementById('p_letter_spacing').style.height = '12px';
+                document.getElementById('p_word_spacing').style.width = '22px';
+                document.getElementById('p_word_spacing').style.height = '12px';
+            }
             var keydownInputText = function (obj) {
                 if (!isNaN(new Number(obj.value)))
                     DEXTTOP.G_CURREDITOR.keydownInputText = obj.value;
@@ -155,7 +196,7 @@
 
         function setPage() {
             setFontFamilySelect();
-            setParagraphAttribute(); 
+            setParagraphAttribute();
         }
 
         function setFontFamilySelect() {
@@ -174,11 +215,6 @@
             opt.value = 'default';
             opt.onmouseover = function (e) { this.parentElement.value = this.value; };
             select.appendChild(opt);
-            
-            var p_font_family = document.getElementById('p_font_family');
-            p_font_family.childNodes[0].innerText = LayerWin.dext5_lang.paragraph_attribute.notapplicable;
-            p_font_family.childNodes[0].style.fontFamily = '';
-            p_font_family.childNodes[0].value = '';
 
             for (var i = 0; i < cnt; i++) {
                 var font = DEXTTOP.DEXT5.util.xml.getNodeValueIdx(font_famliy, "font", i);
@@ -186,59 +222,21 @@
                 opt.innerText = font;
                 opt.style.fontFamily = font;
                 opt.value = font;
-                opt.onmouseover = function (e) { this.parentElement.value = this.value; };
+                //opt.onmouseover = function (e) { this.parentElement.value = this.value; };
                 select.appendChild(opt);
 
                 opt = undefined;
             }
-            select.onblur = function (e) { this.style.display = "none"; };
-            select.onclick = function (e) {
-                this.style.display = "none";
-
-                this.target.childNodes[0].value = this.value;
-                this.target.value = this.value;
-                if (this.value == "default")
-                    this.target.childNodes[0].innerText = LayerWin.dext5_lang.icon.font_family;
-                else if (this.value == "")
-                    this.target.childNodes[0].innerText = LayerWin.dext5_lang.paragraph_attribute.notapplicable;
-                else
-                    this.target.childNodes[0].innerText = this.value;
-                
-                this.target.onchange();
-
-                return false;
-            };
-            select.onkeydown = function (e) {
-                if (e.keyCode == 13 || e.keyCode == 9) {
-                    this.target.childNodes[0].value = this.value;
-                    this.target.value = this.value;
-                    if (this.value == "default")
-                        this.target.childNodes[0].innerText = LayerWin.dext5_lang.icon.font_family;
-                    else if (this.value == "")
-                        this.target.childNodes[0].innerText = LayerWin.dext5_lang.paragraph_attribute.notapplicable;
-                    else
-                        this.target.childNodes[0].innerText = this.value;
-
-                    this.style.display = "none";
-
-                    this.target.focus();
-
-                    return false;
-                }
-            };
-
-            select.size = 10;
-            select.style.height = "172px";
         }
 
         function openFontSelect(tag) {
             var rect = tag.getBoundingClientRect();
             var select = document.getElementById("font_family_select");
-            
+
             select.value = tag.value;
             select.style.display = "block";
             select.style.left = rect.left + "px";
-            
+
             select.style.top = DEXTTOP.DEXT5.util.parseIntOr0(rect.top) + DEXTTOP.DEXT5.util.parseIntOr0(rect.height) + "px";
             select.target = tag;
 
@@ -255,12 +253,34 @@
                 } catch (e) {
                     currFontFamily = DEXTTOP.DEXT5.util.getStyle(elemModify, "fontFamily");
                 }
-                var currFontSize = DEXTTOP.DEXT5.util.getStyle(elemModify, 'fontSize');
-                
+
+                //문단 속성 fontType('px')추가 by dahyun 2019.07.22
+                var currFontSize = "";
+                var SizeType = "";
+                var currFontType = document.getElementById('p_font_size_type');
+                if (elemModify && elemModify.style && elemModify.style.fontSize) {
+                    var StyleFontSize = elemModify.style.fontSize;
+                    currFontSize = DEXTTOP.DEXT5.util.parseIntOr0(StyleFontSize);
+                    SizeType = StyleFontSize.substring(StyleFontSize.indexOf(currFontSize.toString()) + currFontSize.toString().length);
+                    if (SizeType == 'pt') {
+                        currFontType.options[0].selected = true;
+                    } else if (SizeType == 'px') {
+                        currFontType.options[1].selected = true;
+                    } else {
+                        currFontSize = DEXTTOP.DEXT5.util.getStyle(elemModify, 'fontSize');
+                        currFontType.options[0].selected = true;
+                    }
+                } else {
+                    currFontSize = DEXTTOP.DEXT5.util.getStyle(elemModify, 'fontSize');
+                    currFontType.options[0].selected = true;
+                }
+
                 if (currFontFamily != '') {
-                    var p_font_family = document.getElementById('p_font_family');
-                    p_font_family.childNodes[0].innerText = currFontFamily;
-                    p_font_family.childNodes[0].value = currFontFamily;
+                    var font_family_select = document.getElementById('font_family_select');
+                    font_family_select.value = currFontFamily;
+                    //var p_font_family = document.getElementById('p_font_family');
+                    //p_font_family.childNodes[0].innerText = currFontFamily;
+                    //p_font_family.childNodes[0].value = currFontFamily;
                 }
                 document.getElementById('p_font_size').value = currFontSize == '' ? '' : DEXTTOP.DEXT5.util.parseIntOr0(currFontSize);
                 document.getElementById('p_text_indent').value = elemModify.style.textIndent == '' ? '' : DEXTTOP.DEXT5.util.parseIntOr0(elemModify.style.textIndent);
@@ -305,17 +325,9 @@
                 <div class="con border">
                     <table cellpadding="0" cellspacing="0">
                         <tr>
-                            <td width="20%"><label for="p_font_family" id="label_font_family">글꼴</label></td>
+                            <td width="20%"><label for="font_family_select" id="label_font_family">글꼴</label></td>
                             <td width="30%">
-                                <table style="line-height: normal; table-layout: auto; width:100% !important;" cellpadding="0" cellspacing="0">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <select id="p_font_family" style="width: 90px;" onchange="" onmousedown="return openFontSelect(this);"><option></option></select>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <select id="font_family_select" style="width: 90px;"></select>
                             </td>
                             <td><label for="p_font_size" id="label_font_size">글꼴 크기</label></td>
                             <td>
@@ -324,14 +336,19 @@
                                         <tr>
                                             <td width="50px">
                                                 <div class="no_a">
-                                                    <input id="p_font_size" name="p_font_size" type="text" style="height:20; width:30px;" class="con_input"  />
+                                                    <input id="p_font_size" name="p_font_size" type="text" style="height:20; width:30px;" class="con_input" />
                                                     <ul>
                                                         <li id="font_size_spinUp"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" /></a></li>
                                                         <li id="font_size_spinDown"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ba_btn.gif" /></a></li>
                                                     </ul>
                                                 </div>
                                             </td>
-                                            <td>pt</td>
+                                            <td>
+                                                <select id="p_font_size_type">
+                                                    <option value="pt">pt</option>
+                                                    <option value="px">px</option>
+                                                </select>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -345,7 +362,7 @@
                                         <tr>
                                             <td width="50px">
                                                 <div class="no_a">
-                                                    <input id="p_text_indent" name="p_text_indent" type="text" style="height:20; width:30px;" class="con_input"  />
+                                                    <input id="p_text_indent" name="p_text_indent" type="text" style="height:20; width:30px;" class="con_input" />
                                                     <ul>
                                                         <li id="text_indent_spinUp"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" /></a></li>
                                                         <li id="text_indent_spinDown"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ba_btn.gif" /></a></li>
@@ -372,7 +389,7 @@
                                         <tr>
                                             <td width="50px">
                                                 <div class="no_a">
-                                                    <input id="p_margin_left" name="p_margin_left" type="text" style="height:20; width:30px;" class="con_input"  />
+                                                    <input id="p_margin_left" name="p_margin_left" type="text" style="height:20; width:30px;" class="con_input" />
                                                     <ul>
                                                         <li id="margin_left_spinUp"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" /></a></li>
                                                         <li id="margin_left_spinDown"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ba_btn.gif" /></a></li>
@@ -391,7 +408,7 @@
                                         <tr>
                                             <td width="50px">
                                                 <div class="no_a">
-                                                    <input id="p_margin_right" name="p_margin_right" type="text" style="height:20; width:30px;" class="con_input"  />
+                                                    <input id="p_margin_right" name="p_margin_right" type="text" style="height:20; width:30px;" class="con_input" />
                                                     <ul>
                                                         <li id="margin_right_spinUp"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" /></a></li>
                                                         <li id="margin_right_spinDown"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ba_btn.gif" /></a></li>
@@ -412,7 +429,7 @@
                                         <tr>
                                             <td width="50px">
                                                 <div class="no_a">
-                                                    <input id="p_margin_top" name="p_margin_top" type="text" style="height:20; width:30px;" class="con_input"  />
+                                                    <input id="p_margin_top" name="p_margin_top" type="text" style="height:20; width:30px;" class="con_input" />
                                                     <ul>
                                                         <li id="margin_top_spinUp"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" /></a></li>
                                                         <li id="margin_top_spinDown"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ba_btn.gif" /></a></li>
@@ -431,7 +448,7 @@
                                         <tr>
                                             <td width="50px">
                                                 <div class="no_a">
-                                                    <input id="p_margin_bottom" name="p_margin_bottom" type="text" style="height:20; width:30px;" class="con_input"  />
+                                                    <input id="p_margin_bottom" name="p_margin_bottom" type="text" style="height:20; width:30px;" class="con_input" />
                                                     <ul>
                                                         <li id="margin_bottom_spinUp"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" /></a></li>
                                                         <li id="margin_bottom_spinDown"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ba_btn.gif" /></a></li>
@@ -456,7 +473,7 @@
                                         <tr>
                                             <td width="50px">
                                                 <div class="no_a">
-                                                    <input id="p_letter_spacing" name="p_letter_spacing" type="text" style="height:20; width:30px;" class="con_input"  />
+                                                    <input id="p_letter_spacing" name="p_letter_spacing" type="text" style="height:20; width:30px;" class="con_input" />
                                                     <ul>
                                                         <li id="letter_spacing_spinUp"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" /></a></li>
                                                         <li id="letter_spacing_spinDown"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ba_btn.gif" /></a></li>
@@ -475,7 +492,7 @@
                                         <tr>
                                             <td width="50px">
                                                 <div class="no_a">
-                                                    <input id="p_word_spacing" name="p_word_spacing" type="text" style="height:20; width:30px;" class="con_input"  />
+                                                    <input id="p_word_spacing" name="p_word_spacing" type="text" style="height:20; width:30px;" class="con_input" />
                                                     <ul>
                                                         <li id="word_spacing_spinUp"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" /></a></li>
                                                         <li id="word_spacing_spinDown"><a style="cursor: pointer;" href="javascript:void(0);"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ba_btn.gif" /></a></li>
@@ -500,6 +517,5 @@
         </div>
         <!-- // Footer -->
     </div>
-    <select id="font_family_select" style="display:none; position:absolute; z-index:200; width:90px; height:20px;"></select>
 </body>
 </html>

@@ -40,9 +40,9 @@
 
 	        var _td1InnerHtml = '', _td2InnerHtml = '';
 	        if (Dext5LayerWin._dext_editor._config.uploadUseHTML5 == "1") {
-	            _td1InnerHtml += '<label id="label_image" for="image_url"></label><input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="table_bg_image" /><input type="hidden" id="file_text" name="file_text" />';
+	            _td1InnerHtml += '<label id="label_image" for="image_url"></label><input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="table_bg_image" /><input type="hidden" id="file_text" name="' + file_field_id + '" />';
 
-	            _td2InnerHtml += '<input name="image_url_value" id="image_url_value" type="hidden" />';	            
+	            _td2InnerHtml += '<input id="image_url_value" type="hidden" />';	            
 	            _td2InnerHtml += '<div class="DEXT_fiVe_ED_Popup_DropZone DEXT_fiVe_ED_Popup_DropZone_1" id="drop_zone" style="border:dashed 1px gray; width:255px; height:40px; line-height:40px; text-align:center; color:gray; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;"></div>';
 	            _td2InnerHtml += '<div style="position:absolute; left:0px; top:-40px;"><input class="noline" type="file" id="Filedata" name="Filedata" style="width:0px; height:0px" onchange="fileOnchange(this, \'table_bg_image\');" /></div>';
 
@@ -50,7 +50,7 @@
 	        else {
 	            _td1InnerHtml += '<label id="label_image" for="image_url"></label>';
 
-	            _td2InnerHtml += '<input name="image_url_value" id="image_url_value" type="hidden"/>';
+	            _td2InnerHtml += '<input id="image_url_value" type="hidden"/>';
 	            _td2InnerHtml += '<input name="image_url" id="image_url" type="text" class="con_input" style="width:178px; float:left;background:#fff" disabled="disabled"/>';
 	            _td2InnerHtml += '<span id="find_file_nm" style="width:67px; height:20px; *margin-left:-3px;_margin-left:-3px; background-position: 0px 0px; display:block; float:left; cursor:pointer; background-repeat:no-repeat;">';
 	            _td2InnerHtml += '<span id="file_input_search" class="file_input_button2">찾아보기</span>';
@@ -213,7 +213,11 @@
 
 	        var _skin_name = LayerWin._dext_editor._config.style.skinName;
 
-	        document.getElementById("editor_popup_table").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+	        if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선
+	            document.getElementById("editor_popup_table").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+	        } else {
+	            document.getElementById("editor_popup_table").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+	        }
 
 	        document.getElementById("span_title").innerHTML = LayerWin.dext5_lang.table.title;
 
@@ -498,6 +502,79 @@
 	            document.getElementById('tr_back_image1').style.display = 'none';
 	            document.getElementById('tr_back_image2').style.display = 'none';
 	            document.getElementById('tr_back_image3').style.display = 'none';
+	        }
+
+	        if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선
+	            var contents1 = document.getElementById('contents_1');
+	            contents1.style.overflowX = 'hidden';
+	            contents1.style.overflowY = 'auto';
+
+	            if (DEXTTOP.DEXT5.browser.safari) {
+	                var setWidthForSpinButton = function (inputNode, _width) {
+	                    inputNode.style.width = _width + 'px';
+	                    inputNode.parentNode.style.height = '24px';
+	                    inputNode.parentNode.getElementsByTagName('ul')[0].style.marginTop = '2px';
+	                }
+	                setWidthForSpinButton(document.getElementById('width_line'), 32);
+	                setWidthForSpinButton(document.getElementById('height_line'), 32);
+	                setWidthForSpinButton(document.getElementById('margin_left'), 32);
+	                setWidthForSpinButton(document.getElementById('line_thickness'), 32);
+	                setWidthForSpinButton(document.getElementById('cell_gap'), 22);
+	                setWidthForSpinButton(document.getElementById('cell_inside_margin'), 22);
+	                setWidthForSpinButton(document.getElementById('t_width_line'), 32);
+	                setWidthForSpinButton(document.getElementById('t_height_line'), 32);
+	            }
+	            setInputBoxWidth(document.getElementById('width'), 35);
+	            setInputBoxWidth(document.getElementById('height'), 35);
+	            document.getElementById("range").style.width = '60px';
+	            setInputBoxWidth(document.getElementById('table_id'), 60);
+	            setInputBoxWidth(document.getElementById('class_name'), 60);
+	            document.getElementById("line_style_btn").style.width = '60px';
+	            document.getElementById("line_style_btn").style.borderRight = '1px solid #AFB1B3';
+
+	            document.getElementById("line_color").parentNode.parentNode.style.width = '58px';
+	            document.getElementById("line_color").parentNode.parentNode.onclick = function () {
+	                LayerWin.showColorPopup(document, document.getElementById('line_color'), 'borderTopColor', 'line_color', -5, -210, lineColorChange);
+	            };
+
+	            document.getElementById("background_color").parentNode.parentNode.onclick = function () {
+	                LayerWin.showColorPopup(document, document.getElementById('background_color'), 'background', undefined, -3, -120);
+	            };
+
+	            document.getElementById("line_color").style.width = '50px';
+	            document.getElementById("line_kind").style.width = '60px';
+
+	            var summaryNode = document.getElementById('div_table_caption_summary');
+	            var summaryTdNodes = summaryNode.getElementsByTagName('td');
+	            var summaryInputNodes = summaryNode.getElementsByTagName('input');
+	            for (var i = 0; i < summaryTdNodes.length; i++) {
+	                summaryTdNodes[i].width = '25%';
+	            }
+	            for (var i = 0; i < summaryInputNodes.length; i++) {
+	                setInputBoxWidth(summaryInputNodes[i], 60);
+	            }
+
+	            setInputBoxWidth(document.getElementById('horizontal'), 40);
+	            setInputBoxWidth(document.getElementById('vertical'), 40);
+
+	            document.getElementById('edge_select_3').parentNode.parentNode.parentNode.width = '50%';
+	            document.getElementById('edge_select_3').parentNode.style.marginLeft = '6px';
+	            document.getElementById('edge_select_3').style.marginLeft = '0px';
+	            document.getElementById('edge_select_4').style.marginLeft = '0px';
+
+	            if (document.getElementById('drop_zone')) document.getElementById('drop_zone').style.width = '220px';
+	            if (document.getElementById('image_url')) setInputBoxWidth(document.getElementById('image_url'), 128);
+
+	            setInputBoxWidth(document.getElementById('t_width'), 40);
+	            setInputBoxWidth(document.getElementById('t_height'), 40);
+
+	            document.getElementById('access_img_1').parentNode.href = 'javascript:LayerWin.showAccessPopup(document, document.getElementById("access_img_1"), document.getElementById("access_div_tab1"), LayerWin.dext5_lang.access_explain.table_caption, -50, -90);';
+	            document.getElementById('access_div_tab1').getElementsByTagName('span')[0].style.width = '280px';
+	            document.getElementById('access_img_2').parentNode.href = 'javascript:LayerWin.showAccessPopup(document, document.getElementById("access_img_2"), document.getElementById("access_div_tab1"), LayerWin.dext5_lang.access_explain.table_summary, -190, -90);';
+	            document.getElementById('access_div_tab2').getElementsByTagName('span')[1].style.display = 'none';
+	            document.getElementById('access_img_3').parentNode.href = 'javascript:LayerWin.showAccessPopup(document, document.getElementById("access_img_3"), document.getElementById("access_div_tab2"), LayerWin.dext5_lang.access_explain.table_scope, -50, 0);';
+	            document.getElementById('access_div_tab3').getElementsByTagName('span')[1].style.display = 'none';
+	            document.getElementById('access_img_4').parentNode.href = 'javascript:LayerWin.showAccessPopup(document, document.getElementById("access_img_4"), document.getElementById("access_div_tab3"), LayerWin.dext5_lang.access_explain.table_scope, -50, 0);';
 	        }
 	    }
 
@@ -825,7 +902,11 @@
                                 <label id="label_width" for="width"></label>
                             </td>
                             <td width="25%">
-                                <input name="width" id="width" type="text" class="con_input" style="width:55px;" onkeydown="LayerWin.onlyNumber(event);" maxlength="4"/>px
+                                <input name="width" id="width" type="text" class="con_input" style="width:35px;" onkeydown="LayerWin.onlyNumber(event);" maxlength="4"/>
+                                <select id="width_type" style="margin-left:-3px;">
+                                    <option value="px">px</option>
+                                    <option value="%">%</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -1140,6 +1221,7 @@
 			    <input type="hidden" id="image_convert_width" name="image_convert_width" value="" />
 			    <input type="hidden" id="image_convert_height" name="image_convert_height" value="" />
                 <input type="hidden" id="userField" value="" />
+                <input type="hidden" id="originalfilename" name="originalfilename" value="" />
             <script type="text/javascript">
                 document.write('<div id="contents_2" class="contents" style="height: ' + custom_height + '; overflow: hidden;">');
             </script>            
@@ -1163,13 +1245,13 @@
                                 <label id="label_add" for="add"></label>
                             </td>
                             <td width="30%">
-                                <select name="add" id="add"></select>
+                                <select id="add"></select>
                             </td>
                             <td width="20%">
                                 <label id="label_horizontal" for="horizontal"></label>
                             </td>
                             <td width="30%">
-                                <input name="horizontal" id="horizontal" type="text" class="con_input" style="width:55px;" onkeydown="LayerWin.onlyNumber(event);" maxlength="4" />px
+                                <input id="horizontal" type="text" class="con_input" style="width:55px;" onkeydown="LayerWin.onlyNumber(event);" maxlength="4" />px
                             </td>
                         </tr>
                         <tr id="tr_back_image3">
@@ -1177,13 +1259,13 @@
                                 <label id="label_repeat" for="repeat"></label>
                             </td>
                             <td>
-                                <select name="repeat" id="repeat" style="width:100%"></select>
+                                <select id="repeat" style="width:100%"></select>
                             </td>
                             <td>
                                 <label id="label_vertical" for="vertical"></label>
                             </td>
                             <td>
-                                <input name="vertical" id="vertical" type="text" class="con_input" style="width:55px;" onkeydown="LayerWin.onlyNumber(event);" maxlength="4" />px
+                                <input id="vertical" type="text" class="con_input" style="width:55px;" onkeydown="LayerWin.onlyNumber(event);" maxlength="4" />px
                             </td>
                         </tr>
                         <tr>
@@ -1199,7 +1281,7 @@
                     </table>
                 </div>
                 <div class="con con_th">
-                    <input type="hidden" id="title_cell" name="title_cell" value=""/>
+                    <input type="hidden" id="title_cell" value=""/>
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td colspan="4" style="height:30px; text-align:left;">

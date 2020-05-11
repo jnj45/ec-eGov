@@ -56,7 +56,7 @@
 
             var _td1InnerHtml = '', _td2InnerHtml = '';
             if (Dext5LayerWin._dext_editor._config.uploadUseHTML5 == "1") {
-                _td1InnerHtml += '<select id="select_category" name="" style="width: 75px;"></select><input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="hyperlink_image" /><input type="hidden" id="file_text" name="file_text" /></td>';
+                _td1InnerHtml += '<select id="select_category" name="" style="width: 75px;"></select><input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="hyperlink_image" /><input type="hidden" id="file_text" name="' + file_field_id + '" /></td>';
 
                 _td2InnerHtml += '<input id="input_url" name="" type="text" style="width: 250px;" class="con_input" />';
                 _td2InnerHtml += '<span id="file_find_sec"><div class="DEXT_fiVe_ED_Popup_DropZone DEXT_fiVe_ED_Popup_DropZone_1" id="drop_zone" style="border:dashed 1px gray; width:252px; height:40px; line-height:40px; text-align:center; color:gray; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;"></div>';
@@ -75,11 +75,19 @@
             }
 
             var _td1 = document.createElement('td');
-            _td1.width = '30%';
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선
+                _td1.width = '40%';
+            } else {
+                _td1.width = '30%';
+            }
             _td1.innerHTML = _td1InnerHtml;
 
             var _td2 = document.createElement('td');
-            _td2.width = '70%';
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선
+                _td2.width = '60%';
+            } else {
+                _td2.width = '70%';
+            }
             _td2.innerHTML = _td2InnerHtml;
 
             document.getElementById('file_tag_or_drop_zone').appendChild(_td1);
@@ -91,7 +99,11 @@
             }
 
             var _skin_name = LayerWin._dext_editor._config.style.skinName;
-            document.getElementById('dext_dialog_box').className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선
+                document.getElementById('dext_dialog_box').className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+            } else {
+                document.getElementById('dext_dialog_box').className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+            }
 
             setPage();
 
@@ -112,6 +124,28 @@
             var span_ok = document.getElementById('span_ok_btn');
             var span_cancel = document.getElementById('span_cancel_btn');
             var label_name = document.getElementById('label_name');
+
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선
+                setInputBoxWidth(input_url, 160);
+                setInputBoxWidth(input_text, 160);
+                setInputBoxWidth(input_title, 73);
+                select_target.style.width = '68px';
+                setInputBoxWidth(document.getElementById('input_id'), 73);
+                setInputBoxWidth(document.getElementById('input_class'), 68);
+                var inputFieldTable = document.getElementById('inputFieldTable');
+                inputFieldTable.rows[0].cells[0].width = '15%';
+                inputFieldTable.rows[0].cells[1].width = '30%';
+                inputFieldTable.rows[0].cells[2].width = '28%';
+                inputFieldTable.rows[0].cells[3].width = '27%';
+                if (document.getElementById('drop_zone')) document.getElementById('drop_zone').style.width = '160px';
+                if (document.getElementById('image_url')) setInputBoxWidth(document.getElementById('image_url'), 85);
+                var inputFieldTable2 = inputFieldTable.nextSibling.nextSibling;
+                inputFieldTable2.rows[0].cells[0].width = '40%';
+                inputFieldTable2.rows[0].cells[1].width = '60%';
+                select_bookmark.style.width = '162px';
+                document.getElementById('access_div').getElementsByTagName('span')[1].style.display = 'none';
+                document.getElementById('access_img').parentNode.href = 'javascript:LayerWin.showAccessPopup(document, document.getElementById("access_img"), document.getElementById("access_div"), LayerWin.dext5_lang.access_explain.hyperlink, -80, 0);'
+            }
 
             if (LayerWin._dext_editor._config.uploadUseHTML5 != "1") {
                 var _upload_frame = document.getElementById("upload_frame");
@@ -610,6 +644,7 @@
                     <input type="hidden" id="image_convert_width" name="image_convert_width" value="" />
                     <input type="hidden" id="image_convert_height" name="image_convert_height" value="" />
                     <input type="hidden" id="userField" value="" />
+                    <input type="hidden" id="originalfilename" name="originalfilename" value="" />
                 </div>
                 <div class="contents" style="height:130px;">
                     <div class="speech_balloons" id="access_div" style="position:absolute; display:none; width:267px;">

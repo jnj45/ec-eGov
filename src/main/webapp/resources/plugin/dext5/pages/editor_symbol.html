@@ -25,7 +25,12 @@
 
         function page_loaded_event() {
             var _skin_name = LayerWin._dext_editor._config.style.skinName;
-            document.getElementById('dext_dialog_box').className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선 junmo 19.06.03
+                document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+                document.getElementById("table_symbol").style.width = 'auto';
+            } else {
+                document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+            }
 
             var span_subject = document.getElementById('span_subject');
             var label_category = document.getElementById('label_category');

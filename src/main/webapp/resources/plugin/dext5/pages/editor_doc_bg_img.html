@@ -47,16 +47,16 @@
 
             var _td1InnerHtml = '', _td2InnerHtml = '';
             if (Dext5LayerWin._dext_editor._config.uploadUseHTML5 == "1") {
-                _td1InnerHtml += '<label for="image_url" id="label_image"></label><input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="doc_bg_image" /><input type="hidden" id="file_text" name="file_text" />';
+                _td1InnerHtml += '<label for="image_url" id="label_image"></label><input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="doc_bg_image" /><input type="hidden" id="file_text" name="' + file_field_id + '" />';
 
-                _td2InnerHtml += '<input name="image_url_value" id="image_url_value" type="hidden" />';                
+                _td2InnerHtml += '<input id="image_url_value" type="hidden" />';                
                 _td2InnerHtml += '<div class="DEXT_fiVe_ED_Popup_DropZone DEXT_fiVe_ED_Popup_DropZone_1" id="drop_zone" style="border:dashed 1px gray; width:255px; height:40px; line-height:40px; text-align:center; color:gray; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;"></div>';
                 _td2InnerHtml += '<div style="position:absolute; left:0px; top:-40px;"><input class="noline" type="file" id="Filedata" name="Filedata" style="width:0px; height:0px" onchange="fileOnchange(this, \'doc_bg_image\');"/></div>';
             }
             else {
                 _td1InnerHtml += '<label for="image_url" id="label_image"></label>';
 
-                _td2InnerHtml += '<input name="image_url_value" id="image_url_value" type="hidden" />';
+                _td2InnerHtml += '<input id="image_url_value" type="hidden" />';
                 _td2InnerHtml += '<input name="image_url" id="image_url" type="text" class="con_input" style="width:180px; float:left;background:#fff" disabled="disabled" />';
                 _td2InnerHtml += '<span id="find_file_nm" style="width:67px; height:20px; *margin-left:-3px;_margin-left:-3px; background-position: 0px 0px; display:block; float:left; cursor:pointer; background-repeat:no-repeat;">';
                 _td2InnerHtml += '<span id="file_input_search" class="file_input_button2">찾아보기</span>';
@@ -184,9 +184,17 @@
             document.getElementById("upload_url").value = _upload_url;
 
             var _skin_name = LayerWin._dext_editor._config.style.skinName;
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선 junmo 19.06.03
+                document.getElementById("editor_popup_doc_bg_img").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
 
-            document.getElementById("editor_popup_doc_bg_img").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+                document.getElementById("add").style.width = '221px';
+                document.getElementById("repeat").style.width = '221px';
+                if (document.getElementById('drop_zone')) document.getElementById('drop_zone').style.width = '221px';
+                if (document.getElementById('image_url')) setInputBoxWidth(document.getElementById('image_url'), '141px');
 
+            } else {
+                document.getElementById("editor_popup_doc_bg_img").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+            }
             document.getElementById("span_title").innerHTML = LayerWin.dext5_lang.doc_bg_img.title;
 
             document.getElementById("label_image").innerHTML = LayerWin.dext5_lang.doc_bg_img.image;
@@ -344,6 +352,7 @@
                 <input type="hidden" id="image_convert_width" name="image_convert_width" value="" />
                 <input type="hidden" id="image_convert_height" name="image_convert_height" value="" />
                 <input type="hidden" id="userField" value="" />
+                <input type="hidden" id="originalfilename" name="originalfilename" value="" />
                 <div class="contents" style="height:250px;">
                     <div class="con">
                         <table cellpadding="0" cellspacing="0">
@@ -354,27 +363,27 @@
                                     <label for="add" id="label_add"></label>
                                 </td>
                                 <td>
-                                    <select name="add" id="add" style="width:258px;"></select>
+                                    <select id="add" style="width:258px;"></select>
                                 </td>
                                 <!--<td width="20%" rowspan="2" class="re_img">
-                                    <table cellpadding="0" cellspacing="0" id="prev_background_image">
-                                        <tr>
-                                            <td class="left">
-                                                <img src="" id="background_image" alt=""/>
-                                            </td>
-                                            <td class="right">
-                                                <a href=""><img src="../images/editor/dialog/editor_img_delete_img.gif" style="cursor:pointer;" width="5" height="6" alt=""/></a>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>-->
+                        <table cellpadding="0" cellspacing="0" id="prev_background_image">
+                            <tr>
+                                <td class="left">
+                                    <img src="" id="background_image" alt=""/>
+                                </td>
+                                <td class="right">
+                                    <a href=""><img src="../images/editor/dialog/editor_img_delete_img.gif" style="cursor:pointer;" width="5" height="6" alt=""/></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>-->
                             </tr>
                             <tr>
                                 <td>
                                     <label for="repeat" id="label_repeat"></label>
                                 </td>
                                 <td>
-                                    <select name="repeat" id="repeat" style="width:258px"></select>
+                                    <select id="repeat" style="width:258px"></select>
                                 </td>
                             </tr>
                             <tr>
@@ -394,7 +403,7 @@
                                 <td colspan="2" style="text-align:center;">
                                     <fieldset class="ulc">
                                         <legend><span id="span_prev_background_remove_regend"></span></legend>
-                                        <input type="hidden" id="prev_background_remove" name="prev_background_remove" value="N" />
+                                        <input type="hidden" id="prev_background_remove" value="N" />
                                         <input type="checkbox" style="vertical-align:middle;" id="chk_background_remove" name="chk_background_remove" onclick="backgroundImageDeleteCheck(this)" />
                                         <label style="vertical-align:middle;" for="chk_background_remove"><span id="span_prev_background_remove"></span></label>
                                     </fieldset>

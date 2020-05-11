@@ -26,7 +26,18 @@
         function page_loaded_event() {
             var _skin_name = LayerWin._dext_editor._config.style.skinName;
 
-            document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선junmo 19.06.03
+                document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+                document.getElementById('frame_div').style.width = '135px';
+                document.getElementById('ul_date').parentElement.style.width = '135px';
+                document.getElementById('span_date').parentElement.style.width = '50%';
+                document.getElementById('span_content').parentElement.style.width = '50%';
+
+
+
+            } else {
+                document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+            }
 
             var span_subject = document.getElementById('span_subject');
             var span_date = document.getElementById('span_date');
@@ -43,7 +54,22 @@
             document.title = LayerWin.dext5_lang.loadAutoSave.title;
 
             dext_load_auto_save_setDateList();
+            //mobile 환경에서 UI 개선 junmo 19.06.03
+            if (DEXTTOP.DEXT5.browser.mobile) {
+                var t = document.getElementById('ul_date').firstChild;
+                var idx = -1;
+                while (t != null) {
 
+                    if (idx == -1) {
+                        t.firstElementChild.firstElementChild.style.width = '120px';
+                        idx++;
+                    }
+                    else {
+                        t.nextElementSibling.firstElementChild.firstElementChild.style.width = '120px';
+                        t = t.nextSibling;
+                    }
+                }
+            }
             var ok_btn = document.getElementById("ok_btn");
             DEXTTOP.DEXT5.util.addEvent(ok_btn, 'click', function () {
                 if (document.getElementById("content_frame").contentWindow.document.body.innerHTML != "") {

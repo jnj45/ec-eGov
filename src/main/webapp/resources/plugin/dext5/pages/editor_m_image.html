@@ -62,7 +62,7 @@
 	            _td2InnerHtml += '<span id="find_file_nm" style="width:72px; height:20px; *margin-left:-3px;_margin-left:-3px; background-position: 0px 0px; display:block; float:left; cursor:pointer; background-repeat:no-repeat;">';
 	            _td2InnerHtml += '<span id="file_input_search" class="file_input_button2">찾아보기</span>';
 	            _td2InnerHtml += '<input class="noline" type="file" id="Filedata" name="Filedata" style="margin-top:-35px;*margin-top: -28px; margin-left:-95px;width:170px;height:25px; opacity:0; filter:alpha(opacity=0); -moz-opacity:0; cursor:pointer;" onchange="fileOnchange(this, \'m_image\');"/>    ';
-	            _td2InnerHtml += '<input type="hidden" id="file_text" name="file_text" /><a href="javascript:void(0);" id="a_file"></a></span>';             
+	            _td2InnerHtml += '<input type="hidden" id="file_text" /><a href="javascript:void(0);" id="a_file"></a></span>';             
 	        }
 
 	        var _td1 = document.createElement('td');
@@ -146,15 +146,40 @@
 	        */
 
 	        var btn_ok_a = document.getElementById('btn_ok_a');
-	        btn_ok_a.onclick = function () {
+	        if (elemModify != null) { // mobile 환경에서 UI 개선
+	            DEXTTOP.DEXT5.util.addEvent(btn_ok_a, 'click', function () { set_modify_ok(); });
+	            set_modify_field();
+	        } else {
+	            btn_ok_a.onclick = function () {
 
-	            //if (Dext5LayerWin._dext_editor._config.uploadUseHTML5 == "1") {
-	            //    document.getElementById('file_text').value = document.getElementById("Filedata").value;
-	            //    G_dragDropFileObj = document.getElementById("Filedata").files;
-	            //}
+	                //if (Dext5LayerWin._dext_editor._config.uploadUseHTML5 == "1") {
+	                //    document.getElementById('file_text').value = document.getElementById("Filedata").value;
+	                //    G_dragDropFileObj = document.getElementById("Filedata").files;
+	                //}
 
-	            dext_upload_image();
-	        };
+	                dext_upload_image();
+	            };
+	        }
+	        
+            // mobile 너비 높이 유지 기능 추가 
+	        var ck_img_ratio = document.getElementById("ck_img_ratio");
+	        var img_ratio = document.getElementById("img_ratio");
+
+            // 너비 높이 비율 초기값 true로 변경 by sj.yoo 19.05.20
+	        ck_img_ratio.checked = true;
+	        img_ratio.className = 'img_link_active_btn';
+	        img_ratio.setAttribute('ratio-checked', 'true');
+
+	        var ck_img_ratio_toggle = (function () {
+	            if (img_ratio.getAttribute("ratio-checked") == "true") {
+	                img_ratio.className = "img_link_btn";
+	                img_ratio.setAttribute("ratio-checked", false);
+	            } else {
+	                img_ratio.className = "img_link_active_btn";
+	                img_ratio.setAttribute("ratio-checked", true);
+	            }
+	        });
+	        DEXTTOP.DEXT5.util.addEvent(ck_img_ratio, "click", ck_img_ratio_toggle);
 
 	        if (LayerDoc.compatMode == "BackCompat") {
 	            var inputs = document.getElementsByTagName('input');
@@ -207,6 +232,10 @@
 	        document.getElementById("label_image_description").innerHTML = LayerWin.dext5_lang.image.image_description;
 	        document.getElementById("label_width").innerHTML = LayerWin.dext5_lang.image.width;
 	        document.getElementById("label_height").innerHTML = LayerWin.dext5_lang.image.height;
+
+	        // 이미지 경로, 너비 높이 비율 유지 추가 19.05.16
+	        document.getElementById("label_img_ratio").innerHTML = LayerWin.dext5_lang.image.img_w_h_ratio;
+	        document.getElementById("label_image_info").innerHTML = LayerWin.dext5_lang.image.img_path;
 
 	        document.getElementById("label_margin_left").innerHTML = LayerWin.dext5_lang.image.margin_left;
 	        document.getElementById("label_margin_right").innerHTML = LayerWin.dext5_lang.image.margin_right;
@@ -264,6 +293,181 @@
 	        }
 	    }
 
+        // mobile 환경에서 UI 개선
+	    function set_modify_field() {
+	        var title = document.getElementById('img_title');
+	        var alt = document.getElementById('img_alt');
+	        var img_id = document.getElementById('img_id');
+	        var img_class = document.getElementById('img_class');
+	        var img_figure = document.getElementById('img_figure');
+	        var img_width = document.getElementById('img_width');
+	        var img_height = document.getElementById('img_height');
+	        var img_margin_left = document.getElementById('img_margin_left');
+	        var img_margin_right = document.getElementById('img_margin_right');
+	        var img_margin_top = document.getElementById('img_margin_top');
+	        var img_margin_bottom = document.getElementById('img_margin_bottom');
+	        var align = document.getElementById('img_align');
+	        //var img_border = document.getElementById('img_border');
+	        var ratio = document.getElementById("img_ratio");
+	        var img_web_url = document.getElementById('img_web_url');
+	        var InputFlag = document.getElementsByName('InputFlag');
+	        var filedata = document.getElementById(file_field_id);
+	        var tr_create_only_item = document.getElementById('create_only_item');
+
+	        if (tr_create_only_item) tr_create_only_item.style.display = 'none';
+
+	        //var arr_src = elemModify.src.split('/');
+	        //img_web_url.value = elemModify.getAttribute('src'); //arr_src[arr_src.length - 1];
+	        // src에 도메인 정보가 없을경우 ie7이하에서는 현재 도메인을 붙여서 src를 반환하기때문에 아래와같이 처리함.
+	        var srcReg = new RegExp('src\s*=\s*(\"|\')(([^\"\']*))(\"|\')', 'gi');
+	        var matArr = elemModify.outerHTML.match(srcReg);
+	        var imgSrc = '';
+	        if (matArr && matArr.length > 0) {
+	            imgSrc = matArr[0].replace('src=', '');
+	            imgSrc = imgSrc.replace(/\'/g, '');
+	            imgSrc = imgSrc.replace(/\"/g, '');
+	            imgSrc = imgSrc.replace(/\&amp;/g, '&');
+	        }
+	        document.getElementById('drop_zone').innerHTML = imgSrc;
+	        
+	        title.value = elemModify.title;
+	        alt.value = elemModify.alt;
+	        if (img_id) img_id.value = elemModify.id;
+	        if (img_class) img_class.value = elemModify.className;
+
+	        var width, height;
+	        elemModify.style.width.replace('px', '') == "" ? width = elemModify.width : width = elemModify.style.width.replace('px', '');
+	        elemModify.style.height.replace('px', '') == "" ? height = elemModify.height : height = elemModify.style.height.replace('px', '');
+	        img_width.value = width.toString().indexOf('%') < 0 ? Math.round(width) : '';
+	        img_height.value = height.toString().indexOf('%') < 0 ? Math.round(height) : '';
+
+	        img_margin_left.value = elemModify.style.marginLeft.toString() == '' ? '' : elemModify.style.marginLeft.toString().indexOf('%') < 0 ? Math.round(elemModify.style.marginLeft.replace('px', '')) : '';
+	        img_margin_right.value = elemModify.style.marginRight.toString() == '' ? '' : elemModify.style.marginRight.toString().indexOf('%') < 0 ? Math.round(elemModify.style.marginRight.replace('px', '')) : '';
+	        img_margin_top.value = elemModify.style.marginTop.toString() == '' ? '' : elemModify.style.marginTop.toString().indexOf('%') < 0 ? Math.round(elemModify.style.marginTop.replace('px', '')) : '';
+	        img_margin_bottom.value = elemModify.style.marginBottom.toString() == '' ? '' : elemModify.style.marginBottom.toString().indexOf('%') < 0 ? Math.round(elemModify.style.marginBottom.replace('px', '')) : '';
+
+	        img_margin_top.value.toString() == "" ? elemModify.vspace.toString() == "" ? img_margin_top.value = "" : img_margin_top.value = elemModify.vspace : img_margin_top.value = img_margin_top.value;
+	        img_margin_bottom.value.toString() == "" ? elemModify.vspace.toString() == "" ? img_margin_bottom.value = "" : img_margin_bottom.value = elemModify.vspace : img_margin_bottom.value = img_margin_bottom.value;
+	        img_margin_right.value.toString() == "" ? elemModify.hspace.toString() == "" ? img_margin_right.value = "" : img_margin_right.value = elemModify.hspace : img_margin_right.value = img_margin_right.value;
+	        img_margin_left.value.toString() == "" ? elemModify.hspace.toString() == "" ? img_margin_left.value = "" : img_margin_left.value = elemModify.hspace : img_margin_left.value = img_margin_left.value;
+
+
+	        elemModify.align == "" ? align.value = "" : align.value = elemModify.align;
+	        //elemModify.style.border == "" ? img_border.value = elemModify.border : img_border.value = LayerWin.DEXTTOP.DEXT5.util.parseIntOr0(parseInt(elemModify.style.border, 10));
+
+	        var prtNode = LayerWin.GetParentbyTagName(elemModify, "a");
+	        if (prtNode && prtNode.tagName.toLowerCase() == 'a') {
+	            var _link_url = document.getElementById('link_url');
+	            var _link_title = document.getElementById('link_title');
+	            var _link_target = document.getElementById('link_target');
+
+	            var prtHtml = prtNode.outerHTML.replace(/"/g, '\'');
+	            var reg_exp = new RegExp('href\s*=\s*(\"|\')(([^\"\';]*))(\"|\')', 'gi');
+	            var match_array = prtHtml.match(reg_exp);
+	            var prtHref = prtNode.getAttribute('href');
+	            if (match_array && match_array.length > 0) {
+	                prtHref = match_array[0].replace('href=', '');
+	                prtHref = prtHref.replace(/\'/g, '');
+	            }
+
+	            _link_url.value = prtHref;
+	            _link_title.value = prtNode.title;
+	            if (prtNode.target == '') {
+	                _link_target.value = _link_target[0].value;
+	            } else {
+	                _link_target.value = prtNode.target;
+	            }
+	        }
+
+
+	        var ck_img_ratio = document.getElementById('ck_img_ratio');
+	        if (ratio && LayerWin._dext_editor._config.allowImgSize == "1") {
+	            //   ratio.style.display = 'block';
+	            ratio.className = 'img_link_active_btn';
+	            ratio.setAttribute('ratio-checked', 'true');
+	            ck_img_ratio.checked = true;
+	            ratio.style.display = 'none';
+	            document.getElementById('img_ratio_view').style.display = '';
+	        }
+
+	        addEventImgWidthHeight(width, height);
+
+	    }
+
+	    function set_modify_ok() {
+	        var filedata = document.getElementById(file_field_id);
+	        if ((filedata.value && filedata.value != '') || (Dext5LayerWin._dext_editor._config.uploadUseHTML5 == "1" && G_dragDropFileObj)) {
+	            G_UploadCompleteCallBackFn = processEnd;
+	            dext_upload_image();
+	        } else {
+	            var img_web_url = document.getElementById('img_web_url');
+	            if (img_web_url) {
+	                elemModify.src = img_web_url.value;
+	            }
+	            processEnd();
+	        }
+	    }
+
+	    function addEventImgWidthHeight(originW, originH) {
+	        var img_width = document.getElementById('img_width');
+	        var img_height = document.getElementById('img_height');
+	        var ratio = document.getElementById("img_ratio");
+	        //ratio checked field keyup Event
+	        var ratio_width_keyup = (function () {
+	            if (ratio.getAttribute("ratio-checked") == "true") {
+	                var y = ((parseInt(originH, 10) * parseInt(img_width.value, 10)) / parseInt(originW, 10));
+	                img_height.value = isNaN(y) ? img_height.value : Math.round(y);
+	            }
+	        });
+	        var ratio_height_keyup = (function () {
+	            if (ratio.getAttribute("ratio-checked") == "true") {
+	                var x = ((parseInt(originW, 10) * parseInt(img_height.value, 10)) / parseInt(originH, 10));
+	                img_width.value = isNaN(x) ? img_width.value : Math.round(x);
+	            }
+	        });
+	        DEXTTOP.DEXT5.util.addEvent(img_width, "keyup", ratio_width_keyup);
+	        DEXTTOP.DEXT5.util.addEvent(img_height, "keyup", ratio_height_keyup);
+	    }
+
+	    function processEnd() {
+	        var title = document.getElementById('img_title');
+	        var alt = document.getElementById('img_alt');
+	        var img_id = document.getElementById('img_id');
+	        var img_class = document.getElementById('img_class');
+	        var img_figure = document.getElementById('img_figure');
+	        var img_width = document.getElementById('img_width');
+	        var img_height = document.getElementById('img_height');
+	        var img_margin_left = document.getElementById('img_margin_left');
+	        var img_margin_right = document.getElementById('img_margin_right');
+	        var img_margin_top = document.getElementById('img_margin_top');
+	        var img_margin_bottom = document.getElementById('img_margin_bottom');
+	        var align = document.getElementById('img_align');
+	        //var border = document.getElementById('img_border');
+
+	        if (img_id) img_id.value == '' ? elemModify.removeAttribute('id') : elemModify.setAttribute('id', img_id.value);
+	        if (img_class) img_class.value == '' ? elemModify.removeAttribute('class') : elemModify.setAttribute('class', img_class.value);
+	        title.value == '' ? elemModify.removeAttribute('title') : elemModify.setAttribute('title', title.value);
+	        alt.value == '' ? elemModify.removeAttribute('alt') : elemModify.setAttribute('alt', alt.value);
+
+	        if (LayerWin._dext_editor._config.allowImgSize == "1") {
+	            if (img_width.value != '') elemModify.style.width = img_width.value + 'px';
+	            if (img_height.value != '') elemModify.style.height = img_height.value + 'px';
+	            elemModify.removeAttribute('width');
+	            elemModify.removeAttribute('height');
+	        }
+
+	        elemModify.style.marginLeft = (img_margin_left.value == '' || img_margin_left.value == '-') ? '' : img_margin_left.value + 'px';
+	        elemModify.style.marginRight = (img_margin_right.value == '' || img_margin_right.value == '-') ? '' : img_margin_right.value + 'px';
+	        elemModify.style.marginTop = (img_margin_top.value == '' || img_margin_top.value == '-') ? '' : img_margin_top.value + 'px';
+	        elemModify.style.marginBottom = (img_margin_bottom.value == '' || img_margin_bottom.value == '-') ? '' : img_margin_bottom.value + 'px';
+
+	        align.value == '' ? elemModify.removeAttribute('align') : elemModify.setAttribute('align', align.value);
+	        
+	        G_UploadCompleteCallBackFn = undefined;
+
+	        LayerWin._dext_editor.UndoManager.putUndo();
+	        event_dext_image_upload_cancel();
+	    }
 	</script>
 </head>
 <body style="margin:0px; padding:0px; " onload="page_loaded_event();">
@@ -294,9 +498,9 @@
 						<input type="hidden" id="image_convert_format" name="image_convert_format" value="" />
 						<input type="hidden" id="image_convert_width" name="image_convert_width" value="" />
 						<input type="hidden" id="image_convert_height" name="image_convert_height" value="" />
-						<input type="hidden" id="link_url" name="link_url" value="" />
-						<input type="hidden" id="link_title" name="link_title" value="" />
-						<input type="hidden" id="link_target" name="link_target" value="" />
+						<input type="hidden" id="link_url" value="" />
+						<input type="hidden" id="link_title" value="" />
+						<input type="hidden" id="link_target" value="" />
                         <input type="hidden" id="userField" value="" />
                         <input type="hidden" id="originalfilename" name="originalfilename" value="" />
 					</div>
@@ -330,7 +534,7 @@
 								<tr>
 									<td><label for="img_title" id="label_image_title">이미지 제목</label></td>
 									<td>
-									<input id="img_title" name="img_title" type="text" style="width:95%" class="con_input"/>
+									<input id="img_title" type="text" style="width:95%" class="con_input"/>
 									</td>
 								</tr>
 								<tr>
@@ -338,31 +542,37 @@
 										<label for="img_alt" id="label_image_description">이미지 설명</label>
                     <a href="javascript:LayerWin.showAccessPopup(document, document.getElementById('access_img'), document.getElementById('access_div'), LayerWin.dext5_lang.access_explain.image, -78, -7);"><img id="access_img" src="../images/editor/dialog/editor_a.gif" alt="web_accessibility" style="border:0;" /></a>
                   </td>
-									<td><input id="img_alt" name="img_alt" type="text" style="width:95%;" class="con_input"/></td>
+									<td><input id="img_alt" type="text" style="width:95%;" class="con_input"/></td>
 								</tr>
 							</table>
 						</div>
                         <iframe id="upload_frame" name="upload_frame" frameborder="0" style="width:0px; height:0px;" title="DEXT5Editor Upload"></iframe>
 						<div class="con">
-							<table cellpadding="0" cellspacing="0" style="table-layout:auto !important;">
+							<table cellpadding="0" cellspacing="0" style="table-layout: auto !important; margin-top: -15px">
 								<tr>
 									<td width="25%"><label for="img_width" id="label_width">너비</label></td>
 									<td width="25%">
-									    <input id="img_width" name="img_width" type="text" style="width:55%;" class="con_input"/>px
+									    <input id="img_width" type="text" style="width:55%;" class="con_input"/>px
 									</td>
 									<td width="25%"><label for="img_height" id="label_height">높이</label></td>
 									<td width="25%">
-									    <input id="img_height" name="img_height" type="text" style="width:55%;" class="con_input"/>px
+									    <input id="img_height" type="text" style="width:55%;" class="con_input"/>px
 									</td>
+                                    <td rowspan="2" align="left" width="10%">
+                                        <a id="img_ratio" style="display: none;" class="img_link_btn" title="비율 유지"></a>
+                                    </td>
 								</tr>
+                                <tr>
+                                    <td id="img_ratio_view" width="100%" colspan="4" style="display:none;"><input type="checkbox" id="ck_img_ratio" /><label for="ck_img_ratio" id="label_img_ratio">너비 높이 비율 유지</label></td>
+                                </tr>
 								<tr>
 									<td><label for="img_border" id="label_img_border">테두리</label></td>
 									<td>
-											<input id="img_border" name="img_border" type="text" style="height:20; width:55%;" class="con_input" value="0"/>px
+											<input id="img_border" type="text" style="height:20; width:55%;" class="con_input" value="0"/>px
 									</td>
 									<td><label for="img_align" id="label_img_align">정렬</label></td>
 									<td>
-									<select id="img_align" name="img_align" style="width:97%;">
+									<select id="img_align" style="width:97%;">
 										<option value="">default</option>
 										<option value="left">Left</option>
 										<option value="right">Right</option>
@@ -378,21 +588,21 @@
 								<tr>
 									<td width="20%"><label for="img_margin_left" id="label_margin_left">좌여백</label></td>
 									<td>
-											<input id="img_margin_left" name="img_margin_left" type="text" style="height:20; width:55%;" class="con_input" value="0"/>px
+											<input id="img_margin_left" type="text" style="height:20; width:55%;" class="con_input" value="0"/>px
 									</td>
                                     <td><label for="img_margin_right" id="label_margin_right">우여백</label></td>
 									<td>
-											<input id="img_margin_right" name="img_margin_right" type="text" style="height:20; width:55%;" class="con_input" value="0"/>px
+											<input id="img_margin_right" type="text" style="height:20; width:55%;" class="con_input" value="0"/>px
 									</td>
 								</tr>
                                 <tr>
 									<td width="20%"><label for="img_margin_top" id="label_margin_top">상여백</label></td>
 									<td>
-											<input id="img_margin_top" name="img_margin_top" type="text" style="height:20; width:55%;" class="con_input" value="0"/>px
+											<input id="img_margin_top" type="text" style="height:20; width:55%;" class="con_input" value="0"/>px
 									</td>
                                     <td><label for="img_margin_bottom" id="label_margin_bottom">하여백</label></td>
 									<td>
-											<input id="img_margin_bottom" name="img_margin_bottom" type="text" style="height:20; width:55%;" class="con_input" value="0"/>px
+											<input id="img_margin_bottom" type="text" style="height:20; width:55%;" class="con_input" value="0"/>px
 									</td>
 								</tr>
 							</table>

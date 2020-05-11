@@ -16,6 +16,17 @@
 
 var gridView;
 
+var calendarCellEditor = {
+    type : "date",
+    mask : {
+        editMask : "9999-99-99",
+        placeHolder : "yyyy-MM-dd",
+        includedFormat : true
+    },
+    datetimeFormat : "yyyy-MM-dd"
+    //,minDate: new Date(getToDay())
+};
+
 $(function(){
 	//alert('document ready!');
 	init();
@@ -61,7 +72,7 @@ function setInitGrid(){
     addField(colModel, 'AUTHOR_NM',        {text: '작가명'},        100, 'text',  {textAlignment: 'center'});
     addField(colModel, 'BIRTH_DAY',        {text: '생년월일'},      100, 'datetime',  {textAlignment: 'center'});
     addField(colModel, 'DEBUT_YEAR',       {text: '데뷔년도'},      100, 'text',  {textAlignment: 'center'});
-    addField(colModel, 'TOT_ACCMLT_INCME', {text: '총누적수입'},    100, 'number',  {textAlignment: 'center'});
+    addField(colModel, 'TOT_ACCMLT_INCME', {text: '총누적수입'},    100, 'number',  {numberFormat:'#,##0.00'});
     addField(colModel, 'REGIST_STTUS',    {text: '등록상태'},      100, 'text',  {textAlignment: "center"}, {lookupDisplay:true,values:cmbSttsValues,labels:cmbSttsLabels}, 'dropDown');
     addField(colModel, 'LAST_UPDT_PNTTM',  {text: '최종수정일시'},  100, 'datetime',  {textAlignment: 'center'}, {visible:true, editable:false});
     addField(colModel, 'LAST_UPDUSR_ID',   {text: '최종수정자ID'},  100, 'text',  {textAlignment: 'center'});
@@ -71,13 +82,15 @@ function setInitGrid(){
         ,height         : 300       //required 그리드 높이
         ,columns        : colModel  // required
         ,checkBar       : false     //default true   앞쪽 체크박스 표시 여부
-        ,editable       : false     //default false 그리드 전체 에디트 여부
+        ,editable       : true     //default false 그리드 전체 에디트 여부
         ,selectStyle    : "block"   //default singleRow 그리드 선택기능 block:BLOCK ,rows:ROWS , columns:COLUMNS , singleRow:SINGLE_ROW ,singleColumn:SINGLE_COLUMN,  none: NONE
         ,indicatorDp    : "index"   //default "index" 컬럼번호 표시 방식 : none, row, index(정렬무시)
         ,copySingle     : false // default ture : 복사하지 않음
         ,autoHResize    : true     //윈도우 높이가 변경시 그리드 전체 높이 자동 조절
         ,viewCount      : true      //그리드 건수 표현
     });
+    
+    gridView.setColumnProperty("BIRTH_DAY", "editor", calendarCellEditor);
     
     gridView.onDataCellClicked =  function (grid, index) {
         if (index.column == "AUTHOR_VIEW") {
@@ -135,6 +148,14 @@ function test(){
 					  <input type="text" id="DEBUT_YEAR_END" class="enterEvent" maxlength="4" /></td>
 		<td>생년월일: <input type="text" id="BIRTH_DAY_BGN" class="datepicker enterEvent" maxlength="10" dateHolder="bgn"/> ~ 
 					  <input type="text" id="BIRTH_DAY_END" class="datepicker enterEvent" maxlength="10" dateHolder="end"/></td>					  
+		<td>상태: 
+			<select id="REGIST_STTUS">
+				<option value="">선택</option>
+				<c:forEach var="code" items='${codeService.getCodeList("TEST01")}'>
+					<option value="${code.CODE}">${code.CODE_NM}</option>	
+				</c:forEach>
+			</select>
+		</td>
 		<td>
 			<input type="button" id="btnSearch" value="조회"/>
 			<input type="button" id="btnRegist" value="등록"/>

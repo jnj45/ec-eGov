@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <dext5>
   <license>
-    <product_key>56EM-T63G-0J51-UHCB</product_key>
-    <license_key>BaIP3Mrk3vX022bGBJX7YJrnpJ8bqA8yXAVPnJVOpJ8anHUNBfeVIV0tPjcrQStUQg0UITcrQWLrQjL7PbRlFmltEm4UPnIYE8lZFHNsDi1jDV1YEiUkwuwpEHNsPnIYE8lZFHNsDi1jDV1YEntVQfMtPTcUPTc7BfxtBfx8Rx6qyfvWRV6tSjxUPyyML6N4QfctRStUQTc7Pfd4</license_key>
+    <product_key>4P7C-5Q5I-LD34-04GK</product_key>
+    <license_key>BaIP3PVc22+03Pm4BJX7YJrnpJ8KYJ8fiJVPnJVOpJ8anHULBbUsv8aZCb5WFgtUQjErQg0tPjeZQTcrQjL9PjM6Ii0VIHtVQfMtPTc8PTeUBfxtQfd4Iac9LV67xTyNPxUeQWLqQfRHS9ttQfdaPfc7QTeZQHt=</license_key>
     <mime_use mimeCharset="utf-8">0</mime_use>
     <print_preview></print_preview>
     <print_header>Header</print_header>
@@ -27,24 +27,24 @@
   <tool_bar_1>
 <!--     <tool>new</tool> -->
 <!--     <tool>save</tool> -->
-<!--     <tool>print</tool> -->
-<!--     <tool>pagebreak</tool> -->
-<!--     <tool>separator</tool> -->
-<!--     <tool>undo</tool> -->
-<!--     <tool>redo</tool> -->
-<!--     <tool>separator</tool> -->
-<!--     <tool>copy</tool> -->
-<!--     <tool>cut</tool> -->
-<!--     <tool>paste</tool> -->
-<!--     <tool>separator</tool> -->
-<!--     <tool>select_all</tool> -->
-<!--     <tool>replace</tool> -->
-<!--     <tool>separator</tool> -->
-<!--     <tool>symbol</tool> -->
-<!--     <tool>horizontal_line</tool> -->
-<!--     <tool>hyperlink_create</tool> -->
-<!--     <tool>insert_datetime</tool> -->
-<!--     <tool>detail_insert_datetime</tool> -->
+    <tool>print</tool>
+    <tool>pagebreak</tool>
+    <tool>separator</tool>
+    <tool>undo</tool>
+    <tool>redo</tool>
+    <tool>separator</tool>
+    <tool>copy</tool>
+    <tool>cut</tool>
+    <tool>paste</tool>
+    <tool>separator</tool>
+    <tool>select_all</tool>
+    <tool>replace</tool>
+    <tool>separator</tool>
+    <tool>symbol</tool>
+    <tool>horizontal_line</tool>
+    <tool>hyperlink_create</tool>
+    <tool>insert_datetime</tool>
+    <tool>detail_insert_datetime</tool>
 <!--     <tool>separator</tool> -->
 <!--     <tool>emoticon</tool> -->
 <!--     <tool>doc_bg_image</tool> -->
@@ -53,17 +53,17 @@
 <!--     <tool>insert_link_media</tool> -->
 <!--     <tool>media_create</tool> -->
 <!--     <tool>insert_file</tool> -->
-<!--     <tool>separator</tool> -->
-<!--     <tool>table_insert</tool> -->
-<!--     <tool>insert_row_down</tool> -->
-<!--     <tool>delete_column</tool> -->
-<!--     <tool>insert_column_right</tool> -->
-<!--     <tool>table_delete</tool> -->
-<!--     <tool>merge_cell</tool> -->
-<!--     <tool>split_cell</tool> -->
-<!--     <tool>table_same_width</tool> -->
-<!--     <tool>table_same_height</tool> -->
-<!--     <tool>cell_bg_color</tool> -->
+    <tool>separator</tool>
+    <tool>table_insert</tool>
+    <tool>insert_row_down</tool>
+    <tool>delete_column</tool>
+    <tool>insert_column_right</tool>
+    <tool>table_delete</tool>
+    <tool>merge_cell</tool>
+    <tool>split_cell</tool>
+    <tool>table_same_width</tool>
+    <tool>table_same_height</tool>
+    <tool>cell_bg_color</tool>
 <!--     <tool>separator</tool> -->
 <!--     <tool>accessibility_validation</tool> -->
 <!--     <tool>setting</tool> -->
@@ -202,7 +202,7 @@
     <accessibility>0</accessibility>
     <show_topmenu desc="1: 보이기, 0: 숨기기">1</show_topmenu>
     <show_toolbar grouping="1" desc="3: 모두보이기, 2: 두번째 툴바만 보이기, 1: 첫번째 툴바만 보이기, 0: 툴바 모두 숨기기">3</show_toolbar>
-    <show_statusbar loading="1" desc="1: 보이기, 0: 숨기기">1</show_statusbar>
+    <show_statusbar loading="1" desc="1: 보이기, 0: 숨기기">0</show_statusbar>
     <showdialog_pos desc="1: 작성화면에 맞춤, 그렇지 않으면 (메인)프레임창 중앙">1</showdialog_pos>
     <source_viewtype desc="0: 들여쓰기 사용안함/줄바꿈 사용, 1: 들여쓰기 사용/줄바꿈 사용안함, 2: 들여쓰기/줄바꿈 사용함">2</source_viewtype>
     <wrap_ptag_to_source desc="1: setValue 할 때 block 태그를 제외한 태그는 ptag로 감싸줌, 2: 내용이 없는 textNode는 제외">2</wrap_ptag_to_source>

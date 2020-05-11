@@ -29,7 +29,13 @@
 
             var _skin_name = LayerWin._dext_editor._config.style.skinName;
 
-            document.getElementById("editor_popup_find").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선 junmo 19.06.03
+                document.getElementById("editor_popup_find").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+                document.getElementById("search_contents").style.width = '120px';
+                document.getElementById('label_search_contents').parentNode.style.width = '20%';
+            } else {
+                document.getElementById("editor_popup_find").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+            }
 
             document.getElementById("span_title").innerHTML = LayerWin.dext5_lang.find.name;
 
@@ -104,8 +110,8 @@
                         <label id="label_char_div" for="char_div" style="vertical-align:middle;"></label><br />
                         <input name="search_option" id="text_end" type="checkbox" checked/>
                         <label id="label_text_end" for="text_end" style="vertical-align:middle;"></label><br />
-                        <input name="search_option" id="word_unit" type="checkbox"/>
-                        <label id="label_word_unit" for="word_unit" style="vertical-align:middle;"></label>           
+                        <input name="search_option" id="word_unit" type="checkbox" style="display:none;"/>
+                        <label id="label_word_unit" for="word_unit" style="vertical-align:middle; display:none;"></label>           
                     </fieldset>      
                 </div>
                 <div class="con">

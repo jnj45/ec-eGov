@@ -3,8 +3,8 @@
 	<head>
 		<title>Release</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />        
-        <script src="../config/dext_lang.js?ver=3.5.1332982.1400.01" type="text/javascript"></script>
-        <script src="../config/editor_crossdomain_config.js?ver=3.5.1332982.1400.01" type="text/javascript"></script>        
+        <script src="../config/dext_lang.js?ver=3.5.1402961.1740.01" type="text/javascript"></script>
+        <script src="../config/editor_crossdomain_config.js?ver=3.5.1402961.1740.01" type="text/javascript"></script>        
         <script type="text/javascript">                
             var isNeedRefresh = true;
 
@@ -106,14 +106,7 @@
              try {
                  var loadEditorFn = function () {
                      _dext_editor = new DEXT5_EDITOR(_editor_id, _config, _frame); _frame.editor = _dext_editor; _dext_editor.start();
-                     if (_config.useChart == "1") {
-                         if (!(DEXTTOP.DEXT5.UserAgent.os.name == "Windows" && DEXTTOP.DEXT5.browser.safari)) {
-                             if (!(DEXTTOP.DEXT5.browser.ie && DEXTTOP.DEXT5.browser.ieVersion < 9)) {
-                                 loadJavascript("../js/chartjs/chart.min.js?ver=" + DEXTTOP.DEXT5.ReleaseVer);
-                                 loadJavascript("../js/grid/grid.min.js?ver=" + DEXTTOP.DEXT5.ReleaseVer);
-                             }
-                         }
-                     }
+                    
                      if (_config.sourceViewtype == "3") {
                          loadJavascript("../js/editor_pretty.min.js?ver=" + DEXTTOP.DEXT5.ReleaseVer);
                      }
@@ -121,7 +114,7 @@
                  };
 
                  loadJavascript("../js/lang/" + _config.lang + ".js?ver=" + DEXTTOP.DEXT5.ReleaseVer, function () {
-                     if (!DEXTTOP.DEXT5.browser.mobile && (_config.useMouseTableInoutdent || _config.dragResize == "1")) {
+                     if ((!DEXTTOP.DEXT5.browser.mobile && (_config.useMouseTableInoutdent || _config.dragResize == "1")) || (DEXTTOP.DEXT5.browser.mobile && _config.useAutoToolbar == '1')) {
                          loadJavascript("../js/editor_dragresize.min.js?ver=" + DEXTTOP.DEXT5.ReleaseVer, loadEditorFn);
                      } else {
                          loadEditorFn();

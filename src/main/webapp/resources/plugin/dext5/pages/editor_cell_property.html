@@ -38,16 +38,16 @@
 	    function page_loaded_event() {
 	        var _td1InnerHtml = '', _td2InnerHtml = '';
 	        if (Dext5LayerWin._dext_editor._config.uploadUseHTML5 == "1") {
-	            _td1InnerHtml += '<label id="label_image" for="image_url"></label><input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="cell_bg_image" /><input type="hidden" id="file_text" name="file_text" />';
+	            _td1InnerHtml += '<label id="label_image" for="image_url"></label><input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="cell_bg_image" /><input type="hidden" id="file_text" name="' + file_field_id + '" />';
 
-	            _td2InnerHtml += '<input name="image_url_value" id="image_url_value" type="hidden" />';	            
+	            _td2InnerHtml += '<input id="image_url_value" type="hidden" />';	            
 	            _td2InnerHtml += '<div class="DEXT_fiVe_ED_Popup_DropZone DEXT_fiVe_ED_Popup_DropZone_1" id="drop_zone" style="border:dashed 1px gray; width:255px; height:40px; line-height:40px; text-align:center; color:gray; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;"></div>';
 	            _td2InnerHtml += '<div style="position:absolute; left:0px; top:-40px;"><input class="noline" type="file" id="Filedata" name="Filedata" style="width:0px; height:0px" onchange="fileOnchange(this, \'cell_bg_image\');" /></div>';
 	        }
 	        else {
 	            _td1InnerHtml += '<label id="label_image" for="image_url"></label>';
 
-	            _td2InnerHtml += '<input name="image_url_value" id="image_url_value" type="hidden" />';
+	            _td2InnerHtml += '<input id="image_url_value" type="hidden" />';
 	            _td2InnerHtml += '<input name="image_url" id="image_url" type="text" class="con_input" style="width:178px; float:left;background:#fff" disabled="disabled" />';
 	            _td2InnerHtml += '<span id="find_file_nm" style="width:67px; height:20px; *margin-left:-3px;_margin-left:-3px; background-position: 0px 0px; display:block; float:left; cursor:pointer; background-repeat:no-repeat;">';
 	            _td2InnerHtml += '<span id="file_input_search" class="file_input_button2">찾아보기</span>';
@@ -187,7 +187,11 @@
 
 	        var _skin_name = LayerWin._dext_editor._config.style.skinName;
 
-	        document.getElementById("editor_popup_table").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+	        if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선
+	            document.getElementById("editor_popup_table").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+	        } else {
+	            document.getElementById("editor_popup_table").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+	        }
 
 	        document.getElementById("span_title").innerHTML = LayerWin.dext5_lang.cell_property.title;
 
@@ -823,6 +827,56 @@
 	            document.getElementById('tr_back_image2').style.display = 'none';
 	            document.getElementById('tr_back_image3').style.display = 'none';
 	        }
+
+	        if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선
+	            if (DEXTTOP.DEXT5.browser.safari) {
+	                var setWidthForSpinButton = function (inputNode) {
+	                    inputNode.style.width = '32px';
+	                    inputNode.parentNode.style.height = '24px';
+	                    inputNode.parentNode.getElementsByTagName('ul')[0].style.marginTop = '2px';
+	                }
+	                setWidthForSpinButton(document.getElementById('line_thickness'));
+	            }
+
+	            setInputBoxWidth(document.getElementById('cell_width'), 40);
+	            setInputBoxWidth(document.getElementById('cell_height'), 40);
+	            document.getElementById('horizontal_align').style.width = '60px';
+	            document.getElementById('nowrap').style.width = '60px';
+	            document.getElementById('vertical_align').style.width = '60px';
+	            document.getElementById('title_cell').style.width = '60px';
+	            document.getElementById('scope').style.width = '60px';
+	            document.getElementById('line_kind').style.width = '60px';
+	            setInputBoxWidth(document.getElementById('cell_id'), 85);
+	            setInputBoxWidth(document.getElementById('class_name'), 85);
+
+	            document.getElementById("line_style_btn").style.width = '60px';
+	            document.getElementById("line_style_btn").style.borderRight = '1px solid #AFB1B3';
+	            document.getElementById("line_color").parentNode.parentNode.style.width = '58px';
+	            document.getElementById("line_color").parentNode.parentNode.onclick = function () {
+	                LayerWin.showColorPopup(document, document.getElementById('line_color'), 'borderTopColor', 'line_color', -5, -225, lineColorChange);
+	            };
+	            document.getElementById("line_color").style.width = '50px';
+
+	            if (document.getElementById('drop_zone')) document.getElementById('drop_zone').style.width = '220px';
+	            if (document.getElementById('image_url')) setInputBoxWidth(document.getElementById('image_url'), 128);
+
+	            document.getElementById('edge_select_4').parentNode.parentNode.parentNode.width = '50%';
+	            document.getElementById('edge_select_4').style.marginLeft = '0px';
+	            if (document.getElementById('edge_select_3')) {
+	                document.getElementById('edge_select_3').parentNode.style.marginLeft = '6px';
+	                document.getElementById('edge_select_3').style.marginLeft = '0px';
+	            }
+
+	            document.getElementById('access_div').getElementsByTagName('span')[1].style.display = 'none';
+	            document.getElementById('access_img').parentNode.href = 'javascript:LayerWin.showAccessPopup(document, document.getElementById("access_img"), document.getElementById("access_div"), LayerWin.dext5_lang.access_explain.table_scope, -55, 0);';
+
+	            document.getElementById('background_color').parentNode.parentNode.onclick = function () {
+	                LayerWin.showColorPopup(document, document.getElementById('background_color'), 'background', undefined, -3, -160);
+	            };
+
+	            setInputBoxWidth(document.getElementById('horizontal'), 40);
+	            setInputBoxWidth(document.getElementById('vertical'), 40);
+	        }
 	    }
 
 	    function tabControl(mode) {
@@ -1281,6 +1335,7 @@
 			    <input type="hidden" id="image_convert_width" name="image_convert_width" value="" />
 			    <input type="hidden" id="image_convert_height" name="image_convert_height" value="" />
                 <input type="hidden" id="userField" value="" />
+                <input type="hidden" id="originalfilename" name="originalfilename" value="" />
             <script type="text/javascript">
                 document.write('<div id="contents_2" class="contents" style="height: ' + custom_height + '; overflow: hidden;">');
             </script>
@@ -1294,13 +1349,13 @@
                                 <label id="label_add" for="add"></label>
                             </td>
                             <td width="30%">
-                                <select name="add" id="add"></select>
+                                <select id="add"></select>
                             </td>
                             <td width="20%">
                                 <label id="label_horizontal" for="horizontal"></label>
                             </td>
                             <td width="30%">
-                                <input name="horizontal" id="horizontal" type="text" class="con_input" style="width:55px;" onkeydown="LayerWin.onlyNumber(event);" maxlength="4" />px
+                                <input id="horizontal" type="text" class="con_input" style="width:55px;" onkeydown="LayerWin.onlyNumber(event);" maxlength="4" />px
                             </td>
                         </tr>
                         <tr id="tr_back_image3">
@@ -1308,13 +1363,13 @@
                                 <label id="label_repeat" for="repeat"></label>
                             </td>
                             <td>
-                                <select name="repeat" id="repeat" style="width:100%"></select>
+                                <select id="repeat" style="width:100%"></select>
                             </td>
                             <td>
                                 <label id="label_vertical" for="vertical"></label>
                             </td>
                             <td>
-                                <input name="vertical" id="vertical" type="text" class="con_input" style="width:55px;" onkeydown="LayerWin.onlyNumber(event);" maxlength="4" />px
+                                <input id="vertical" type="text" class="con_input" style="width:55px;" onkeydown="LayerWin.onlyNumber(event);" maxlength="4" />px
                             </td>
                         </tr>
                         <tr>
@@ -1338,7 +1393,7 @@
                             <td colspan="4" class="select_btn" style="text-align:center;">
 								<fieldset class="ulc">
 									<legend><span id="span_prev_background_remove_regend"></span></legend>
-									<input type="hidden" id="prev_background_remove" name="prev_background_remove" value="N"/>
+									<input type="hidden" id="prev_background_remove" value="N"/>
 									<input type="checkbox" style="vertical-align:middle;" id="chk_background_remove" name="chk_background_remove" onclick="backgroundImageDeleteCheck(this)"  />
 									<label style="vertical-align:middle;" for="chk_background_remove"><span id="span_prev_background_remove"></span></label>
 								</fieldset>

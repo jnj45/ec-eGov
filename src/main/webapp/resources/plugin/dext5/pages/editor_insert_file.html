@@ -179,7 +179,7 @@
 
                 input_text.value = document.getElementById('file_text_view').value;
 
-                elemModify.innerHTML = input_text.value;
+                elemModify.innerHTML = DEXTTOP.DEXT5.util.escapeHtml(input_text.value);
                 elemModify.title = file_title.value;
                 elemModify.id = input_id.value;
                 elemModify.className = input_class.value;
@@ -303,6 +303,7 @@
                     <input type="hidden" id="savafiletext" name="savafiletext" value="" />
                     <input type="hidden" id="userField" value="" />
                     <input type="hidden" id="file_text" name="file_text" />
+                    <input type="hidden" id="originalfilename" name="originalfilename" value="" />
                 </div>
                 <div class="contents" style="overflow:hidden;height:130px;">
                     <div class="con">
@@ -312,12 +313,12 @@
                                 <td>
                                     <label for="file_text_view" id="label_file_text_view">표시할 텍스트</label>
                                 </td>
-                                <td><input id="file_text_view" name="file_text_view" type="text" style="width:95%;" class="con_input" /></td>
+                                <td><input id="file_text_view" type="text" style="width:95%;" class="con_input" /></td>
                             </tr>
                             <tr>
                                 <td><label for="file_title" id="label_file_description">파일 설명</label></td>
                                 <td>
-                                    <input id="file_title" name="file_title" type="text" style="width:95%" class="con_input" />
+                                    <input id="file_title" type="text" style="width:95%" class="con_input" />
                                 </td>
                             </tr>
                         </table>

@@ -40,6 +40,7 @@
 	     , HISTORY          --작가이력
 	     , DEBUT_YEAR       --데뷔년도 
 	     , TOT_ACCMLT_INCME --총누적수입
+	     , REGIST_STTUS      --등록상태
 	     , ATCH_FILE_ID_A
 	     , ATCH_FILE_ID_B
 	     , LAST_UPDT_PNTTM  --최종수정시점

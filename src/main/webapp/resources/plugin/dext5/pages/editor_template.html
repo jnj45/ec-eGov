@@ -26,7 +26,14 @@
         function page_loaded_event() {
             var _skin_name = LayerWin._dext_editor._config.style.skinName;
 
-            document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선junmo 19.06.03
+                document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+                document.getElementById('ul_class').parentElement.style.width = '135px';
+                document.getElementById('ul_template').parentElement.style.width = '140px';
+
+            } else {
+                document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+            }
 
             var span_subject = document.getElementById('span_subject');
             var span_class = document.getElementById('span_class');
@@ -72,6 +79,14 @@
 
             setCursorPos(document.getElementById('ul_class').getElementsByTagName('a')[0], false, false);
             LayerWin.setFocusFirstAndLast(document, document.getElementById('ul_class').getElementsByTagName('a')[0]);
+
+            if (DEXTTOP.DEXT5.browser.mobile) {
+                var i = 1;//모바일 ui 개선 junmo 2019.06.04
+                while (document.getElementsByClassName('text')[i]) {
+                    document.getElementsByClassName('text')[i].style.width = '110px';
+                    i++;
+                }
+            }
         }
 
         function setFormList(xml_data) {
@@ -207,8 +222,16 @@
                 })(j);
                 DEXTTOP.DEXT5.util.addEvent(a_tag, 'keydown', event_press_left);
             }
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선junmo 19.06.04
+                var nodeArr = document.getElementsByClassName('text');
+                var nodeArrLen = nodeArr.length;
+                for (var i = 1; i < nodeArrLen; i++){
+                    document.getElementsByClassName('text')[i].style.width = '110px';
+                    document.getElementsByClassName('icon')[i].style.width = '18px';
+                }
+            }
         }
-
+        
         function click_template(class_set, i) {
             var ul_template = document.getElementById('ul_template');
 

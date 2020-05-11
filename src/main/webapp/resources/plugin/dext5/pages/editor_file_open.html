@@ -123,8 +123,13 @@
 
 	    function set_page_lang() {
 	        var _skin_name = LayerWin._dext_editor._config.style.skinName;
-
-	        document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+	        if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선 junmo 19.06.03
+	            document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+	            if (document.getElementById('drop_zone')) document.getElementById('drop_zone').style.width = '221px';
+	            if (document.getElementById('image_url')) setInputBoxWidth(document.getElementById('image_url'), '120px');
+	        } else {
+	            document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+	        }
 	        document.getElementById("span_title").innerHTML = LayerWin.dext5_lang.file_open.title;
 	        document.getElementById("btn_ok").innerHTML = LayerWin.dext5_lang.file_open.btn_ok;
 	        document.getElementById("btn_cancel").innerHTML = LayerWin.dext5_lang.file_open.btn_cancel;

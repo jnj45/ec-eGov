@@ -53,7 +53,7 @@
 
 	            _td2InnerHtml += '<label for="radio_file_info" id="label_file_info"></label>';
 
-	            _td3InnerHtml += '<input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="flash" /><input type="hidden" id="file_text" name="file_text" />';	            
+	            _td3InnerHtml += '<input type="hidden" id="drop_zone_uploadtype" name="drop_zone_uploadtype" value="flash" /><input type="hidden" id="file_text" name="' + file_field_id + '" />';
 	            _td3InnerHtml += '<div class="DEXT_fiVe_ED_Popup_DropZone DEXT_fiVe_ED_Popup_DropZone_2" id="drop_zone" style="border:dashed 1px gray; width:323px; height:40px; line-height:40px; text-align:center; color:gray; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;"></div>';
 	            _td3InnerHtml += '<div style="position:absolute; left:0px; top:-40px;"><input class="noline" type="file" id="Filedata" name="Filedata" style="width:0px; height:0px" onchange="fileOnchange(this, \'flash\');" /></div>';
 	        }
@@ -222,7 +222,45 @@
 
 	    function set_page_lang() {
 	        var _skin_name = LayerWin._dext_editor._config.style.skinName;
-	        document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+
+	        if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선 junmo 19.06.03
+	            document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+	            document.getElementById('flash_width').style.width = '45px';
+	            document.getElementById('flash_height').style.width = '45px';
+	            if (document.getElementById('drop_zone')) document.getElementById('drop_zone').style.width = '190px';
+	            if (document.getElementById('_td_drop_zone')) document.getElementById('_td_drop_zone').style
+	            document.getElementById('radio_file_info').parentNode.style.width = '7%';
+	            document.getElementById('label_file_info').parentNode.style.width = "25%";
+	            document.getElementById('flash_height').parentNode.width = "30%";
+	            document.getElementById('flash_width').parentNode.width = "30%";
+	            document.getElementById('label_width').parentNode.width = "20%";
+	            document.getElementById('label_height').parentNode.width = "20%";
+	            document.getElementById('flash_scale').style.width = '75px';
+	            document.getElementById('flash_allowScriptAccess').style.width = '70px';
+	            document.getElementById('flash_margin_left').parentNode.parentNode.style.width = "57px";
+	            document.getElementById('flash_margin_right').parentNode.parentNode.style.width = "57px";
+	            document.getElementById('flash_margin_top').parentNode.parentNode.style.width = "57px";
+	            document.getElementById('flash_margin_bottom').parentNode.parentNode.style.width = "57px"; ta_flash_tag
+	            document.getElementById('ta_flash_tag').style.width = "273px";
+	            var t = document.getElementById('flash_att_div').firstElementChild.firstElementChild.firstElementChild.firstElementChild;
+	            t.firstElementChild.style.width = '22%';
+	            t.firstElementChild.nextSibling.nextElementSibling.style.width = '30%';
+	            t = t.firstElementChild.nextSibling.nextElementSibling;
+	            t.nextElementSibling.style.width = '85px';
+	            t.nextElementSibling.nextElementSibling.style.width = '60px';
+	            if (document.getElementById('image_url')) setInputBoxWidth(document.getElementById('image_url'), '141px');
+	            document.getElementById('flash_margin_top').style.height = '12px';
+	            document.getElementById('flash_margin_top').style.width = '22px';
+	            document.getElementById('flash_margin_left').style.height = '12px';
+	            document.getElementById('flash_margin_left').style.width = '22px';
+	            document.getElementById('flash_margin_right').style.height = '12px';
+	            document.getElementById('flash_margin_right').style.width = '22px';
+	            document.getElementById('flash_margin_bottom').style.height = '12px';
+	            document.getElementById('flash_margin_bottom').style.width = '22px';
+
+	        } else {
+	            document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+	        }
 
 	        setSelectBoxOption(LayerWin.dext5_lang.flash.arr_scale_opt, "scale_option", "flash_scale", LayerWin.dext5_lang.flash.arr_scale_opt.value.length);
 	        setSelectBoxOption(LayerWin.dext5_lang.flash.arr_allowScriptAccess_opt, "allowScriptAccess_option", "flash_allowScriptAccess", LayerWin.dext5_lang.flash.arr_allowScriptAccess_opt.value.length);
@@ -514,6 +552,7 @@
                         <input type="hidden" id="savafoldernamerule" name="savafoldernamerule" value="" />
                         <input type="hidden" id="savafilenamerule" name="savafilenamerule" value="" />
                         <input type="hidden" id="userField" value="" />
+                        <input type="hidden" id="originalfilename" name="originalfilename" value="" />
                     </div>
                     <table cellpadding="0" cellspacing="0">
 
@@ -542,14 +581,14 @@
                                 <label for="flash_width" id="label_width"></label>
                             </td>
                             <td width="25%">
-                                <input name="flash_width" id="flash_width" maxlength="4" size="14" type="text" style="width: 55px;" class="con_input" value="300" />
+                                <input id="flash_width" maxlength="4" size="14" type="text" style="width: 55px;" class="con_input" value="300" />
                                 px
                             </td>
                             <td width="25%">
                                 <label for="flash_height" id="label_height"></label>
                             </td>
                             <td width="25%">
-                                <input name="flash_height" id="flash_height" type="text" maxlength="4" size="14" style="width: 55px;" class="con_input" value="300" />
+                                <input id="flash_height" type="text" maxlength="4" size="14" style="width: 55px;" class="con_input" value="300" />
                                 px
                             </td>
                         </tr>
@@ -563,7 +602,7 @@
                                     <tr>
                                         <td>
                                             <div class="no_a" >
-                                                <input name="flash_margin_left" id="flash_margin_left" type="text" class="con_input" />
+                                                <input id="flash_margin_left" type="text" class="con_input" />
                                                 <ul>
                                                     <li id="margin_left_spinUp">
                                                         <a href="javascript:void(0);" style="cursor: pointer;"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" alt="up"/></a>
@@ -588,7 +627,7 @@
                                         <tr>
                                             <td>
                                                 <div class="no_a" >
-                                                    <input name="flash_margin_right" id="flash_margin_right" type="text" class="con_input" />
+                                                    <input id="flash_margin_right" type="text" class="con_input" />
                                                     <ul>
                                                         <li id="margin_right_spinUp">
                                                             <a href="javascript:void(0);" style="cursor: pointer;"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" alt="up"/></a>
@@ -615,7 +654,7 @@
                                     <tr>
                                         <td>
                                             <div class="no_a" >
-                                                <input name="flash_margin_top" id="flash_margin_top" type="text" class="con_input" />
+                                                <input id="flash_margin_top" type="text" class="con_input" />
                                                 <ul>
                                                     <li id="margin_top_spinUp">
                                                         <a href="javascript:void(0);" style="cursor: pointer;"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" alt="up"/></a>
@@ -640,7 +679,7 @@
                                         <tr>
                                             <td>
                                                 <div class="no_a" >
-                                                    <input name="flash_margin_bottom" id="flash_margin_bottom" type="text" class="con_input" />
+                                                    <input id="flash_margin_bottom" type="text" class="con_input" />
                                                     <ul>
                                                         <li id="margin_bottom_spinUp">
                                                             <a href="javascript:void(0);" style="cursor: pointer;"><img width="15" height="10" src="../images/editor/dialog/btn/editor_ta_btn.gif" alt="up"/></a>
@@ -686,7 +725,7 @@
 					<a href="javascript:flash_popup_toggle();" class="off"><span id="span_first_tap_2"></span></a>
 					<a href="javascript:void(0);" class="on"><span id="span_secon_tap_2"></span></a>
 				</div>
-				<div id="flash_att_div" class="contents" style="height:280px;">
+				<div id="flash_att_div" class="contents" style="height:300px;">
 					<div class="con border">
 						<table cellpadding="0" cellspacing="0">
 							<tr>

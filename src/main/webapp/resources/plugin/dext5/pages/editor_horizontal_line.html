@@ -32,9 +32,14 @@
 //        if (elemModify && elemModify.tagName.toLowerCase() != "hr") parent.DEXTTOP.G_SELECTED_ELEMENT = elemModify = null;
 
         function page_loaded_event() {
-
             var _skin_name = LayerWin._dext_editor._config.style.skinName;
-            document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선 junmo 19.05.20
+                document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+                document.getElementById('temp_table').style.width = 'auto';
+            } else {
+                document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+            }
 
             document.getElementById("span_first_tap_1").innerHTML = LayerWin.dext5_lang.horizontal.first_tap;
             document.getElementById("span_first_tap_2").innerHTML = LayerWin.dext5_lang.horizontal.first_tap;
@@ -319,156 +324,135 @@
                 </div>
             </div>
         </div>
-        <!-- // Contents -->
-        <!-- Contents / template -->
-        <div class="EdiTor_Popup_contents none">
-            <div class="con_btn">
-                <a href="javascript:popup_toggle();" class="off"><span id="span_first_tap_2">일반</span></a> <a href="javascript:void(0);" class="on"><span id="span_secon_tap_2">템플릿</span></a>
+    <!-- // Contents -->
+    <!-- Contents / template -->
+    <div class="EdiTor_Popup_contents none">
+        <div class="con_btn">
+            <a href="javascript:popup_toggle();" class="off"><span id="span_first_tap_2">일반</span></a> <a href="javascript:void(0);" class="on"><span id="span_secon_tap_2">템플릿</span></a>
+        </div>
+        <div class="contents" style="overflow:view; height:300px;">
+            <div class="con">
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="24%">
+                            <label for="width_2" id="label_width_2">너비</label>
+                        </td>
+                        <td>
+                            <input type="text" style="width: 55px;" class="con_input" id="width_2" value="100" /> %
+                            <span id="ttt"></span>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <div class="contents" style="overflow:view; height:300px;">
-                <div class="con">
-                    <table cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td width="24%">
-                                <label for="width_2" id="label_width_2">너비</label>
-                            </td>
-                            <td>
-                                <input type="text" style="width: 55px;" class="con_input" id="width_2" value="100"/> %
-                                <span id="ttt"></span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="con dext_line">
-                    <table cellpadding="0" cellspacing="0" id="temp_table">
-                        <tr>
-                            <td onclick="template_click_action(this);">
-                                <hr style="height: 1px; color: #68c0e7; background-color: #68c0e7; border: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                            <td class="br_none">
-                            </td>
-                            <td onclick="template_click_action(this);">
-                                <hr style="height: 8px; color: #e0e0ff; background-color: #e0e0ff; border-top: #5c5cdf 2px dotted;
-                                    border-bottom: #5c5cdf 2px dotted; border-right: none; border-left: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="br_none">
-                            </td>
-                            <td class="br_none">
-                            </td>
-                            <td class="br_none">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td onclick="template_click_action(this);">
-                                <hr style="height: 0px; border-top: #ffba00 1px dashed; border-left: none; border-right: none;
-                                    border-bottom: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                            <td class="br_none">
-                            </td>
-                            <td onclick="template_click_action(this);">
-                                <hr style="height: 8px; color: #fca2b0; background-color: #f8c9d1; border-top: 1px dotted #bb0028;
-                                    border-bottom: 1px dotted #bb0028; border-left: none; border-right: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="br_none">
-                            </td>
-                            <td class="br_none">
-                            </td>
-                            <td class="br_none">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td  onclick="template_click_action(this);">
-                                <hr style="height: 2px; color: #f0f0f0; background-color: #f0f0f0; border-top: #989898 1px solid;
-                                    border-bottom: none; border-left: none; border-right: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                            <td class="br_none">
-                            </td>
-                            <td  onclick="template_click_action(this);">
-                                <hr style="height: 7px; color: #e5ecec; background-color: #e5ecec; border-top: #aabbbc 3px double;
-                                    border-bottom: #aabbbc 1px solid; border-left: none; border-right: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="br_none">
-                            </td>
-                            <td class="br_none">
-                            </td>
-                            <td class="br_none">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td  onclick="template_click_action(this);">
-                                <hr style="height: 5px; color: #e5ecec; background-color: #e5ecec; border-top: #9cacad 2px dashed;
-                                    border-bottom: #9cacad 1px dashed; border-left: none; border-right: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                            <td class="br_none">
-                            </td>
-                            <td  onclick="template_click_action(this);">
-                                <hr style="height: 8px; color: #eeeeee; background-color: #eeeeee; border-top: #c2c2c2 2px solid;
-                                    border-bottom: #c2c2c2 3px double; border-left: none; border-right: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="br_none">
-                            </td>
-                            <td class="br_none">
-                            </td>
-                            <td class="br_none">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td onclick="template_click_action(this);">
-                                <hr style="height: 5px; color: #eaffd7; background-color: #eaffd7; border-top: #6eb033 1px dashed;
-                                    border-bottom: #6eb033 1px dashed; border-left: none; border-right: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                            <td class="br_none">
-                            </td>
-                            <td onclick="template_click_action(this);">
-                                <hr style="height: 8px; color: #e6f6ff; background-color: #e6f6ff; border-top: #65bbe8 1px solid;
-                                    border-bottom: #65bbe8 2px solid; border-left: none; border-right: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="br_none">
-                            </td>
-                            <td class="br_none">
-                            </td>
-                            <td class="br_none">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td onclick="template_click_action(this);">
-                                <hr style="height: 8px; color: #d1fcff; background-color: #d1fcff; border-top: #58c8cf 1px dashed;
-                                    border-bottom: #58c8cf 1px dashed; border-left: none; border-right: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                            <td class="br_none">
-                            </td>
-                            <td onclick="template_click_action(this);">
-                                <hr style="height: 8px; color: #c0dcff; background-color: #c0dcff; border-top: #6a96ce 2px solid;
-                                    border-bottom: #6a96ce 1px solid; border-left: none; border-right: none;" />
-                                <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+            <div class="con dext_line">
+                <table cellpadding="0" cellspacing="0" id="temp_table">
+                    <tr>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 1px; color: #68c0e7; background-color: #68c0e7; border: none; width:auto" /> <!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                        <td class="br_none"></td>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 8px; color: #e0e0ff; background-color: #e0e0ff; border-top: #5c5cdf 2px dotted;
+                                    border-bottom: #5c5cdf 2px dotted; border-right: none; border-left: none; width:auto" /><!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="br_none"></td>
+                        <td class="br_none"></td>
+                        <td class="br_none"></td>
+                    </tr>
+                    <tr>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 0px; border-top: #ffba00 1px dashed; border-left: none; border-right: none;
+                                    border-bottom: none; width:auto" /><!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                        <td class="br_none"></td>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 8px; color: #fca2b0; background-color: #f8c9d1; border-top: 1px dotted #bb0028;
+                                    border-bottom: 1px dotted #bb0028; border-left: none; border-right: none; width: auto" /><!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="br_none"></td>
+                        <td class="br_none"></td>
+                        <td class="br_none"></td>
+                    </tr>
+                    <tr>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 2px; color: #f0f0f0; background-color: #f0f0f0; border-top: #989898 1px solid;
+                                    border-bottom: none; border-left: none; border-right: none; width:auto" /><!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                        <td class="br_none"></td>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 7px; color: #e5ecec; background-color: #e5ecec; border-top: #aabbbc 3px double;
+                                    border-bottom: #aabbbc 1px solid; border-left: none; border-right: none; width:auto" /><!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="br_none"></td>
+                        <td class="br_none"></td>
+                        <td class="br_none"></td>
+                    </tr>
+                    <tr>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 5px; color: #e5ecec; background-color: #e5ecec; border-top: #9cacad 2px dashed;
+                                    border-bottom: #9cacad 1px dashed; border-left: none; border-right: none; width:auto" /><!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                        <td class="br_none"></td>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 8px; color: #eeeeee; background-color: #eeeeee; border-top: #c2c2c2 2px solid;
+                                    border-bottom: #c2c2c2 3px double; border-left: none; border-right: none; width :auto" /><!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="br_none"></td>
+                        <td class="br_none"></td>
+                        <td class="br_none"></td>
+                    </tr>
+                    <tr>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 5px; color: #eaffd7; background-color: #eaffd7; border-top: #6eb033 1px dashed;
+                                    border-bottom: #6eb033 1px dashed; border-left: none; border-right: none; width:auto" /><!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                        <td class="br_none"></td>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 8px; color: #e6f6ff; background-color: #e6f6ff; border-top: #65bbe8 1px solid;
+                                    border-bottom: #65bbe8 2px solid; border-left: none; border-right: none; width:auto" /><!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="br_none"></td>
+                        <td class="br_none"></td>
+                        <td class="br_none"></td>
+                    </tr>
+                    <tr>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 8px; color: #d1fcff; background-color: #d1fcff; border-top: #58c8cf 1px dashed;
+                                    border-bottom: #58c8cf 1px dashed; border-left: none; border-right: none; width :auto" /><!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                        <td class="br_none"></td>
+                        <td onclick="template_click_action(this);">
+                            <hr style="height: 8px; color: #c0dcff; background-color: #c0dcff; border-top: #6a96ce 2px solid;
+                                    border-bottom: #6a96ce 1px solid; border-left: none; border-right: none; width:auto" /><!--mobile 환경에서 UI 개선 junmo 19.06.03-->
+                            <a href="javascript:void(0);" onfocus="javascript:event_focus(this);" onblur="javascript:event_blur(this);"></a>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
-        <!-- // Contents -->
+    </div>
+    <!-- // Contents -->
         <!-- Footer -->
         <div class="EdiTor_Popup_footer">
             <a href="javascript:void(0);" class="confirm" id="btn_ok_a"><span id="btn_ok">확인</span></a> <a href="javascript:void(0);" class="cancel" id="abtn_cancel" onclick="event_dext_horizontal_line_cancel();"><span id="btn_cancel">취소</span></a>

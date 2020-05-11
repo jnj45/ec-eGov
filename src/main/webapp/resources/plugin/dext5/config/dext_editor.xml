@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <dext5>
   <license>
-    <product_key>56EM-T63G-0J51-UHCB</product_key>
-    <license_key>BaIP3Mrk3vX022bGBJX7YJrnpJ8bqA8yXAVPnJVOpJ8anHUNBfeVIV0tPjcrQStUQg0UITcrQWLrQjL7PbRlFmltEm4UPnIYE8lZFHNsDi1jDV1YEiUkwuwpEHNsPnIYE8lZFHNsDi1jDV1YEntVQfMtPTcUPTc7BfxtBfx8Rx6qyfvWRV6tSjxUPyyML6N4QfctRStUQTc7Pfd4</license_key>
+    <product_key>4P7C-5Q5I-LD34-04GK</product_key>
+    <license_key>BaIP3PVc22+03Pm4BJX7YJrnpJ8KYJ8fiJVPnJVOpJ8anHULBbUsv8aZCb5WFgtUQjErQg0tPjeZQTcrQjL9PjM6Ii0VIHtVQfMtPTc8PTeUBfxtQfd4Iac9LV67xTyNPxUeQWLqQfRHS9ttQfdaPfc7QTeZQHt=</license_key>
     <mime_use mimeCharset="utf-8">0</mime_use>
     <print_preview></print_preview>
     <print_header>Header</print_header>
     <print_footer>Footer</print_footer>
+    <use_form_print></use_form_print>
     <trust_sites desc="도메인 앞에 '-'붙이면 신뢰사이트 삭제, 등록하려는 사이트가 여러개인 경우 콤마(,)로 구분하여 입력"></trust_sites>
   </license>
   <xss_protection>
@@ -105,14 +106,6 @@
     <status>text</status>
   </status_bar>
   <remove_item>
-  	<item>entity</item>
-  	<item>emoticon</item>
-    <item>doc_bg_image</item>
-    <item>image_create</item>
-    <item>insert_link_media</item>
-    <item>media_create</item>
-    <item>insert_file</item>
-	<item>full_screen</item> 
     <!--
 		<item>underline</item>
 		<item>flash_create</item>
@@ -151,7 +144,7 @@
       <item desc="셀 속성">cell_property</item>
       -->
   </remove_context_item>
-  <font_size>
+  <font_size use_inc_dec="1">
     <size>9pt</size>
     <size>10pt</size>
     <size>12pt</size>
@@ -177,7 +170,7 @@
     <font>Times New Roman</font>
     <font>Verdana</font>
   </font_family>
-  <line_height>
+  <line_height use_inc_dec="1">
     <line>1</line>
     <line>1.2</line>
     <line>1.5</line>
@@ -212,9 +205,9 @@
     <system_title desc="기본값: DEXT5 Editor,  0: 사용하지 않음, 사용자 입력값 사용"></system_title>
     <table_auto_adjust desc="0: 사용하지 않음, 1: 테이블관련 내용 수정시 사이즈 자동 보정">0</table_auto_adjust>
     <use_ruler ruler_init_position="680" view_pointer="1" view_guide_line="1" view_ruler="1">0</use_ruler>
-    <auto_body_fit desc="룰러 위치에 따른 줄내림 0:미사용, 1:사용함">0</auto_body_fit>
+    <auto_body_fit use_noncreation_area_background="1" desc="작성영역 또는 룰러 위치에 따른 줄내림 0:미사용, 1:사용함, use_noncreation_area_background 비 작성영역에 배경색 적용여부, 0:미사용, 1:사용">0</auto_body_fit>
     <use_horizontal_line url="horizontal_line.png">0</use_horizontal_line>
-    <image_base_url desc="문서의 모든 상대 URL에 대한 기본 URL / 대상을 지정합니다 (http://localhost/dext5/)">http://localhost/resources/plugin/dext5/</image_base_url>
+    <image_base_url desc="문서의 모든 상대 URL에 대한 기본 URL / 대상을 지정합니다 (http://localhost/dext5/)"></image_base_url>
     <context_menu_disable>0</context_menu_disable>
     <enter_tag></enter_tag>
     <img_default_size desc="이미지 삽입창의 Width, Height 기본 값을 지정합니다." width="" height=""></img_default_size>
@@ -249,7 +242,7 @@
     <remove_hwp_dummy_tag>1</remove_hwp_dummy_tag>
   </setting>
   <uploader_setting use_html5mode="1">
-    <develop_langage desc="NET(C# 또는 ASP 환경인 경우), JAVA(JAVA 환경인 경우)">JAVA</develop_langage>
+    <develop_langage desc="NET(C# 또는 ASP 환경인 경우), JAVA(JAVA 환경인 경우)">NET</develop_langage>
     <handler_url></handler_url>
     <handler_url_save_for_notes desc="http://를 포함한 전체 경로"></handler_url_save_for_notes>
     <server_domain></server_domain>
@@ -266,7 +259,7 @@
     <allow_image_file_type desc="이미지 삽입시 허용할 확장자 설정">jpg,jpeg,png,gif,bmp</allow_image_file_type>
     <allow_flash_file_type desc="플래시 삽입시 허용할 확장자 설정">swf,flv</allow_flash_file_type>
     <allow_insert_file_type desc="파일 삽입시 허용할 확장자 설정"></allow_insert_file_type>
-    <attach_file_image desc="0: 허용안함, 1: 허용 (파일 삽입 시 파일 관련 이미지 삽입 허용)">0</attach_file_image>
+    <attach_file_image desc="0: 허용안함, 1: 허용 (파일 삽입 시 파일 관련 이미지 삽입 허용)">1</attach_file_image>
   </uploader_setting>
 
   <extra_setting>

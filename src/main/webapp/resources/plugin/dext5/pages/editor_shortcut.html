@@ -23,7 +23,12 @@
     <script type="text/javascript">
         function load_page() {
             var _skin_name = LayerWin._dext_editor._config.style.skinName;
-            document.getElementById('dext_dialog_box').className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+            if (DEXTTOP.DEXT5.browser.mobile) { // mobile 환경에서 UI 개선junmo 19.05.22
+                document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type03 DEXT_fiVe_PUi_' + _skin_name;
+
+            } else {
+                document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+            }
 
             // lang setting
             document.title = LayerWin.dext5_lang.shortkey.title;

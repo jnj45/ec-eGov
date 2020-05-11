@@ -46,7 +46,7 @@
 	        newIframe.id = 'pasteArea';
 	        newIframe.title = 'pasteArea';
 	        var srcUrl = 'document.open();' + (LayerWin.isCustomDomain(document) ? ('document.domain="' + document.domain + '";') : '') + ' document.close();';
-	        srcUrl = DEXTTOP.DEXT5.browser.ie ? 'javascript:void(function(){' + LayerWin.encodeURIComponent(srcUrl) + '}())' : '';
+	        srcUrl = (DEXTTOP.DEXT5.browser.ie && DEXTTOP.DEXT5.browser.ieVersion < 12) ? 'javascript:void(function(){' + LayerWin.encodeURIComponent(srcUrl) + '}())' : '';
 	        newIframe.src = srcUrl;
 	        newIframe.frameBorder = 0;
 	        newIframe.style.width = '100%';

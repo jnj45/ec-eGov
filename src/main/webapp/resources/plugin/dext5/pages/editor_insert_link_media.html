@@ -36,15 +36,21 @@
 
 	        document.getElementById('span_title').innerHTML = LayerWin.dext5_lang.insert_link_media.title_link_media;
 	        document.getElementById('div_desc').innerHTML = LayerWin.dext5_lang.insert_link_media.desc_link_media;
-	        document.getElementById('label_tag_insert').innerHTML = LayerWin.dext5_lang.insert_link_media.tag;
+            document.getElementById('label_tag_insert').innerHTML = LayerWin.dext5_lang.insert_link_media.tag;
+			document.getElementById('label_allow_full_screen').innerHTML = LayerWin.dext5_lang.insert_link_media.allow_fullscreen;
 	        document.getElementById('btn_ok').innerHTML = LayerWin.dext5_lang.ok_cancel.ok;
-	        document.getElementById('btn_cancel').innerHTML = LayerWin.dext5_lang.ok_cancel.cancel;
+            document.getElementById('btn_cancel').innerHTML = LayerWin.dext5_lang.ok_cancel.cancel;
+
 	        if (LayerWin._dext_editor._config.allowLinkMediaCaption == '1') {
 	            document.getElementById('label_tag_caption').innerHTML = LayerWin.dext5_lang.insert_link_media.caption;
 	            document.getElementById('mediaTagTd').style.height = '45px';
 	            document.getElementById('captionTr1').style.display = '';
 	            document.getElementById('captionTr2').style.display = '';
-	            document.getElementById('ta_media_tag').style.height = '50px';
+                document.getElementById('ta_media_tag').style.height = '40px';
+
+                if (DEXTTOP.DEXT5.browser.ie && DEXTTOP.DEXT5.browser.ieVersion <= 7) {
+                    document.getElementById('ta_media_caption').style.height = '35px';
+                }
 	        }
 
             if(elemModify)
@@ -66,6 +72,8 @@
 	    }
 
 	    function set_page() {
+
+            document.getElementById('check_allow_full_screen').checked = false;
 
 	        var keyid = elemModify.getAttribute('dext5customdata');
 	        if (keyid != null && keyid != undefined) {
@@ -194,7 +202,8 @@
                         </tr>
                         <tr>
                             <td style="height: 95px;" id="mediaTagTd">
-                                <textarea id="ta_media_tag" name="ta_media_tag" cols="87" rows="16" spellcheck="false" style="width: 455px; height: 120px;"></textarea>
+                                <textarea id="ta_media_tag" name="ta_media_tag" cols="87" rows="16" spellcheck="false" style="width: 455px; height: 110px;"></textarea><br />
+								<div style="margin-left:-3px;"><input type="checkbox" id="check_allow_full_screen" checked/>&nbsp;<label id="label_allow_full_screen" for="check_allow_full_screen" style="vertical-align: middle;"></label></div>
                             </td>
                         </tr>
                         <tr id="captionTr1" style="display:none;">
@@ -204,7 +213,7 @@
                         </tr>
                         <tr id="captionTr2" style="display:none;">
                             <td style="height: 47px;">
-                                <textarea id="ta_media_caption" name="ta_media_caption" cols="87" rows="16" spellcheck="false" style="width: 455px; height: 50px;"></textarea>
+                                <textarea id="ta_media_caption" name="ta_media_caption" cols="87" rows="16" spellcheck="false" style="width: 455px; height: 40px;"></textarea>
                             </td>
                         </tr>
                     </table>

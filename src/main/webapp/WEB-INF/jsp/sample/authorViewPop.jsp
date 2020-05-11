@@ -114,11 +114,34 @@ function setViewData(){
 	            displayFileList(author.ATCH_FILE_ID_A, 'fileList_A', true);
 	            displayFileList(author.ATCH_FILE_ID_B, 'fileList_B', true);
 	            
+	            //조회 후 상태 등에 따른 화면표시제어
+	            setDisplayElement();
+	            
             }, 
         	function(jObj){
             	alert('데이타 조회 중 오류가 발생하였습니다.\n'+jObj.errMsg);
         });
 	 }
+}
+//데이타 조회 후 화면제어
+function setDisplayElement() {
+	if (isRegist || author.REGIST_STTUS == '10'){ //신규등록화면이거나 임시등록 상태
+		if (isRegist){
+			$("#AUTHOR_ID").hide(); //신규 등록일때는 작가id 없음.
+			$("#btnRegist").show(); //등록버튼
+		}else{
+			$("#btnSave").show(); //저장버튼
+		}
+	}else if(author.REGIST_STTUS == '20'){ //결재요청 상태
+		
+	}else if(author.REGIST_STTUS == '30'){ //결재완료(등록완료) 상태
+		//에디터
+		$("#editor_area").hide();
+		$("#div_HISTORY").show();
+		
+		//입력필드 제한
+		closeInput();
+	}
 }
 //책 추가
 function addBook(){
@@ -198,12 +221,6 @@ function checkValidation(){
 	if (!fn_check_uploadFiles()){
 		return false;
 	}
-	
-	/* var resultExtension = EgovMultiFilesChecker.checkExtensions("files_A", ".xls,.xlsx"); // 결과가 false인경우 허용되지 않음
-	if (!resultExtension) return false;
-	var resultSize = EgovMultiFilesChecker.checkFileSize("files_A", 1024*1024*10); // 파일당 10K까지 허용 (1K=1024), 결과가 false인경우 허용되지 않음
-	if (!resultSize) return false; */
-	
 	return true;
 }
 
@@ -223,7 +240,7 @@ var fnDx5View = function(){
     // 에디터에 example.xml 으로 로드합니다.
     DEXT5.config.EditorHolder = "editor_area"; //에디터가 위치할 div 태그 id
     DEXT5.config.SkinName = "gray";
-    DEXT5.config.InitXml = "dext_work_editor2.xml";
+    DEXT5.config.InitXml = "dext_work_editor.xml"; //에디터설정파일.
     DEXT5.config.FileFieldID = "dx5";
     DEXT5.config.Width = "100%";
     DEXT5.config.Height = "320px";
@@ -257,7 +274,6 @@ function uploadFile(){
 	formData.append("AUTHOR_ID", $("#AUTHOR_ID").val()); //작가id
 	
 	//첨부파일A ====================================================
-	//var files_A = document.getElementById('files_A').files;
 	var files_A = fn_get_new_added_files('fileList_A');
 	for(var i=0; i < files_A.length; i++){
 		formData.append("files_A", files_A[i]); //서버단에서 받을 파일필드명
@@ -265,7 +281,6 @@ function uploadFile(){
 	formData.append("ATCH_FILE_ID_A", $("#ATCH_FILE_ID_A").val()); //첨부파일ID
 	
 	//첨부파일B =====================================================
-	//var files_B = document.getElementById('files_B').files;
 	var files_B = fn_get_new_added_files('fileList_B');
 	for(var i=0; i < files_B.length; i++){
 		formData.append("files_B", files_B[i]); ////서버단에서 받을 파일필드명
@@ -299,8 +314,8 @@ function uploadFile(){
 </head>
 <body>
 <h1>작가상세조회</h1>
-<input type="button" id="btnRegist" value="등록"/>
-<input type="button" id="btnSave"   value="저장"/>
+<input type="button" id="btnRegist" value="등록" style="display:none;"/>
+<input type="button" id="btnSave"   value="저장" style="display:none;"/>
 <input type="button" id="btnTest"   value="테스트"/>
 <input type="button" id="btnClose"  value="닫기"/>
 <h2>작가기본정보</h2>
@@ -312,6 +327,17 @@ function uploadFile(){
 	<tr>		
 		<td>생년월일</td><td><input type="text" id="BIRTH_DAY" class="datepicker"/></td>
 		<td>데뷔년도</td><td><input type="text" id="DEBUT_YEAR"/></td>
+	</tr>
+	<tr>		
+		<td>등록상태</td>
+		<td colspan="3">
+			<select id="REGIST_STTUS">
+				<option value="">선택</option>
+				<c:forEach var="code" items='${codeService.getCodeList("TEST01")}'>
+					<option value="${code.CODE}">${code.CODE_NM}</option>	
+				</c:forEach>
+			</select>
+		</td>
 	</tr>
 	<tr>
 		<td>작가이력</td>
