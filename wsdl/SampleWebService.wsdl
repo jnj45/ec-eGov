@@ -1,0 +1,116 @@
+<wsdl:definitions name="SampleWebServiceImplService" targetNamespace="http://service.sample.ecbank.net/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.sample.ecbank.net/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+   <wsdl:types>
+      <xs:schema elementFormDefault="unqualified" targetNamespace="http://service.sample.ecbank.net/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+         <xs:element name="findAuthor" type="tns:findAuthor"/>
+         <xs:element name="findAuthorList" type="tns:findAuthorList"/>
+         <xs:element name="findAuthorListResponse" type="tns:findAuthorListResponse"/>
+         <xs:element name="findAuthorResponse" type="tns:findAuthorResponse"/>
+         <xs:element name="sayHi" type="tns:sayHi"/>
+         <xs:element name="sayHiResponse" type="tns:sayHiResponse"/>
+         <xs:complexType name="sayHi">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="param1" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="sayHiResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="return" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="findAuthorList">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="authorDto" type="tns:authorDto"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="authorDto">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="authorHistory" type="xs:string"/>
+               <xs:element name="authorId" type="xs:long"/>
+               <xs:element minOccurs="0" name="authorName" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="findAuthorListResponse">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:authorDto"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="findAuthor">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="authorDto" type="tns:authorDto"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="findAuthorResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="return" type="tns:authorDto"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="findAuthorListResponse">
+      <wsdl:part element="tns:findAuthorListResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="sayHiResponse">
+      <wsdl:part element="tns:sayHiResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="findAuthor">
+      <wsdl:part element="tns:findAuthor" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="sayHi">
+      <wsdl:part element="tns:sayHi" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="findAuthorResponse">
+      <wsdl:part element="tns:findAuthorResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="findAuthorList">
+      <wsdl:part element="tns:findAuthorList" name="parameters"/>
+   </wsdl:message>
+   <wsdl:portType name="SampleWebService">
+      <wsdl:operation name="sayHi">
+         <wsdl:input message="tns:sayHi" name="sayHi"/>
+         <wsdl:output message="tns:sayHiResponse" name="sayHiResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="findAuthorList">
+         <wsdl:input message="tns:findAuthorList" name="findAuthorList"/>
+         <wsdl:output message="tns:findAuthorListResponse" name="findAuthorListResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="findAuthor">
+         <wsdl:input message="tns:findAuthor" name="findAuthor"/>
+         <wsdl:output message="tns:findAuthorResponse" name="findAuthorResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="SampleWebServiceImplServiceSoapBinding" type="tns:SampleWebService">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="sayHi">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="sayHi">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="sayHiResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="findAuthorList">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="findAuthorList">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="findAuthorListResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="findAuthor">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="findAuthor">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="findAuthorResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="SampleWebServiceImplService">
+      <wsdl:port binding="tns:SampleWebServiceImplServiceSoapBinding" name="SampleWebServiceImplPort">
+         <soap:address location="http://localhost:8080/ws/SampleWebService"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

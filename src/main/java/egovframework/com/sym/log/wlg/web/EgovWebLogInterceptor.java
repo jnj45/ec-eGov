@@ -26,7 +26,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * @since 2009. 3. 9.
  * @version
  * @see
- *
  */
 public class EgovWebLogInterceptor extends HandlerInterceptorAdapter {
 

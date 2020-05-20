@@ -18,4 +18,15 @@
     <error-code>500</error-code>
     <location>/code500.jsp</location>
   </error-page>
+  
+  <servlet>
+	<servlet-name>cxf</servlet-name>
+	<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+	<servlet-name>cxf</servlet-name>
+	<url-pattern>/ws/*</url-pattern>
+  </servlet-mapping>
+
 </web-app>
